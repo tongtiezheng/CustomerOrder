@@ -357,6 +357,7 @@
 		810C086F178E8B7D00526711 /* blueArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 810C0869178E8B7D00526711 /* blueArrowDown.png */; };
 		810C0870178E8B7D00526711 /* blueArrowDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 810C086A178E8B7D00526711 /* blueArrowDown@2x.png */; };
 		810C0871178E8B7D00526711 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C086C178E8B7D00526711 /* PullingRefreshTableView.m */; };
+		810C0874178E9D3600526711 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C0873178E9D3600526711 /* EGORefreshTableHeaderView.m */; };
 		81260867178D296500FD25E9 /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260866178D296500FD25E9 /* ChineseToPinyin.m */; };
 		8126086A178D466900FD25E9 /* WaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260869178D466900FD25E9 /* WaitingView.m */; };
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
@@ -831,6 +832,8 @@
 		810C086A178E8B7D00526711 /* blueArrowDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrowDown@2x.png"; sourceTree = "<group>"; };
 		810C086B178E8B7D00526711 /* PullingRefreshTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullingRefreshTableView.h; sourceTree = "<group>"; };
 		810C086C178E8B7D00526711 /* PullingRefreshTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullingRefreshTableView.m; sourceTree = "<group>"; };
+		810C0872178E9D3600526711 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		810C0873178E9D3600526711 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		81260865178D296500FD25E9 /* ChineseToPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyin.h; sourceTree = "<group>"; };
 		81260866178D296500FD25E9 /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		81260868178D466900FD25E9 /* WaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingView.h; sourceTree = "<group>"; };
@@ -914,6 +917,8 @@
 		67117689176D72E40088CA50 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				810C0872178E9D3600526711 /* EGORefreshTableHeaderView.h */,
+				810C0873178E9D3600526711 /* EGORefreshTableHeaderView.m */,
 				810C0866178E8B7D00526711 /* PullingRefreshTableView */,
 				81260868178D466900FD25E9 /* WaitingView.h */,
 				81260869178D466900FD25E9 /* WaitingView.m */,
@@ -2099,6 +2104,7 @@
 				810C0864178E7BD100526711 /* UIButton+WebCache.m in Sources */,
 				810C0865178E7BD100526711 /* UIImageView+WebCache.m in Sources */,
 				810C0871178E8B7D00526711 /* PullingRefreshTableView.m in Sources */,
+				810C0874178E9D3600526711 /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

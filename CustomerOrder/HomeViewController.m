@@ -98,20 +98,6 @@
     [picArray release];
 }
 
-//自定义表格
-- (void)customTableView
-{
-    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 120, 320,HEIGHT - 49 - 20 - 120 - 44) style:UITableViewStylePlain];
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    self.customTV = tableView;
-    [self.view addSubview:tableView];
-    [tableView release];
-    
-    //加入指示器视图
-    
-}
-
 
 - (void)viewDidLoad
 {
@@ -121,13 +107,16 @@
     
     [self customNavigationBtn];
     [self scrollViewMethod];
-    [self customTableView];
+    [self customTableViewAndRefreshView];
     _mArray = [[NSMutableArray alloc]init];
     //注册通知,接收城市信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBackCity:) name:@"SelectCityNotification" object:nil];
 
+     curpage = 1;
+    
     //开始解析
     [self startJSONParser];
+    
     //载入等待指示页面
     waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
     [self.view addSubview:waitView];
@@ -135,6 +124,126 @@
     [waitView startWaiting];
 
 }
+
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+- (void)reloadTableViewDataSource
+{
+    
+    //  should be calling your tableviews data source model to reload
+    //  put here just for demo
+//    if (isLoading == NO) {
+//        
+//        isLoading = YES;
+//        
+//        NSLog(@"%@",self.mArray);
+////        [self.mArray removeAllObjects];
+//        
+////        NSString *urlStr = [NSString stringWithFormat:STORE_LIST_API];
+////        [HD downloadFromURL:urlStr withArgument:STORE_LIST_ARGUMENT];
+//        NSLog(@"---->>>>%@",self.mArray);
+//
+//    }
+   
+    //开始刷新后执行后台线程，在此之前可以开启HUD或其他对UI进行阻塞
+    [NSThread detachNewThreadSelector:@selector(doInBackground) toTarget:self withObject:nil];
+    
+    
+}
+
+- (void)doneLoadingTableViewData
+{
+    //  model should call this when its done loading
+    isLoading = NO;
+    [refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self.customTV];
+    [self.customTV reloadData];
+    
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    [refreshView egoRefreshScrollViewDidScroll:scrollView];
+    
+    if (![self.search isExclusiveTouch])
+    {
+        [self.search resignFirstResponder];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [refreshView egoRefreshScrollViewDidEndDragging:scrollView];
+}
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+//这个方法运行于子线程中，完成获取刷新数据的操作
+-(void)doInBackground
+{ 
+    NSLog(@"doInBackground");
+    
+    if ([self.mArray count] == 0) {
+        [self.mArray removeAllObjects];
+    }
+
+    HTTPDownload *hd = [[[HTTPDownload alloc]init]autorelease];
+    hd.delegate = self;
+    [hd downloadFromURL:STORE_LIST_API withArgument:STORE_LIST_ARGUMENT];
+
+    NSLog(@"重新加载数组个数%@",self.mArray);
+    
+    [NSThread sleepForTimeInterval:3];
+    
+    //后台操作线程执行完后，到主线程更新UI
+    [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:YES];
+}
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+    
+    [self reloadTableViewDataSource];
+//    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+    
+    return isLoading; // should return if data source model is reloading
+    
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+    
+    return [NSDate date]; // should return date data source was last changed
+    
+}
+
+//自定义表格及刷新按钮
+- (void)customTableViewAndRefreshView
+{
+    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 120, 320,HEIGHT - 49 - 20 - 120 - 44) style:UITableViewStylePlain];
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    self.customTV = tableView;
+    [self.view addSubview:tableView];
+    [tableView release];
+    
+    if (refreshView == nil) {  
+    //下拉刷新控件
+    refreshView = [[[EGORefreshTableHeaderView alloc]initWithFrame:CGRectMake(0, -self.customTV.bounds.size.height, 320, self.customTV.bounds.size.height)]autorelease];
+    refreshView.delegate = self;
+    [self.customTV addSubview:refreshView];
+        
+    }
+    
+    [refreshView refreshLastUpdatedDate]; //最后刷新时间
+    
+}
+
 
 //选择城市
 - (void)selectCity:(id)sender
@@ -170,7 +279,7 @@
     [self presentViewController:na animated:YES completion:nil];
     [na release];
     [location release];
-
+    
 }
 
 
@@ -189,9 +298,7 @@
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
 {    NSLog(@"执行次数");
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
-    NSMutableArray *muArray = [[NSMutableArray alloc]init];
     NSLog(@"++++>>%@",[dic objectForKey:@"1"]);
-    NSLog(@"%@",dic);
     for (int i = 0; i <= [dic allKeys].count - 2; i++) {
         
         StoreList *storeList = [[[StoreList alloc]init]autorelease];
@@ -202,13 +309,11 @@
         storeList.avmoney = [subDic objectForKey:@"avmoney"];
         storeList.address = [subDic objectForKey:@"address"];
     
-        [muArray addObject:storeList];
+        [self.mArray addObject:storeList];
     }
     
-    self.mArray = muArray;
-    NSLog(@"数组个数----》%d",self.mArray.count);
-    [muArray  release];
     [self.customTV reloadData];
+    NSLog(@"数组个数----》%d",self.mArray.count);
     [waitView stopWaiting];
 }
 //下载失败
@@ -236,16 +341,6 @@
     }
 }
 
-#pragma mark -- scrollView delegate 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (![self.search isExclusiveTouch])
-    {
-        [self.search resignFirstResponder];
-    }
-
-}
-
 #pragma mark -- tableView data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -259,6 +354,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     static NSString *CellIdentifier = @"CustomCell";
     CustomHomeCell *cell = (CustomHomeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -271,14 +367,18 @@
     SetColor *instance = [SetColor shareInstance];
     [instance setCellBackgroundColor:cell];
     
-    StoreList *info = [_mArray objectAtIndex:indexPath.row];
-    
-    [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:[UIImage imageNamed:nil]];
-    cell.title.text = info.name;
-    cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
-    cell.address.text = info.address;
-    cell.average.text = info.avmoney;
+    if (_mArray.count != 0) {
+        
+        StoreList *info = [_mArray objectAtIndex:indexPath.row];
+        
+        [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:[UIImage imageNamed:nil]];
+        cell.title.text = info.name;
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
+        cell.address.text = info.address;
+        cell.average.text = info.avmoney;
 
+    }
+    
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(self.view.bounds.size.width - 50, 30, 40, 20)];
     [btn setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
