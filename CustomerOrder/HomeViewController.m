@@ -21,6 +21,8 @@
 #import "StoreList.h"
 #import "WaitingView.h"
 
+#import "HTTPDownload.h"
+
 @interface HomeViewController ()
 
 @end
@@ -29,12 +31,9 @@
 @synthesize customTV = _customTV;
 @synthesize search = _search;
 
-
 @synthesize currentCity = _currentCity;
 
-
 @synthesize mArray = _mArray;
-@synthesize mData = _mData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -126,7 +125,8 @@
     //注册通知,接收城市信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBackCity:) name:@"SelectCityNotification" object:nil];
     
-    [self JSONParser];
+    //开始解析
+    [self startJSONParser];
 }
 
 //选择城市
@@ -168,55 +168,40 @@
 
 
 //JSON 解析
-- (void)JSONParser
+- (void)startJSONParser
 {
+    HD = [[[HTTPDownload alloc]init]autorelease];
+    HD.delegate = self;
     NSString *urlStr = [NSString stringWithFormat:STORE_LIST_API];
-    NSURL *url = [NSURL URLWithString:urlStr];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
-    [request setHTTPMethod:@"POST"];
-    NSData *data = [STORE_LIST_ARGUMENT dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:data];
-    [NSURLConnection connectionWithRequest:request delegate:self];
+    [HD downloadFromURL:urlStr withArgument:STORE_LIST_ARGUMENT];
+    
 }
 
-#pragma mark -- NSURLConnectionDataDelegate Method
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    self.mArray = [[NSMutableArray alloc]init];
-    self.mData = [[NSMutableData alloc]init];
-}
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [self.mData appendData:data];
-}
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:self.mData options:NSJSONReadingMutableContainers error:nil];
-
+#pragma mark -- HTTPDownloadDelegate Method
+//下载完成
+- (void)downloadDidFinishLoading:(HTTPDownload *)hd
+{    
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
+    
     NSLog(@"++++>>%@",[dic objectForKey:@"0"]);
     for (int i = 0; i <= [dic allKeys].count; i++) {
         
         StoreList *storeList = [[[StoreList alloc]init]autorelease];
-    
         NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
-    
+        storeList.pic = [subDic objectForKey:@"pic"];
         storeList.name = [subDic objectForKey:@"name"];
+        storeList.grade = [subDic objectForKey:@"grade"];
+        storeList.avmoney = [subDic objectForKey:@"avmoney"];
+        storeList.address = [subDic objectForKey:@"address"];
         
-        NSLog(@"---->>%@",storeList.name);
-        
+        [_mArray addObject:storeList];
     }
-    
-       
-    
 }
-    
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+//下载失败
+- (void)downloadDidFail:(HTTPDownload *)hd
 {
-    NSLog(@"%@",[error localizedDescription]);
+    NSLog(@"下载失败");
 }
-
-
 
 #pragma mark 
 #pragma mark -- UISearchBar delegate 
@@ -271,9 +256,12 @@
     //设置选中cell时的颜色
     SetColor *instance = [SetColor shareInstance];
     [instance setCellBackgroundColor:cell];
+    StoreList *info = [_mArray objectAtIndex:indexPath.row];
+    NSString *imgStr = [NSString stringWithFormat:@"%@",info.pic];
+    NSData *imgData = [[NSData alloc]initWithContentsOfFile:imgStr];
+    UIImage *img = [UIImage imageWithData:imgData];
+    cell.leftImgView.image = img;
     
-    
-    cell.leftImgView.image = [UIImage imageNamed:@"4.jpg"];
     cell.title.text = @"店铺名称";
     cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
     cell.address.text = @"店铺地址";
@@ -370,7 +358,6 @@
     [_search release];
     [_currentCity release];
     [_mArray release];
-    [_mData release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectCityNotification" object:nil];
     [super dealloc];

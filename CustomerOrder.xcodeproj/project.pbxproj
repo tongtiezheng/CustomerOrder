@@ -340,6 +340,7 @@
 		67F0D718177059500037CEF4 /* 首页灰.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F0D711177059500037CEF4 /* 首页灰.png */; };
 		67F0D71B177063B30037CEF4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F0D7191770629C0037CEF4 /* Icon.png */; };
 		67F0D71C177063B30037CEF4 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F0D71A177062F00037CEF4 /* Icon@2x.png */; };
+		810C0843178E4AE900526711 /* HTTPDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C0842178E4AE900526711 /* HTTPDownload.m */; };
 		81260867178D296500FD25E9 /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260866178D296500FD25E9 /* ChineseToPinyin.m */; };
 		8126086A178D466900FD25E9 /* WaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260869178D466900FD25E9 /* WaitingView.m */; };
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
@@ -784,6 +785,8 @@
 		67F0D711177059500037CEF4 /* 首页灰.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "首页灰.png"; sourceTree = "<group>"; };
 		67F0D7191770629C0037CEF4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		67F0D71A177062F00037CEF4 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		810C0841178E4AE900526711 /* HTTPDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPDownload.h; sourceTree = "<group>"; };
+		810C0842178E4AE900526711 /* HTTPDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPDownload.m; sourceTree = "<group>"; };
 		81260865178D296500FD25E9 /* ChineseToPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyin.h; sourceTree = "<group>"; };
 		81260866178D296500FD25E9 /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		81260868178D466900FD25E9 /* WaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingView.h; sourceTree = "<group>"; };
@@ -918,6 +921,7 @@
 		67147E57175F2917001A14CE /* CustomerOrder */ = {
 			isa = PBXGroup;
 			children = (
+				810C0840178E4A9300526711 /* HTTPDownload */,
 				67117689176D72E40088CA50 /* Others */,
 				677CDE2B176B121400BC10EE /* Models */,
 				677CDE2A176B120300BC10EE /* ParseData */,
@@ -1609,6 +1613,15 @@
 			path = "小图标";
 			sourceTree = "<group>";
 		};
+		810C0840178E4A9300526711 /* HTTPDownload */ = {
+			isa = PBXGroup;
+			children = (
+				810C0841178E4AE900526711 /* HTTPDownload.h */,
+				810C0842178E4AE900526711 /* HTTPDownload.m */,
+			);
+			name = HTTPDownload;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1981,6 +1994,7 @@
 				81260867178D296500FD25E9 /* ChineseToPinyin.m in Sources */,
 				8126086A178D466900FD25E9 /* WaitingView.m in Sources */,
 				8126086D178D5EA800FD25E9 /* StoreList.m in Sources */,
+				810C0843178E4AE900526711 /* HTTPDownload.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

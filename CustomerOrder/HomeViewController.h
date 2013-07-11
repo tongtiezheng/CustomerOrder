@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HTTPDownload.h"
 
-@interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIAlertViewDelegate>
+@interface HomeViewController : UIViewController<UITableViewDataSource,
+                                                   UITableViewDelegate,
+                                                   UISearchBarDelegate,
+                                                   UIAlertViewDelegate,
+                                                  HTTPDownloadDelegate>
 {
     UITableView * _customTV;
     UISearchBar * _search;
@@ -19,7 +24,7 @@
     UIButton *cityBtn;
     
     NSMutableArray *_mArray;
-    NSMutableData *_mData;
+    HTTPDownload *HD;
 }
 
 @property(retain,nonatomic)UITableView *customTV;
@@ -30,6 +35,7 @@
 
 
 @property(retain,nonatomic)NSMutableArray *mArray;
-@property(retain,nonatomic)NSMutableData *mData;
+
+
 
 @end
