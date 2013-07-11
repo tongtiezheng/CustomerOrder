@@ -106,7 +106,6 @@
     cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
     cell.address.text = @"店铺地址";
     cell.average.text = @"40";
-    cell.distance.text = @"190m";
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(self.view.bounds.size.width - 60, 5, 60, 20)];

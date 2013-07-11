@@ -22,6 +22,7 @@
 #import "WaitingView.h"
 
 #import "HTTPDownload.h"
+#import "UIImageView+WebCache.h"
 
 @interface HomeViewController ()
 
@@ -121,12 +122,18 @@
     [self customNavigationBtn];
     [self scrollViewMethod];
     [self customTableView];
-    
+    _mArray = [[NSMutableArray alloc]init];
     //注册通知,接收城市信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBackCity:) name:@"SelectCityNotification" object:nil];
-    
+
     //开始解析
     [self startJSONParser];
+    //载入等待指示页面
+    waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
+    [self.view addSubview:waitView];
+    [waitView release];
+    [waitView startWaiting];
+
 }
 
 //选择城市
@@ -180,11 +187,12 @@
 #pragma mark -- HTTPDownloadDelegate Method
 //下载完成
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
-{    
+{    NSLog(@"执行次数");
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
-    
-    NSLog(@"++++>>%@",[dic objectForKey:@"0"]);
-    for (int i = 0; i <= [dic allKeys].count; i++) {
+    NSMutableArray *muArray = [[NSMutableArray alloc]init];
+    NSLog(@"++++>>%@",[dic objectForKey:@"1"]);
+    NSLog(@"%@",dic);
+    for (int i = 0; i <= [dic allKeys].count - 2; i++) {
         
         StoreList *storeList = [[[StoreList alloc]init]autorelease];
         NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
@@ -193,9 +201,15 @@
         storeList.grade = [subDic objectForKey:@"grade"];
         storeList.avmoney = [subDic objectForKey:@"avmoney"];
         storeList.address = [subDic objectForKey:@"address"];
-        
-        [_mArray addObject:storeList];
+    
+        [muArray addObject:storeList];
     }
+    
+    self.mArray = muArray;
+    NSLog(@"数组个数----》%d",self.mArray.count);
+    [muArray  release];
+    [self.customTV reloadData];
+    [waitView stopWaiting];
 }
 //下载失败
 - (void)downloadDidFail:(HTTPDownload *)hd
@@ -240,7 +254,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return [_mArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -256,20 +270,17 @@
     //设置选中cell时的颜色
     SetColor *instance = [SetColor shareInstance];
     [instance setCellBackgroundColor:cell];
+    
     StoreList *info = [_mArray objectAtIndex:indexPath.row];
-    NSString *imgStr = [NSString stringWithFormat:@"%@",info.pic];
-    NSData *imgData = [[NSData alloc]initWithContentsOfFile:imgStr];
-    UIImage *img = [UIImage imageWithData:imgData];
-    cell.leftImgView.image = img;
     
-    cell.title.text = @"店铺名称";
+    [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:[UIImage imageNamed:nil]];
+    cell.title.text = info.name;
     cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
-    cell.address.text = @"店铺地址";
-    cell.average.text = @"40";
-//    cell.distance.text = @"190m";
-    
+    cell.address.text = info.address;
+    cell.average.text = info.avmoney;
+
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setFrame:CGRectMake(self.view.bounds.size.width - 60, 5, 60, 20)];
+    [btn setFrame:CGRectMake(self.view.bounds.size.width - 50, 30, 40, 20)];
     [btn setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(orderStore:) forControlEvents:UIControlEventTouchUpInside];
     [cell.contentView addSubview:btn];
@@ -336,8 +347,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     DetailViewController *detail = [[DetailViewController alloc]init];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];//cell返回时取消选中状态

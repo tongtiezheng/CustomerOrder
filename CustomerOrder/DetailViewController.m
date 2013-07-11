@@ -31,6 +31,8 @@
 @synthesize itemForDataBase = _itemForDataBase;
 
 @synthesize appDelegate = _appDelegate;
+@synthesize lat = _lat;
+@synthesize lng = _lng;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

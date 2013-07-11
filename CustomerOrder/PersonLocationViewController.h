@@ -20,9 +20,12 @@
     float localLongitude;//经度
     BOOL _isSetMapSpan;
     CLLocationCoordinate2D _currentSelectCoordinate;
+    
 }
 
 @property(retain,nonatomic)BMKMapView *mapView;
 @property(retain,nonatomic)BMKSearch *search;
+
+
 
 @end

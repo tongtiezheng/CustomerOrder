@@ -17,6 +17,8 @@
 @synthesize mapView = _mapView;
 @synthesize search = _search;
 
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

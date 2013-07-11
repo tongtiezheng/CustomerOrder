@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HTTPDownload.h"
-
+@class WaitingView;
 @interface HomeViewController : UIViewController<UITableViewDataSource,
                                                    UITableViewDelegate,
                                                    UISearchBarDelegate,
@@ -25,15 +25,13 @@
     
     NSMutableArray *_mArray;
     HTTPDownload *HD;
+    WaitingView *waitView;
 }
 
 @property(retain,nonatomic)UITableView *customTV;
 @property(retain,nonatomic)UISearchBar *search;
 
-
 @property(retain,nonatomic)NSString *currentCity;
-
-
 @property(retain,nonatomic)NSMutableArray *mArray;
 
 

@@ -24,6 +24,10 @@
     
     NYHAppDelegate *_appDelegate;
     
+    NSString *_lat;
+    NSString *_lng;
+
+    
 }
 
 @property(retain,nonatomic)NSArray * imgArray;
@@ -32,6 +36,10 @@
 @property(assign,nonatomic)ItemOfCoffee *itemForDataBase;
 
 @property(retain,nonatomic)NYHAppDelegate *appDelegate;
+
+
+@property(copy,nonatomic)NSString *lat;
+@property(copy,nonatomic)NSString *lng;
 
 
 @end
