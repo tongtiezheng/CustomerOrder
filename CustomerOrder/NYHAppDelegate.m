@@ -7,49 +7,178 @@
 //
 
 #import "NYHAppDelegate.h"
+#import "MainViewController.h"
+#import "HelperViewController.h"
+
+#import <ShareSDK/ShareSDK.h>
+#import "WXApi.h"
+
+
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
 
 @implementation NYHAppDelegate
+
+@synthesize mapManager = _mapManager;
+@synthesize hostReach = _hostReach;
+@synthesize viewDelegate = _viewDelegate;
 
 - (void)dealloc
 {
     [_window release];
+    [_mapManager release];
+    [_hostReach release];
+    [_viewDelegate release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
+}
+
+- (id)init
+{
+    if(self = [super init])
+    {
+        _scene = WXSceneSession;
+        _viewDelegate = [[AGViewDelegate alloc] init];
+    }
+    return self;
+}
+
+
+- (void)initializePlat
+{
+    //添加新浪微博应用
+    [ShareSDK connectSinaWeiboWithAppKey:@"3364763460" appSecret:@"30c7f48ba0cdbf19785bd5b83914f6f6"
+                             redirectUri:@"http://open.weibo.com"];
+    //添加腾讯微博应用
+    [ShareSDK connectTencentWeiboWithAppKey:@"801379084" appSecret:@"c42487990fbf0ba28905a906956b22e9"
+                                redirectUri:@"http://dev.t.qq.com/"];
+    //添加人人网应用
+    [ShareSDK connectRenRenWithAppKey:@"e0de735fa60f43858e64ac31b7db5ac5" appSecret:@"5e4fef8a998245f4a41103ac2c5d1236"];
+    
+    //添加微信应用
+    [ShareSDK connectWeChatWithAppId:@"wxa87e471073449fde" wechatCls:[WXApi class]];
+    
+    //添加QQ应用
+    [ShareSDK connectQQWithQZoneAppKey:@"100477745"qqApiInterfaceCls:[QQApiInterface class]tencentOAuthCls:[TencentOAuth class]];
+
+    //添加QQ空间应用
+    [ShareSDK connectQZoneWithAppKey:@"100477745" appSecret:@"68a428a919496c0a2ba4acd367a45b8e" qqApiInterfaceCls:[QQApiInterface class] tencentOAuthCls:[TencentOAuth class]];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    // Override point for customization after application launch.
+    
+    //检查网络
+    [self startNotificationNetwork];
+    
+    //分享平台
+    [ShareSDK registerApp:@"523d5e58594"];
+    [self initializePlat];
+
+    //设置导航视图
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *path = [docPath stringByAppendingPathComponent:@"Helper"];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:path] == NO) {
+        [fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+        HelperViewController *helper = [[HelperViewController alloc]init];
+        [self.window setRootViewController:helper];
+        [helper release];
+    }
+    else
+    {
+        MainViewController *main = [[MainViewController alloc]init];
+        [self.window setRootViewController:main];
+        [main release];
+    }
+    
+    
+    //启动BaiduMapManager
+    _mapManager = [[BMKMapManager alloc]init];
+    // 如果要关注网络及授权验证事件，须设定generalDelegate参数
+    BOOL ret = [_mapManager start:@"2b21d1259156cd707d00a02f315afd00" generalDelegate:nil];
+    if (!ret){
+        NSLog(@"manager start failed!");
+    }
+    
+    //检查设备
+    NSString* deviceType = [UIDevice currentDevice].model;
+    NSLog(@"deviceType = %@", deviceType);
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
+
+//处理连接改变后的情况,对连接改变做出响应的处理动作
+- (void)updateInterfaceWithReachability:(Reachability*)curReach
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    NetworkStatus status = [curReach currentReachabilityStatus];
+    
+    if(status == NotReachable) {
+        UIAlertView*alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示"
+                                                          message:@"网络连接失败,请检查网络"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"确定"
+                                                otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+    else
+    {
+        NSLog(@"connect with the internet successfully!");
+    }
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
+// 连接改变
+- (void) reachabilityChanged: (NSNotification* )note
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    Reachability *curReach = [note object];
+    NSParameterAssert([curReach isKindOfClass: [Reachability class]]);
+    [self updateInterfaceWithReachability: curReach];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
+-(void)startNotificationNetwork
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    _hostReach = [[Reachability reachabilityWithHostName:@"www.baidu.com"] retain];
+    
+    switch ([_hostReach currentReachabilityStatus])
+    {
+        case NotReachable:
+            NSLog(@"没有网络");
+            break;
+        case ReachableViaWWAN:
+            NSLog(@"正在使用3G网络");
+            break;
+        case ReachableViaWiFi:
+            NSLog(@"正在使用wifi网络");
+            break;
+        default:
+            break;
+    }
+    
+    [_hostReach startNotifier];
+    
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+//用于SSO登录
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    return [ShareSDK handleOpenURL:url
+                        wxDelegate:self];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    return [ShareSDK handleOpenURL:url
+                 sourceApplication:sourceApplication
+                        annotation:annotation
+                        wxDelegate:self];
 }
+
 
 @end

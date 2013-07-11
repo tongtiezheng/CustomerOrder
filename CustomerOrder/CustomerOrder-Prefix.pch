@@ -2,6 +2,8 @@
 // Prefix header for all source files of the 'CustomerOrder' target in the 'CustomerOrder' project
 //
 
+
+//预编译头文件 
 #import <Availability.h>
 
 #ifndef __IPHONE_3_0
@@ -9,6 +11,11 @@
 #endif
 
 #ifdef __OBJC__
+
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <AGCommon/CoreDefinition.h>//ShareSDK 通用工具类框架
+    #import "CONST.h"
+
 #endif
+
