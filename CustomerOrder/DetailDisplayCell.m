@@ -14,6 +14,7 @@
 @synthesize gradeImgView = _gradeImgView;
 @synthesize person = _person;
 @synthesize average = _average;
+@synthesize description = _description;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -22,17 +23,27 @@
         // Initialization code
         _title = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, 200, 30)];
         [self addSubview:_title];
-        _leftImgView = [[UIImageView alloc]initWithFrame:CGRectMake(5, 35, 100, 80)];
+        
+        _leftImgView = [[UIImageView alloc]initWithFrame:CGRectMake(5, 35, 100, 120)];
         [self addSubview:_leftImgView];
-        _gradeImgView = [[UIImageView alloc]initWithFrame:CGRectMake(110, 40, 100, 20)];
+        
+        _gradeImgView = [[UIImageView alloc]initWithFrame:CGRectMake(110, 35, 100, 20)];
         [self addSubview:_gradeImgView];
-        _person = [[UILabel alloc]initWithFrame:CGRectMake(110, 70, 80, 20)];
+        
+        _person = [[UILabel alloc]initWithFrame:CGRectMake(110, 60, 80, 20)];
         [_person setBackgroundColor:[UIColor clearColor]];
         [_person setText:@"人均：￥"];
         [self addSubview:_person];
-        _average = [[UILabel alloc]initWithFrame:CGRectMake(180, 70, 40, 20)];
+        
+        _average = [[UILabel alloc]initWithFrame:CGRectMake(180, 60, 40, 20)];
         [_average setBackgroundColor:[UIColor clearColor]];
         [self addSubview:_average];
+        
+        _description = [[UILabel alloc]initWithFrame:CGRectMake(110, 80, WIDTH - 110, 80)];
+        [_description setBackgroundColor:[UIColor clearColor]];
+        _description.numberOfLines = 0;
+        _description.font = [UIFont systemFontOfSize:14];
+        [self addSubview:_description];
         
     }
     return self;
@@ -51,6 +62,7 @@
     [_gradeImgView release];
     [_person release];
     [_average release];
+    [_description release];
     
     [super dealloc];
 }

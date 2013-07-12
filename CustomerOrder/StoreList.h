@@ -10,7 +10,7 @@
 
 @interface StoreList : NSObject
 {
-    NSString *_id;//商铺ID
+    NSString *_storeid;//商铺ID
     NSString *_name;//商铺名称
     NSString *_py;//商铺名称拼音
     NSString *_pic;//商铺图片
@@ -25,7 +25,7 @@
     NSString *_tel;//商铺联系电话
 }
 
-@property (nonatomic,copy) NSString *id;
+@property (nonatomic,copy) NSString *storeid;
 @property (nonatomic,copy) NSString *name;
 @property (nonatomic,copy) NSString *py;
 @property (nonatomic,copy) NSString *pic;

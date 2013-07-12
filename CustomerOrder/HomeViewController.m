@@ -111,7 +111,7 @@
 
     //开始解析
     curpage = 0;
-    [self startJSONParserWithCurpage:curpage];
+    [self startJSONParserWithCurpage:curpage pro_id:0];
     _mArray = [[NSMutableArray alloc]init];
     
     //载入等待指示页面
@@ -141,8 +141,83 @@
         [self.customTV addSubview:refreshView];
         _refreshTableView = refreshView;
     }
+    
+    //  update the last update date
+    [_refreshTableView refreshLastUpdatedDate];
 }
 
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+-(void)reloadTableViewDataSource{
+    
+    //  should be calling your tableviews data source model to reload
+    //  put here just for demo
+    [_mArray removeAllObjects];
+    curpage = 0;
+    if (pro_ID != 0)
+    {
+        [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
+        
+    } else
+    {
+    
+    [self startJSONParserWithCurpage:curpage pro_id:0];
+        
+    }
+    _reloading =YES;
+    
+    [self.customTV.tableFooterView removeAllSubviews];
+    [self createTableFooterWithTitle:@"上拉加载更多"];
+}
+
+-(void)doneLoadingTableViewData{
+    
+    //  model should call this when its done loading
+    _reloading =NO;
+    [_refreshTableView egoRefreshScrollViewDataSourceDidFinishedLoading:self.customTV];
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    [_refreshTableView egoRefreshScrollViewDidScroll:scrollView];
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+    [_refreshTableView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+    // 下拉到最底部时显示更多数据
+    	if(!_loadingMore && scrollView.contentOffset.y > ((scrollView.contentSize.height - scrollView.frame.size.height)))
+        {
+            [self loadDataBegin];
+        }
+}
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+-(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+    
+    [self reloadTableViewDataSource];
+    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+}
+
+-(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+    
+    return _reloading; // should return if data source model is reloading
+}
+
+-(NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+    
+    return[NSDate date]; // should return date data source was last changed
+}
+
+
+/* ***
 
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
@@ -169,11 +244,11 @@
 -(void)doInBackground
 {
     NSLog(@"doInBackground");
-    if (_reloading == NO) {
-        curpage = 0;
-        [self.mArray removeAllObjects];
-        [self startJSONParserWithCurpage:curpage];
-    }
+    
+    curpage = 0;
+    [self.mArray removeAllObjects];
+    [self startJSONParserWithCurpage:curpage];
+    
     
     [NSThread sleepForTimeInterval:3];
     
@@ -226,6 +301,9 @@
 	}
 }
 
+******* */
+
+
 // 开始加载数据
 - (void) loadDataBegin
 {
@@ -241,8 +319,16 @@
 // 加载数据中
 - (void) loadDataing
 {
+    if (pro_ID != 0) {
+        
+        [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
+        
+    } else {
+        
     if (curpage != -1) {
-        [self startJSONParserWithCurpage:curpage];
+        [self startJSONParserWithCurpage:curpage pro_id:0];
+    }
+    
     }
     [self indicatorView];
     
@@ -254,27 +340,24 @@
 {
     _loadingMore = NO;
     if (curpage == -1) {
+        [self hudWasHidden:HUD];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"数据已全部加载完毕！" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alert show];
         [alert release];
-        [self hudWasHidden:HUD];
-    }
-    if (curpage == -1) {
-        
-        [self createTableFooter:@"加载完毕"];
+        [self createTableFooterWithTitle:@"加载完毕"];
     } else
+        
     {
-        [self createTableFooter:@"上拉加载更多"];
+        [self createTableFooterWithTitle:@"上拉加载更多"];
     }
 }
 
 // 创建表格底部
-- (void) createTableFooter:(NSString *)text
+- (void) createTableFooterWithTitle:(NSString *)text
 {
     self.customTV.tableFooterView = nil;
     UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.customTV.bounds.size.width, 40.0f)];
     UILabel *loadMoreText = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 40.0f)];
-//    [loadMoreText setCenter:tableFooterView.center];
     [loadMoreText setTextAlignment:NSTextAlignmentCenter];
     [loadMoreText setFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
     [loadMoreText setText:text];
@@ -303,7 +386,25 @@
     NSLog(@"%@",notification);
     self.currentCity = [notification.userInfo objectForKey:@"city"];
 
-    [cityBtn setTitle:self.currentCity forState:UIControlStateNormal];
+    //截取城市名字
+    NSString *str_intercepted = [self.currentCity substringFromIndex:0];
+    NSString *str_character = @"/";
+    NSRange range = [str_intercepted rangeOfString:str_character];
+    NSString *cityName = [str_intercepted substringToIndex:range.location];
+   
+    //截取城市id
+    NSRange idRange = NSMakeRange(cityName.length, self.currentCity.length - cityName.length);
+    NSString *cityidStr = [self.currentCity substringWithRange:idRange];
+    pro_ID = [[cityidStr substringFromIndex:1] integerValue];
+    NSLog(@"-----%d",pro_ID);
+    
+    [cityBtn setTitle:cityName forState:UIControlStateNormal];
+    
+//    if (curpage != -1) {
+//        [_mArray removeAllObjects];
+//        [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
+//    }
+    
     
 }
 
@@ -323,12 +424,12 @@
 
 
 //JSON 解析
-- (void)startJSONParserWithCurpage:(int)cPage
+- (void)startJSONParserWithCurpage:(int)cPage pro_id:(int)pro_id
 {
     HD = [[[HTTPDownload alloc]init]autorelease];
     HD.delegate = self;
     NSString *urlStr = [NSString stringWithFormat:STORE_LIST_API];
-    NSString *argument = [NSString stringWithFormat:STORE_LIST_ARGUMENT,cPage];
+    NSString *argument = [NSString stringWithFormat:STORE_LIST_ARGUMENT,cPage,pro_id];
     NSLog(@"argument -- >%@",argument);
     [HD downloadFromURL:urlStr withArgument:argument];
     
@@ -337,7 +438,7 @@
 #pragma mark -- HTTPDownloadDelegate Method
 //下载完成
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
-{    NSLog(@"执行次数");
+{   
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
 //    NSLog(@"++++>>%@",[dic objectForKey:@"1"]);
     NSLog(@"dic **** >>%@",dic);
@@ -353,13 +454,20 @@
         storeList.grade = [subDic objectForKey:@"grade"];
         storeList.avmoney = [subDic objectForKey:@"avmoney"];
         storeList.address = [subDic objectForKey:@"address"];
-    
+        storeList.tel = [subDic objectForKey:@"tel"];
+        storeList.lat = [subDic objectForKey:@"lat"];//纬度
+        storeList.lng = [subDic objectForKey:@"lng"];//经度
+        storeList.description = [subDic objectForKey:@"description"];
+        storeList.storeid = [subDic objectForKey:@"id"];
+        
         [self.mArray addObject:storeList];
+        
     }
     
     [self.customTV reloadData];
     NSLog(@"数组个数----》%d",self.mArray.count);
     [waitView stopWaiting];
+    [self hudWasHidden:HUD];
 }
 //下载失败
 - (void)downloadDidFail:(HTTPDownload *)hd
@@ -388,14 +496,14 @@
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
     HUD.labelText = @"正在加载";
-    HUD.mode = MBProgressHUDModeAnnularDeterminate;
+    HUD.mode = MBProgressHUDModeIndeterminate;
     
     [HUD showAnimated:YES whileExecutingBlock:^{
         float progress = 0.0f;
         while (progress < 1.0f) {
             progress += 0.01f;
             HUD.progress = progress;
-            usleep(50000);
+            usleep(10000);
         }
     } completionBlock:^{
         [HUD removeFromSuperview];
@@ -531,6 +639,8 @@
     DetailViewController *detail = [[DetailViewController alloc]init];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];//cell返回时取消选中状态
+    StoreList *storeListInfo = [self.mArray objectAtIndex:indexPath.row];
+    detail.storeInfo = storeListInfo;
     [self.navigationController pushViewController:detail animated:YES];
     [detail release];
     

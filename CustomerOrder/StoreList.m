@@ -9,7 +9,7 @@
 #import "StoreList.h"
 
 @implementation StoreList
-@synthesize id = _id;
+@synthesize storeid = _id;
 @synthesize name = _name;
 @synthesize py = _py;
 @synthesize pic = _pic;
@@ -25,7 +25,7 @@
 
 - (void)dealloc
 {
-    [_id release];
+    [_storeid release];
     [_name release];
     [_py release];
     [_pic release];

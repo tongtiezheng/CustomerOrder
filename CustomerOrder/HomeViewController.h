@@ -39,7 +39,8 @@ EGORefreshTableHeaderDelegate>
     EGORefreshTableHeaderView *_refreshTableView;
     BOOL _reloading;
     
-    MBProgressHUD *HUD;    
+    MBProgressHUD *HUD;
+    int pro_ID; //省份ID
 }
 
 @property(retain,nonatomic)UITableView *customTV;

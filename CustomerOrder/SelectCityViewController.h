@@ -15,6 +15,7 @@
     UISearchBar *_searchBar;
 
     NSMutableArray *_mArray;
+    NSMutableArray *_kArray;
     NSMutableData *_mData;
     
     NSMutableOrderedSet *_cityKeys;
@@ -31,6 +32,7 @@
 
 
 @property (retain,nonatomic) NSMutableArray *mArray;
+@property (retain,nonatomic) NSMutableArray *kArray;
 @property (retain,nonatomic) NSMutableData *mData;
 @property (retain,nonatomic) NSMutableArray *headTitleArray;
 @property (retain,nonatomic) NSMutableOrderedSet *cityKeys;

@@ -12,6 +12,7 @@
 
 #import <ShareSDK/ShareSDK.h>
 @class NYHAppDelegate;
+@class StoreList;
 
 @interface DetailViewController : UITableViewController<UIActionSheetDelegate,UIAlertViewDelegate>
 {
@@ -27,7 +28,7 @@
     NSString *_lat;
     NSString *_lng;
 
-    
+    StoreList *_storeInfo;
 }
 
 @property(retain,nonatomic)NSArray * imgArray;
@@ -40,6 +41,9 @@
 
 @property(copy,nonatomic)NSString *lat;
 @property(copy,nonatomic)NSString *lng;
+
+@property(retain,nonatomic)StoreList *storeInfo;
+
 
 
 @end

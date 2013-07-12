@@ -15,6 +15,8 @@
 #import "NYHAppDelegate.h"
 
 #import "SetColor.h"
+#import "StoreList.h"
+#import "UIImageView+WebCache.h"
 
 #define CONTENT @"咖啡厅座位预订 测试版 http://hxhd.cn"
 #define SHARE_URL @"http://www.sharesdk.cn"
@@ -33,6 +35,7 @@
 @synthesize appDelegate = _appDelegate;
 @synthesize lat = _lat;
 @synthesize lng = _lng;
+@synthesize storeInfo = _storeInfo;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -252,7 +255,7 @@
     UIImage *telImg = [UIImage imageNamed:@"Detail_PhoneIcon.png"];
     _imgArray = [[NSArray alloc]initWithObjects:addressImg,telImg, nil];
     
-    _othersArray = [[NSArray alloc]initWithObjects:@"小红门路312号",@"87699988", nil];
+    _othersArray = [[NSArray alloc]initWithObjects:self.storeInfo.address,self.storeInfo.tel, nil];
     
     //阻止 tableview 滑动
     [self.tableView setBounces:NO];
@@ -288,14 +291,14 @@
             cell = [[[DetailDisplayCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
         }
         
-        cell.title.text = @"华信咖啡厅";
-        cell.leftImgView.image = [UIImage imageNamed:@"2.jpg"];
+        cell.title.text = self.storeInfo.name;
+        [cell.leftImgView setImageWithURL:[NSURL URLWithString:self.storeInfo.pic] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
         cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
-        cell.average.text = @"81";
-        
+        cell.average.text = self.storeInfo.avmoney;
+        cell.description.text = self.storeInfo.description;
         
         UIButton *order = [UIButton buttonWithType:UIButtonTypeCustom];
-        [order setFrame:CGRectMake(245, 85, 80, 30)];
+        [order setFrame:CGRectMake(245, 35, 80, 30)];
         [order setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
         [order addTarget:self action:@selector(orderSeat:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:order];
@@ -384,7 +387,7 @@
 {
     if (indexPath.row == 0)
     {
-        return 120.5;
+        return 160.5;
     }
     
     if (indexPath.row == 3)
@@ -445,6 +448,7 @@
 {
     [_imgArray release];
     [_othersArray release];
+    [_storeInfo release];
     
     [super dealloc];
 }

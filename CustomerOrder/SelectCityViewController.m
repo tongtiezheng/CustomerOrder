@@ -20,6 +20,7 @@
 @synthesize cityTableView = _cityTableView;
 @synthesize searchBar = _searchBar;
 @synthesize mArray = _mArray;
+@synthesize kArray = _kArray;
 @synthesize mData = _mData;
 @synthesize selectCity = _selectCity;
 @synthesize cityKeys = _cityKeys;
@@ -34,6 +35,7 @@
     [_selectCity release];
     [_cityKeys release];
     [_cityList release];
+    [_kArray release];
     
     [super dealloc];
 }
@@ -54,11 +56,6 @@
     
     //自定义导航栏背景颜色
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
-    //自定义右边确定按钮
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonSystemItemUndo target:self action:@selector(backRight)];
-    rightBar.tintColor = [UIColor orangeColor];
-    self.navigationItem.rightBarButtonItem = rightBar;
-    [rightBar release];
 
     //添加搜索栏
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -81,22 +78,11 @@
     [waitingView startWaiting];
 }
 
-- (void)backRight
-{
-    if (self.selectCity)
-    {
-        NSDictionary *city = [NSDictionary dictionaryWithObject:self.selectCity forKey:@"city"];
-        NSNotification *notification = [NSNotification notificationWithName:@"SelectCityNotification" object:self userInfo:city];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
-//JSON 解析 
+//JSON 解析
 - (void)JSONParser
 {
-     NSString *urlStr = [NSString stringWithFormat:CITY_LIST_API];
+    NSString *urlStr = [NSString stringWithFormat:CITY_LIST_API];
     NSURL *url = [NSURL URLWithString:urlStr];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     [request setHTTPMethod:@"POST"];
@@ -111,6 +97,7 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     self.mArray = [[NSMutableArray alloc]init];
+    self.kArray = [[NSMutableArray alloc]init];
     self.mData = [[NSMutableData alloc]init];
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -120,11 +107,18 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSArray *array = [NSJSONSerialization JSONObjectWithData:self.mData options:NSJSONReadingMutableContainers error:nil];
-    
     for (NSDictionary *dic in array) {
         CityName *cityName = [[[CityName alloc]init]autorelease];
+        NSMutableString *cityInfo = [NSMutableString string];
+        
         cityName.name = [dic objectForKey:@"name"];
-        [self.mArray addObject:cityName.name];
+        cityName.cityid = [dic objectForKey:@"id"];
+        
+        [cityInfo appendString:cityName.name];
+        [cityInfo appendString:@"/"];
+        [cityInfo appendString:cityName.cityid];
+       
+        [self.mArray addObject:cityInfo];
     }
     
     //
@@ -202,9 +196,13 @@
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
     }
     NSString  *cityName = [[self.cityList objectForKey:[self.cityKeys objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    cell.textLabel.text = cityName;
+    //截取城市名字
+    NSString *str_intercepted = [cityName substringFromIndex:0];
+    NSString *str_character = @"/";
+    NSRange range = [str_intercepted rangeOfString:str_character];
+    NSString *subCityName = [str_intercepted substringToIndex:range.location];
+    cell.textLabel.text = subCityName;
 
-    
     //设置cell被点击之后的背景颜色
     SetColor *cellBG = [SetColor shareInstance];
     [cellBG setCellBackgroundColor:cell];
@@ -215,9 +213,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-     NSString  *cityName = [[self.cityList objectForKey:[self.cityKeys objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    self.selectCity = cityName;
-    NSLog(@"您选择了：%@",self.selectCity);
+    self.selectCity = [[self.cityList objectForKey:[self.cityKeys objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    
+    if (self.selectCity)
+    {
+        NSDictionary *city = [NSDictionary dictionaryWithObject:self.selectCity forKey:@"city"];
+        NSNotification *notification = [NSNotification notificationWithName:@"SelectCityNotification" object:self userInfo:city];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 //设置每部分标题
@@ -228,10 +233,7 @@
 //添加右侧索引
 -  (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-
     return [self.cityKeys array];
-    
-
 }
 #pragma mark -- searchBar delegate  
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar

@@ -10,12 +10,14 @@
 
 @interface CityName : NSObject
 {
-    NSString *_name;
+    NSMutableString *_name;
     NSString *_py;
+    NSString *_cityid;
 
 }
 
-@property(nonatomic,copy)NSString *name;
+@property(nonatomic,copy)NSMutableString *name;
 @property(nonatomic,copy)NSString *py;
+@property(nonatomic,copy)NSString *cityid;
 
 @end

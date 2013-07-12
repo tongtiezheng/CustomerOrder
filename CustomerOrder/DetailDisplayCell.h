@@ -15,6 +15,7 @@
     UIImageView *_gradeImgView;
     UILabel *_person;
     UILabel *_average;
+    UILabel *_description;
     
 }
 
@@ -23,6 +24,7 @@
 @property(retain,nonatomic)UIImageView *gradeImgView;
 @property(retain,nonatomic)UILabel *person;
 @property(retain,nonatomic)UILabel *average;
+@property(retain,nonatomic)UILabel *description;
 
 
 @end
