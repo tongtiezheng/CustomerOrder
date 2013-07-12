@@ -23,6 +23,6 @@
 //商铺列表
 //
 #define STORE_LIST_API @"http://www.coolelife.com/json/shop_json.php"
-#define STORE_LIST_ARGUMENT @"op=getNewsList"
+#define STORE_LIST_ARGUMENT @"op=getNewsList&curpage=%d"
 
 #endif

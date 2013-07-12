@@ -340,6 +340,12 @@
 		67F0D718177059500037CEF4 /* 首页灰.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F0D711177059500037CEF4 /* 首页灰.png */; };
 		67F0D71B177063B30037CEF4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F0D7191770629C0037CEF4 /* Icon.png */; };
 		67F0D71C177063B30037CEF4 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F0D71A177062F00037CEF4 /* Icon@2x.png */; };
+		8109AD02178FADBF00F30E5A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8109AD01178FADBF00F30E5A /* MBProgressHUD.m */; };
+		8109AD05178FB72000F30E5A /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8109AD04178FB72000F30E5A /* EGORefreshTableHeaderView.m */; };
+		8109AD0B178FB74900F30E5A /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8109AD07178FB74900F30E5A /* blueArrow.png */; };
+		8109AD0C178FB74900F30E5A /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8109AD08178FB74900F30E5A /* blueArrow@2x.png */; };
+		8109AD0D178FB74900F30E5A /* blueArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 8109AD09178FB74900F30E5A /* blueArrowDown.png */; };
+		8109AD0E178FB74900F30E5A /* blueArrowDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8109AD0A178FB74900F30E5A /* blueArrowDown@2x.png */; };
 		810C0843178E4AE900526711 /* HTTPDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C0842178E4AE900526711 /* HTTPDownload.m */; };
 		810C0845178E7B8500526711 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 810C0844178E7B8500526711 /* MapKit.framework */; };
 		810C0847178E7B9200526711 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 810C0846178E7B9200526711 /* ImageIO.framework */; };
@@ -352,12 +358,6 @@
 		810C0863178E7BD100526711 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C0858178E7BD100526711 /* SDWebImagePrefetcher.m */; };
 		810C0864178E7BD100526711 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C085A178E7BD100526711 /* UIButton+WebCache.m */; };
 		810C0865178E7BD100526711 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C085C178E7BD100526711 /* UIImageView+WebCache.m */; };
-		810C086D178E8B7D00526711 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 810C0867178E8B7D00526711 /* blueArrow.png */; };
-		810C086E178E8B7D00526711 /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 810C0868178E8B7D00526711 /* blueArrow@2x.png */; };
-		810C086F178E8B7D00526711 /* blueArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 810C0869178E8B7D00526711 /* blueArrowDown.png */; };
-		810C0870178E8B7D00526711 /* blueArrowDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 810C086A178E8B7D00526711 /* blueArrowDown@2x.png */; };
-		810C0871178E8B7D00526711 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C086C178E8B7D00526711 /* PullingRefreshTableView.m */; };
-		810C0874178E9D3600526711 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C0873178E9D3600526711 /* EGORefreshTableHeaderView.m */; };
 		81260867178D296500FD25E9 /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260866178D296500FD25E9 /* ChineseToPinyin.m */; };
 		8126086A178D466900FD25E9 /* WaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260869178D466900FD25E9 /* WaitingView.m */; };
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
@@ -802,6 +802,14 @@
 		67F0D711177059500037CEF4 /* 首页灰.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "首页灰.png"; sourceTree = "<group>"; };
 		67F0D7191770629C0037CEF4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		67F0D71A177062F00037CEF4 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		8109AD00178FADBF00F30E5A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		8109AD01178FADBF00F30E5A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		8109AD03178FB72000F30E5A /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		8109AD04178FB72000F30E5A /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		8109AD07178FB74900F30E5A /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		8109AD08178FB74900F30E5A /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
+		8109AD09178FB74900F30E5A /* blueArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrowDown.png; sourceTree = "<group>"; };
+		8109AD0A178FB74900F30E5A /* blueArrowDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrowDown@2x.png"; sourceTree = "<group>"; };
 		810C0841178E4AE900526711 /* HTTPDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPDownload.h; sourceTree = "<group>"; };
 		810C0842178E4AE900526711 /* HTTPDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPDownload.m; sourceTree = "<group>"; };
 		810C0844178E7B8500526711 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -826,14 +834,6 @@
 		810C085A178E7BD100526711 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WebCache.m"; sourceTree = "<group>"; };
 		810C085B178E7BD100526711 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		810C085C178E7BD100526711 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
-		810C0867178E8B7D00526711 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
-		810C0868178E8B7D00526711 /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
-		810C0869178E8B7D00526711 /* blueArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrowDown.png; sourceTree = "<group>"; };
-		810C086A178E8B7D00526711 /* blueArrowDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrowDown@2x.png"; sourceTree = "<group>"; };
-		810C086B178E8B7D00526711 /* PullingRefreshTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullingRefreshTableView.h; sourceTree = "<group>"; };
-		810C086C178E8B7D00526711 /* PullingRefreshTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullingRefreshTableView.m; sourceTree = "<group>"; };
-		810C0872178E9D3600526711 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
-		810C0873178E9D3600526711 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		81260865178D296500FD25E9 /* ChineseToPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyin.h; sourceTree = "<group>"; };
 		81260866178D296500FD25E9 /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		81260868178D466900FD25E9 /* WaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingView.h; sourceTree = "<group>"; };
@@ -917,9 +917,7 @@
 		67117689176D72E40088CA50 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				810C0872178E9D3600526711 /* EGORefreshTableHeaderView.h */,
-				810C0873178E9D3600526711 /* EGORefreshTableHeaderView.m */,
-				810C0866178E8B7D00526711 /* PullingRefreshTableView */,
+				8109AD06178FB72800F30E5A /* EGORefreshTableHeaderView */,
 				81260868178D466900FD25E9 /* WaitingView.h */,
 				81260869178D466900FD25E9 /* WaitingView.m */,
 				81260865178D296500FD25E9 /* ChineseToPinyin.h */,
@@ -1045,6 +1043,7 @@
 		671AEF991769A291006E1B77 /* OtherFramework */ = {
 			isa = PBXGroup;
 			children = (
+				8109ACFF178FADBF00F30E5A /* MBProgressHUD */,
 				810C0848178E7BD100526711 /* SDWebImage */,
 				67BE67A7177D3BC1000F66CE /* ShareSDK */,
 				67341BB5177AE43900DCD5EC /* baiduAPI */,
@@ -1668,6 +1667,28 @@
 			path = "小图标";
 			sourceTree = "<group>";
 		};
+		8109ACFF178FADBF00F30E5A /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				8109AD00178FADBF00F30E5A /* MBProgressHUD.h */,
+				8109AD01178FADBF00F30E5A /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		8109AD06178FB72800F30E5A /* EGORefreshTableHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				8109AD07178FB74900F30E5A /* blueArrow.png */,
+				8109AD08178FB74900F30E5A /* blueArrow@2x.png */,
+				8109AD09178FB74900F30E5A /* blueArrowDown.png */,
+				8109AD0A178FB74900F30E5A /* blueArrowDown@2x.png */,
+				8109AD03178FB72000F30E5A /* EGORefreshTableHeaderView.h */,
+				8109AD04178FB72000F30E5A /* EGORefreshTableHeaderView.m */,
+			);
+			name = EGORefreshTableHeaderView;
+			sourceTree = "<group>";
+		};
 		810C0840178E4A9300526711 /* HTTPDownload */ = {
 			isa = PBXGroup;
 			children = (
@@ -1702,19 +1723,6 @@
 				810C085C178E7BD100526711 /* UIImageView+WebCache.m */,
 			);
 			path = SDWebImage;
-			sourceTree = "<group>";
-		};
-		810C0866178E8B7D00526711 /* PullingRefreshTableView */ = {
-			isa = PBXGroup;
-			children = (
-				810C0867178E8B7D00526711 /* blueArrow.png */,
-				810C0868178E8B7D00526711 /* blueArrow@2x.png */,
-				810C0869178E8B7D00526711 /* blueArrowDown.png */,
-				810C086A178E8B7D00526711 /* blueArrowDown@2x.png */,
-				810C086B178E8B7D00526711 /* PullingRefreshTableView.h */,
-				810C086C178E8B7D00526711 /* PullingRefreshTableView.m */,
-			);
-			path = PullingRefreshTableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2019,10 +2027,10 @@
 				816B2B78178BFF2500B60195 /* SelectCityViewController.xib in Resources */,
 				810C085D178E7BD100526711 /* LICENSE in Resources */,
 				810C085E178E7BD100526711 /* README.md in Resources */,
-				810C086D178E8B7D00526711 /* blueArrow.png in Resources */,
-				810C086E178E8B7D00526711 /* blueArrow@2x.png in Resources */,
-				810C086F178E8B7D00526711 /* blueArrowDown.png in Resources */,
-				810C0870178E8B7D00526711 /* blueArrowDown@2x.png in Resources */,
+				8109AD0B178FB74900F30E5A /* blueArrow.png in Resources */,
+				8109AD0C178FB74900F30E5A /* blueArrow@2x.png in Resources */,
+				8109AD0D178FB74900F30E5A /* blueArrowDown.png in Resources */,
+				8109AD0E178FB74900F30E5A /* blueArrowDown@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2103,8 +2111,8 @@
 				810C0863178E7BD100526711 /* SDWebImagePrefetcher.m in Sources */,
 				810C0864178E7BD100526711 /* UIButton+WebCache.m in Sources */,
 				810C0865178E7BD100526711 /* UIImageView+WebCache.m in Sources */,
-				810C0871178E8B7D00526711 /* PullingRefreshTableView.m in Sources */,
-				810C0874178E9D3600526711 /* EGORefreshTableHeaderView.m in Sources */,
+				8109AD02178FADBF00F30E5A /* MBProgressHUD.m in Sources */,
+				8109AD05178FB72000F30E5A /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
