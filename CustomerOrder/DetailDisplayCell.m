@@ -21,7 +21,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        _title = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, 200, 30)];
+        _title = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, 320, 30)];
         [self addSubview:_title];
         
         _leftImgView = [[UIImageView alloc]initWithFrame:CGRectMake(5, 35, 100, 120)];
@@ -55,6 +55,7 @@
 
     // Configure the view for the selected state
 }
+
 -(void)dealloc
 {
     [_title release];

@@ -7,7 +7,7 @@
 //
 
 #import "StoreLocationViewController.h"
-#import "CONST.h"
+#import "StoreList.h"
 @interface StoreLocationViewController ()
 
 @end
@@ -15,6 +15,7 @@
 @implementation StoreLocationViewController
 
 @synthesize mapView = _mapView;
+@synthesize storeList = _storeList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,13 +50,13 @@
     // 添加一个PointAnnotation
 	BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
 	CLLocationCoordinate2D coor;
-	coor.latitude = 39.915;
-	coor.longitude = 116.404;
+	coor.latitude = [self.storeList.lat doubleValue];
+	coor.longitude = [self.storeList.lng doubleValue];
     
 	annotation.coordinate = coor;
     
-	annotation.title = @"test";
-	annotation.subtitle = @"this is a test!";
+	annotation.title = self.storeList.name;
+	annotation.subtitle = self.storeList.address;
     
     // 跳转到用户位置
     [_mapView setCenterCoordinate:coor animated:YES];
@@ -77,7 +78,6 @@
 		newAnnotation.draggable = YES;
 		
 		return newAnnotation;
-        
 	}
 	return nil;
 }
@@ -86,12 +86,12 @@
 - (void)backLeft
 {
     [self.navigationController popViewControllerAnimated:YES];
-
 }
 
 -(void)dealloc
 {
     [_mapView release];
+    [_storeList release];
     [super dealloc];
 
 }

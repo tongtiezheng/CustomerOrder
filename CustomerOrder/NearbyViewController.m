@@ -10,8 +10,7 @@
 #import "CustomHomeCell.h"
 #import "OrderViewController.h"
 #import "DetailViewController.h"
-
-#import "CONST.h"
+#import "SetColor.h"
 
 @interface NearbyViewController ()
 
@@ -78,9 +77,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return 10;
-
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,12 +91,8 @@
     }
     
     //设置选中后cell的背景颜色
-    cell.contentView.backgroundColor = [UIColor clearColor];
-    UIView *aView = [[UIView alloc] initWithFrame:cell.contentView.frame];
-    aView.backgroundColor = [UIColor orangeColor];
-    cell.selectedBackgroundView = aView;
-    [aView release];
-
+    SetColor *instance = [SetColor shareInstance];
+    [instance setCellBackgroundColor:cell];
     
     cell.leftImgView.image = [UIImage imageNamed:@"2.jpg"];
     cell.title.text = @"店铺名称";
@@ -129,9 +122,7 @@
 #pragma mark -- tableView delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DetailViewController *detail = [[DetailViewController alloc]init];
-    [self.navigationController pushViewController:detail animated:YES];
-    [detail release];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

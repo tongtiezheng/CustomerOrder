@@ -144,15 +144,6 @@
                                        type:INHERIT_VALUE
                                     playUrl:nil
                                        nswb:nil];
-
-    //定制邮件信息
-    [publishContent addMailUnitWithSubject:@"Hello Mail"
-                                   content:INHERIT_VALUE
-                                    isHTML:[NSNumber numberWithBool:YES]
-                               attachments:INHERIT_VALUE
-                                        to:nil
-                                        cc:nil
-                                       bcc:nil];
     //结束定制信息
     ///////////////////////
     
@@ -186,7 +177,7 @@
                                                           friendsViewDelegate:_appDelegate.viewDelegate
                                                         picViewerViewDelegate:nil];
     //自定义分享列表
-    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeSinaWeibo,ShareTypeRenren,ShareTypeWeixiSession,ShareTypeSMS,ShareTypeQQ,ShareTypeQQSpace,ShareTypeMail,ShareTypeTencentWeibo, nil];
+    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeSinaWeibo,ShareTypeRenren,ShareTypeWeixiSession,ShareTypeSMS,ShareTypeQQ,ShareTypeQQSpace,ShareTypeTencentWeibo, nil];
     
     //弹出分享菜单
     [ShareSDK showShareActionSheet:container
@@ -197,11 +188,6 @@
                       shareOptions:shareOptions
                             result:^(ShareType type, SSPublishContentState state, id<ISSStatusInfo> statusInfo, id<ICMErrorInfo>
                                      error, BOOL end) {
-                                
-                                if (ShareTypeMail)
-                                {
-                                    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
-                                }
                                 
                                 if (ShareTypeSMS) {
                                     
@@ -257,8 +243,8 @@
     
     _othersArray = [[NSArray alloc]initWithObjects:self.storeInfo.address,self.storeInfo.tel, nil];
     
-    //阻止 tableview 滑动
-    [self.tableView setBounces:NO];
+//    //阻止 tableview 滑动
+//    [self.tableView setBounces:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -317,6 +303,8 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             cell.imageView.image = [_imgArray objectAtIndex:indexPath.row - 1];
             cell.textLabel.text = [_othersArray objectAtIndex:indexPath.row - 1];
+            cell.textLabel.numberOfLines = 0;
+            cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
         }
             
         //设置选中cell时的背景颜色
@@ -390,6 +378,11 @@
         return 160.5;
     }
     
+    if (indexPath.row == 1)
+    {
+        return 60;
+    }
+    
     if (indexPath.row == 3)
     {
         return 100;
@@ -402,6 +395,7 @@
 {
     if (indexPath.row == 1) {
         StoreLocationViewController *storeLocation = [[StoreLocationViewController alloc]init];
+        storeLocation.storeList = self.storeInfo;
         [self.navigationController pushViewController:storeLocation animated:YES];
         [storeLocation release];
         

@@ -34,12 +34,12 @@ EGORefreshTableHeaderDelegate>
     
     // 加载状态
 	BOOL _loadingMore;
-    int curpage;
+    int curpage;//
     
     EGORefreshTableHeaderView *_refreshTableView;
     BOOL _reloading;
     
-    MBProgressHUD *HUD;
+    MBProgressHUD *HUD;//进度指示轮
     int pro_ID; //省份ID
 }
 
@@ -47,7 +47,7 @@ EGORefreshTableHeaderDelegate>
 @property(retain,nonatomic)UISearchBar *search;
 @property(retain,nonatomic)NSString *currentCity;
 @property(retain,nonatomic)NSMutableArray *mArray;
-
+@property(retain,nonatomic)EGORefreshTableHeaderView *refreshTableView;
 
 //开始重新加载时调用的方法
 - (void)reloadTableViewDataSource;

@@ -97,7 +97,8 @@
     //启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
     // 如果要关注网络及授权验证事件，须设定generalDelegate参数
-    BOOL ret = [_mapManager start:@"2b21d1259156cd707d00a02f315afd00" generalDelegate:nil];
+//    BOOL ret = [_mapManager start:@"2b21d1259156cd707d00a02f315afd00" generalDelegate:nil];
+    BOOL ret = [_mapManager start:@"6BFC54B771E97D1DC21C36D71DC8C5F09FDEC65F" generalDelegate:nil];
     if (!ret){
         NSLog(@"manager start failed!");
     }

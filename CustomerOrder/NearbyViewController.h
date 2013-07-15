@@ -12,9 +12,6 @@
 {
     UITableView *_tableView;
     UISearchDisplayController *_searchDidplay;
-    
-   
-
 }
 
 @property(retain,nonatomic)UITableView *tableView;

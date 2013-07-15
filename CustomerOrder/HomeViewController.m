@@ -33,6 +33,7 @@
 @synthesize search = _search;
 @synthesize currentCity = _currentCity;
 @synthesize mArray = _mArray;
+@synthesize refreshTableView = _refreshTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,7 +52,7 @@
     //导航栏左边按钮
     cityBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cityBtn setFrame:CGRectMake(0, 0, 60, 44)];
-    [cityBtn setTitle:@"北京" forState:UIControlStateNormal];
+    [cityBtn setTitle:@"默认" forState:UIControlStateNormal];
     [cityBtn addTarget:self action:@selector(selectCity:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithCustomView:cityBtn];
@@ -106,10 +107,8 @@
     [self customNavigationBtn];
     [self scrollViewMethod];
     [self customTableViewAndRefreshView];
-    //注册通知,接收城市信息
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBackCity:) name:@"SelectCityNotification" object:nil];
-
-    //开始解析
+    
+    //开始解析，默认全部数据
     curpage = 0;
     [self startJSONParserWithCurpage:curpage pro_id:0];
     _mArray = [[NSMutableArray alloc]init];
@@ -119,6 +118,9 @@
     [self.view addSubview:waitView];
     [waitView release];
     [waitView startWaiting];
+    
+    //注册通知,接收城市信息
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBackCity:) name:@"SelectCityNotification" object:nil];
 
 }
 
@@ -140,16 +142,43 @@
         //将下拉刷新控件作为子控件添加到UITableView中
         [self.customTV addSubview:refreshView];
         _refreshTableView = refreshView;
+        [refreshView release];
     }
     
     //  update the last update date
     [_refreshTableView refreshLastUpdatedDate];
 }
 
+//接受到通知的相应方法
+- (void)callBackCity:(id)sender
+{
+    NSNotification *notification = (NSNotification *) sender;
+    self.currentCity = [notification.userInfo objectForKey:@"city"];
+    
+    //截取城市名字
+    NSString *str_intercepted = [self.currentCity substringFromIndex:0];
+    NSString *str_character = @"/";
+    NSRange range = [str_intercepted rangeOfString:str_character];
+    NSString *cityName = [str_intercepted substringToIndex:range.location];
+    
+    //截取城市id
+    NSRange idRange = NSMakeRange(cityName.length, self.currentCity.length - cityName.length);
+    NSString *cityidStr = [self.currentCity substringWithRange:idRange];
+    pro_ID = [[cityidStr substringFromIndex:1] integerValue];
+    NSLog(@"--pro_ID--%d",pro_ID);
+    
+    [cityBtn setTitle:cityName forState:UIControlStateNormal];
+    
+    //选择城市，重新载入对应数据
+    [self egoRefreshTableHeaderDidTriggerRefresh:_refreshTableView];
+    
+    return;
+}
+
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
 
--(void)reloadTableViewDataSource{
+-(void)reloadTableViewDataSource {
     
     //  should be calling your tableviews data source model to reload
     //  put here just for demo
@@ -158,23 +187,21 @@
     if (pro_ID != 0)
     {
         [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
-        
-    } else
-    {
+    } else if (curpage != 1) {
     
-    [self startJSONParserWithCurpage:curpage pro_id:0];
-        
+        [self startJSONParserWithCurpage:curpage pro_id:0];
     }
-    _reloading =YES;
+    
+    _reloading = YES;
     
     [self.customTV.tableFooterView removeAllSubviews];
     [self createTableFooterWithTitle:@"上拉加载更多"];
 }
 
--(void)doneLoadingTableViewData{
+-(void)doneLoadingTableViewData {
     
     //  model should call this when its done loading
-    _reloading =NO;
+    _reloading = NO;
     [_refreshTableView egoRefreshScrollViewDataSourceDidFinishedLoading:self.customTV];
 }
 
@@ -190,11 +217,11 @@
     
     [_refreshTableView egoRefreshScrollViewDidEndDragging:scrollView];
     
-    // 下拉到最底部时显示更多数据
-    	if(!_loadingMore && scrollView.contentOffset.y > ((scrollView.contentSize.height - scrollView.frame.size.height)))
-        {
-            [self loadDataBegin];
-        }
+    //上拉到最底部时显示更多数据
+    if(!_loadingMore && scrollView.contentOffset.y > ((scrollView.contentSize.height - scrollView.frame.size.height)))
+    {
+        [self loadDataBegin];
+    }
 }
 
 #pragma mark -
@@ -203,7 +230,7 @@
 -(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
     
     [self reloadTableViewDataSource];
-    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:2.0];
 }
 
 -(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
@@ -319,17 +346,11 @@
 // 加载数据中
 - (void) loadDataing
 {
-    if (pro_ID != 0) {
+    if (curpage != -1) {
         
         [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
-        
-    } else {
-        
-    if (curpage != -1) {
-        [self startJSONParserWithCurpage:curpage pro_id:0];
     }
     
-    }
     [self indicatorView];
     
 	[self loadDataEnd];
@@ -345,9 +366,8 @@
         [alert show];
         [alert release];
         [self createTableFooterWithTitle:@"加载完毕"];
-    } else
+    } else {
         
-    {
         [self createTableFooterWithTitle:@"上拉加载更多"];
     }
 }
@@ -363,6 +383,8 @@
     [loadMoreText setText:text];
     [tableFooterView addSubview:loadMoreText];
     self.customTV.tableFooterView = tableFooterView;
+    [loadMoreText release];
+    [tableFooterView release];
 }
 
 
@@ -379,35 +401,6 @@
     [na release];
 }
 
-//接受到通知的相应方法
-- (void)callBackCity:(id)sender
-{
-    NSNotification *notification =  (NSNotification *) sender;
-    NSLog(@"%@",notification);
-    self.currentCity = [notification.userInfo objectForKey:@"city"];
-
-    //截取城市名字
-    NSString *str_intercepted = [self.currentCity substringFromIndex:0];
-    NSString *str_character = @"/";
-    NSRange range = [str_intercepted rangeOfString:str_character];
-    NSString *cityName = [str_intercepted substringToIndex:range.location];
-   
-    //截取城市id
-    NSRange idRange = NSMakeRange(cityName.length, self.currentCity.length - cityName.length);
-    NSString *cityidStr = [self.currentCity substringWithRange:idRange];
-    pro_ID = [[cityidStr substringFromIndex:1] integerValue];
-    NSLog(@"-----%d",pro_ID);
-    
-    [cityBtn setTitle:cityName forState:UIControlStateNormal];
-    
-//    if (curpage != -1) {
-//        [_mArray removeAllObjects];
-//        [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
-//    }
-    
-    
-}
-
 
 //地图定位
 - (void)searchSelfLocation:(id)sender
@@ -419,7 +412,6 @@
     [self presentViewController:na animated:YES completion:nil];
     [na release];
     [location release];
-    
 }
 
 
@@ -430,7 +422,7 @@
     HD.delegate = self;
     NSString *urlStr = [NSString stringWithFormat:STORE_LIST_API];
     NSString *argument = [NSString stringWithFormat:STORE_LIST_ARGUMENT,cPage,pro_id];
-    NSLog(@"argument -- >%@",argument);
+    NSLog(@"JSON解析 argument ---- >%@",argument);
     [HD downloadFromURL:urlStr withArgument:argument];
     
 }
@@ -438,36 +430,38 @@
 #pragma mark -- HTTPDownloadDelegate Method
 //下载完成
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
-{   
+{
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
 //    NSLog(@"++++>>%@",[dic objectForKey:@"1"]);
-    NSLog(@"dic **** >>%@",dic);
-    NSString *curpageStr = [dic objectForKey:@"curpage"];
-    curpage = [curpageStr integerValue];
-    NSLog(@"curpage -- %d",curpage);
-    for (int i = 0; i <= [dic allKeys].count - 2; i++) {
+    NSLog(@"下载完成 dic **** >>%@",dic);
+    if (dic != nil) {
         
-        StoreList *storeList = [[[StoreList alloc]init]autorelease];
-        NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
-        storeList.pic = [subDic objectForKey:@"pic"];
-        storeList.name = [subDic objectForKey:@"name"];
-        storeList.grade = [subDic objectForKey:@"grade"];
-        storeList.avmoney = [subDic objectForKey:@"avmoney"];
-        storeList.address = [subDic objectForKey:@"address"];
-        storeList.tel = [subDic objectForKey:@"tel"];
-        storeList.lat = [subDic objectForKey:@"lat"];//纬度
-        storeList.lng = [subDic objectForKey:@"lng"];//经度
-        storeList.description = [subDic objectForKey:@"description"];
-        storeList.storeid = [subDic objectForKey:@"id"];
+        NSString *curpageStr = [dic objectForKey:@"curpage"];
+        curpage = [curpageStr integerValue];
+        NSLog(@"下载完成 curpage ---- >> %d",curpage);
+        for (int i = 0; i <= [dic allKeys].count - 2; i++) {
+            
+            StoreList *storeList = [[[StoreList alloc]init]autorelease];
+            NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
+            storeList.pic = [subDic objectForKey:@"pic"];
+            storeList.name = [subDic objectForKey:@"name"];
+            storeList.grade = [subDic objectForKey:@"grade"];
+            storeList.avmoney = [subDic objectForKey:@"avmoney"];
+            storeList.address = [subDic objectForKey:@"address"];
+            storeList.tel = [subDic objectForKey:@"tel"];
+            storeList.lat = [subDic objectForKey:@"lat"];//纬度
+            storeList.lng = [subDic objectForKey:@"lng"];//经度
+            storeList.description = [subDic objectForKey:@"description"];
+            storeList.storeid = [subDic objectForKey:@"id"];
+            
+            [self.mArray addObject:storeList];
+        }
         
-        [self.mArray addObject:storeList];
-        
+        [self.customTV reloadData];
+        NSLog(@"下载完成 数组个数---->>%d",self.mArray.count);
+        [waitView stopWaiting];
+        [self hudWasHidden:HUD];
     }
-    
-    [self.customTV reloadData];
-    NSLog(@"数组个数----》%d",self.mArray.count);
-    [waitView stopWaiting];
-    [self hudWasHidden:HUD];
 }
 //下载失败
 - (void)downloadDidFail:(HTTPDownload *)hd
@@ -540,7 +534,12 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([_mArray count] == 0) {
+        return nil;
+    }
+    
     return [_mArray count];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -658,6 +657,7 @@
     [_search release];
     [_currentCity release];
     [_mArray release];
+    [_refreshTableView release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectCityNotification" object:nil];
     [super dealloc];
