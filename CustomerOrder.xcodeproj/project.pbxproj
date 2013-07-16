@@ -101,7 +101,6 @@
 		672C487D176E99800055DA3F /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C487C176E99800055DA3F /* libz.1.2.5.dylib */; };
 		672C4883176E9CEE0055DA3F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C4882176E9CEE0055DA3F /* libxml2.dylib */; };
 		672C48AA176EBA800055DA3F /* CityName.m in Sources */ = {isa = PBXBuildFile; fileRef = 672C48A9176EBA800055DA3F /* CityName.m */; };
-		672C48BC176F01AF0055DA3F /* ItemOfCoffee.m in Sources */ = {isa = PBXBuildFile; fileRef = 672C48BB176F01AF0055DA3F /* ItemOfCoffee.m */; };
 		67341B94177A7CAD00DCD5EC /* fu1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67341B8F177A7CAD00DCD5EC /* fu1.jpg */; };
 		67341B95177A7CAD00DCD5EC /* fu2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67341B90177A7CAD00DCD5EC /* fu2.jpg */; };
 		67341B96177A7CAD00DCD5EC /* fu3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67341B91177A7CAD00DCD5EC /* fu3.jpg */; };
@@ -362,6 +361,7 @@
 		8126086A178D466900FD25E9 /* WaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260869178D466900FD25E9 /* WaitingView.m */; };
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
 		812965E0178AAC3E002C1BCA /* SetColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 812965DF178AAC3E002C1BCA /* SetColor.m */; };
+		813E89F31795297D000E4127 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 813E89F21795297D000E4127 /* DataBase.m */; };
 		816B2B77178BFF2500B60195 /* SelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816B2B75178BFF2400B60195 /* SelectCityViewController.m */; };
 		816B2B78178BFF2500B60195 /* SelectCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816B2B76178BFF2500B60195 /* SelectCityViewController.xib */; };
 		81ACDFD81783EFB90078EB9A /* QZoneConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ACDFD71783EFB90078EB9A /* QZoneConnection.framework */; };
@@ -547,8 +547,6 @@
 		672C4882176E9CEE0055DA3F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		672C48A8176EBA800055DA3F /* CityName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityName.h; sourceTree = "<group>"; };
 		672C48A9176EBA800055DA3F /* CityName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityName.m; sourceTree = "<group>"; };
-		672C48BA176F01AF0055DA3F /* ItemOfCoffee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemOfCoffee.h; sourceTree = "<group>"; };
-		672C48BB176F01AF0055DA3F /* ItemOfCoffee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemOfCoffee.m; sourceTree = "<group>"; };
 		67341B8F177A7CAD00DCD5EC /* fu1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fu1.jpg; sourceTree = "<group>"; };
 		67341B90177A7CAD00DCD5EC /* fu2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fu2.jpg; sourceTree = "<group>"; };
 		67341B91177A7CAD00DCD5EC /* fu3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fu3.jpg; sourceTree = "<group>"; };
@@ -842,6 +840,8 @@
 		8126086C178D5EA800FD25E9 /* StoreList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreList.m; sourceTree = "<group>"; };
 		812965DE178AAC3E002C1BCA /* SetColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetColor.h; sourceTree = "<group>"; };
 		812965DF178AAC3E002C1BCA /* SetColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetColor.m; sourceTree = "<group>"; };
+		813E89F11795297D000E4127 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
+		813E89F21795297D000E4127 /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
 		816B2B74178BFF2400B60195 /* SelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCityViewController.h; sourceTree = "<group>"; };
 		816B2B75178BFF2400B60195 /* SelectCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCityViewController.m; sourceTree = "<group>"; };
 		816B2B76178BFF2500B60195 /* SelectCityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectCityViewController.xib; sourceTree = "<group>"; };
@@ -917,6 +917,8 @@
 		67117689176D72E40088CA50 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				813E89F11795297D000E4127 /* DataBase.h */,
+				813E89F21795297D000E4127 /* DataBase.m */,
 				8109AD06178FB72800F30E5A /* EGORefreshTableHeaderView */,
 				81260868178D466900FD25E9 /* WaitingView.h */,
 				81260869178D466900FD25E9 /* WaitingView.m */,
@@ -1213,8 +1215,6 @@
 			children = (
 				672C48A8176EBA800055DA3F /* CityName.h */,
 				672C48A9176EBA800055DA3F /* CityName.m */,
-				672C48BA176F01AF0055DA3F /* ItemOfCoffee.h */,
-				672C48BB176F01AF0055DA3F /* ItemOfCoffee.m */,
 				8126086B178D5EA800FD25E9 /* StoreList.h */,
 				8126086C178D5EA800FD25E9 /* StoreList.m */,
 			);
@@ -2094,7 +2094,6 @@
 				672C4873176E98E60055DA3F /* ASIS3Request.m in Sources */,
 				672C4874176E98E60055DA3F /* ASIS3ServiceRequest.m in Sources */,
 				672C48AA176EBA800055DA3F /* CityName.m in Sources */,
-				672C48BC176F01AF0055DA3F /* ItemOfCoffee.m in Sources */,
 				6763F1C61772D17C0030B5BA /* MyOrderCell.m in Sources */,
 				67341BA0177A80B100DCD5EC /* HelperViewController.m in Sources */,
 				67AC24FB17813AFC00426F91 /* AGViewDelegate.m in Sources */,
@@ -2113,6 +2112,7 @@
 				810C0865178E7BD100526711 /* UIImageView+WebCache.m in Sources */,
 				8109AD02178FADBF00F30E5A /* MBProgressHUD.m in Sources */,
 				8109AD05178FB72000F30E5A /* EGORefreshTableHeaderView.m in Sources */,
+				813E89F31795297D000E4127 /* DataBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

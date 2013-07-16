@@ -148,7 +148,6 @@
     return [view autorelease];
 }
 
-
 - (void)dealloc
 {
     [_tableView release];

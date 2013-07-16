@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CollectionViewController : UITableViewController
+{
+    NSArray *dataArray;//数据库数据
+}
 
 @end

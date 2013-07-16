@@ -9,6 +9,8 @@
 #import "CollectionViewController.h"
 #import "DetailDisplayCell.h"
 #import "DetailViewController.h"
+#import "MoreViewController.h"
+#import "DataBase.h"
 
 @interface CollectionViewController ()
 
@@ -28,10 +30,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //重写左边返回按钮
+    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftBtn setFrame:CGRectMake(0, 0, 60, 44)];
+    [leftBtn setImage:[UIImage imageNamed:@"NaviBack.png"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(backLeft) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftBar = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
+    self.navigationItem.leftBarButtonItem = leftBar;
+    [leftBar release];
 
+
+    //获取数据库数据
+    dataArray = [[[DataBase defaultDataBase]selectStoreSItemsFromDataBase]retain];
+    NSLog(@"**dataArray**%@",dataArray);
     
 }
 
+- (void)backLeft
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -83,7 +101,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 120.0f;
+    return 160.5f;
 
 }
 

@@ -17,6 +17,7 @@
 #import "SetColor.h"
 #import "StoreList.h"
 #import "UIImageView+WebCache.h"
+#import "DataBase.h"
 
 #define CONTENT @"咖啡厅座位预订 测试版 http://hxhd.cn"
 #define SHARE_URL @"http://www.sharesdk.cn"
@@ -30,7 +31,7 @@
 
 @synthesize imgArray = _imgArray;
 @synthesize othersArray = _othersArray;
-@synthesize itemForDataBase = _itemForDataBase;
+
 
 @synthesize appDelegate = _appDelegate;
 @synthesize lat = _lat;
@@ -83,6 +84,7 @@
 - (void)collectData:(id)dender
 {
     NSLog(@"收藏成功");
+    [[DataBase defaultDataBase]insertItem:_storeInfo];
     
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"收藏成功！" delegate:self cancelButtonTitle:@"取消收藏" otherButtonTitles:@"确定", nil];
     [alert show];
@@ -94,12 +96,15 @@
 {
     switch (buttonIndex) {
         case 0:
-            
-            NSLog(@"%d",buttonIndex);
+            if ([[DataBase defaultDataBase]isExistItem:_storeInfo]) {
+                
+                [[DataBase defaultDataBase]deleteItem:_storeInfo];
+            }
+            NSLog(@"取消收藏");
             break;
-        case 1:
             
-            NSLog(@"%d",buttonIndex);
+        case 1:
+            NSLog(@"确定");
             break;
             
         default:
@@ -243,8 +248,6 @@
     
     _othersArray = [[NSArray alloc]initWithObjects:self.storeInfo.address,self.storeInfo.tel, nil];
     
-//    //阻止 tableview 滑动
-//    [self.tableView setBounces:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -282,7 +285,6 @@
         cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
         cell.average.text = self.storeInfo.avmoney;
         cell.description.text = self.storeInfo.description;
-        
         UIButton *order = [UIButton buttonWithType:UIButtonTypeCustom];
         [order setFrame:CGRectMake(245, 35, 80, 30)];
         [order setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];

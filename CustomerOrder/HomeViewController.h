@@ -30,11 +30,11 @@ EGORefreshTableHeaderDelegate>
     NSMutableArray *_mArray;
     
     HTTPDownload *HD;
-    WaitingView *waitView;
+    WaitingView *waitView;//
     
-    // 加载状态
-	BOOL _loadingMore;
-    int curpage;//
+   
+	BOOL _loadingMore;//加载状态
+    int curpage;//当前页数
     
     EGORefreshTableHeaderView *_refreshTableView;
     BOOL _reloading;

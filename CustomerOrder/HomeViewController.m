@@ -102,7 +102,7 @@
 {
     [super viewDidLoad];
     
-//    NSLog(@"%@",NSHomeDirectory());
+    NSLog(@"%@",NSHomeDirectory());
     
     [self customNavigationBtn];
     [self scrollViewMethod];
@@ -141,12 +141,12 @@
         refreshView.delegate = self;
         //将下拉刷新控件作为子控件添加到UITableView中
         [self.customTV addSubview:refreshView];
-        _refreshTableView = refreshView;
+        self.refreshTableView = refreshView;
         [refreshView release];
     }
     
     //  update the last update date
-    [_refreshTableView refreshLastUpdatedDate];
+    [self.refreshTableView refreshLastUpdatedDate];
 }
 
 //接受到通知的相应方法
@@ -165,14 +165,11 @@
     NSRange idRange = NSMakeRange(cityName.length, self.currentCity.length - cityName.length);
     NSString *cityidStr = [self.currentCity substringWithRange:idRange];
     pro_ID = [[cityidStr substringFromIndex:1] integerValue];
-    NSLog(@"--pro_ID--%d",pro_ID);
     
     [cityBtn setTitle:cityName forState:UIControlStateNormal];
     
     //选择城市，重新载入对应数据
     [self egoRefreshTableHeaderDidTriggerRefresh:_refreshTableView];
-    
-    return;
 }
 
 #pragma mark -
@@ -184,16 +181,10 @@
     //  put here just for demo
     [_mArray removeAllObjects];
     curpage = 0;
-    if (pro_ID != 0)
-    {
-        [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
-    } else if (curpage != 1) {
-    
-        [self startJSONParserWithCurpage:curpage pro_id:0];
-    }
+    [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
     
     _reloading = YES;
-    
+   
     [self.customTV.tableFooterView removeAllSubviews];
     [self createTableFooterWithTitle:@"上拉加载更多"];
 }
@@ -215,10 +206,13 @@
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     
-    [_refreshTableView egoRefreshScrollViewDidEndDragging:scrollView];
+    if (_refreshTableView)
+    {
+        [_refreshTableView egoRefreshScrollViewDidEndDragging:scrollView];
+    }
     
     //上拉到最底部时显示更多数据
-    if(!_loadingMore && scrollView.contentOffset.y > ((scrollView.contentSize.height - scrollView.frame.size.height)))
+    if(!_loadingMore && (scrollView.contentOffset.y > (scrollView.contentSize.height - scrollView.frame.size.height)))
     {
         [self loadDataBegin];
     }
@@ -244,93 +238,6 @@
 }
 
 
-/* ***
-
-#pragma mark -
-#pragma mark Data Source Loading / Reloading Methods
-//开始重新加载时调用的方法
-- (void)reloadTableViewDataSource{
-    _reloading = YES;
-    //开始刷新后执行后台线程，在此之前可以开启HUD或其他对UI进行阻塞
-    [NSThread detachNewThreadSelector:@selector(doInBackground) toTarget:self withObject:nil];
-}
-
-//完成加载时调用的方法
-- (void)doneLoadingTableViewData{
-    NSLog(@"doneLoadingTableViewData");
-    
-    _reloading = NO;
-    [_refreshTableView egoRefreshScrollViewDataSourceDidFinishedLoading:self.customTV];
-    //刷新表格内容
-    [self.customTV reloadData];
-}
-
-#pragma mark -
-#pragma mark Background operation
-//这个方法运行于子线程中，完成获取刷新数据的操作
--(void)doInBackground
-{
-    NSLog(@"doInBackground");
-    
-    curpage = 0;
-    [self.mArray removeAllObjects];
-    [self startJSONParserWithCurpage:curpage];
-    
-    
-    [NSThread sleepForTimeInterval:3];
-    
-    //后台操作线程执行完后，到主线程更新UI
-    [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:YES];
-}
-
-
-#pragma mark -
-#pragma mark EGORefreshTableHeaderDelegate Methods
-//下拉被触发调用的委托方法
--(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView *)view
-{
-    [self reloadTableViewDataSource];
-}
-
-//返回当前是刷新还是无刷新状态
--(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView *)view
-{
-    return _reloading;
-}
-
-//返回刷新时间的回调方法
--(NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView *)view
-{
-    return [NSDate date];
-}
-
-#pragma mark -
-#pragma mark UIScrollViewDelegate Methods
-//滚动控件的委托方法
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [_refreshTableView egoRefreshScrollViewDidScroll:scrollView];
-}
-
-#pragma mark - Refresh table view
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (_refreshTableView)
-    {
-        [_refreshTableView egoRefreshScrollViewDidEndDragging:scrollView];
-    }
-   
-    // 下拉到最底部时显示更多数据
-	if(!_loadingMore && scrollView.contentOffset.y > ((scrollView.contentSize.height - scrollView.frame.size.height)))
-    {
-        [self loadDataBegin];
-	}
-}
-
-******* */
-
-
 // 开始加载数据
 - (void) loadDataBegin
 {
@@ -342,7 +249,6 @@
     }
 }
 
-
 // 加载数据中
 - (void) loadDataing
 {
@@ -352,7 +258,6 @@
     }
     
     [self indicatorView];
-    
 	[self loadDataEnd];
 }
 
@@ -362,10 +267,12 @@
     _loadingMore = NO;
     if (curpage == -1) {
         [self hudWasHidden:HUD];
+        [self createTableFooterWithTitle:@"加载完毕"];
+        
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"数据已全部加载完毕！" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alert show];
         [alert release];
-        [self createTableFooterWithTitle:@"加载完毕"];
+       
     } else {
         
         [self createTableFooterWithTitle:@"上拉加载更多"];
@@ -392,10 +299,8 @@
 //选择城市
 - (void)selectCity:(id)sender
 {
-    NSLog(@"选择城市");
     SelectCityViewController *selectCity = [[SelectCityViewController alloc]init];
     UINavigationController *na = [[UINavigationController alloc]initWithRootViewController:selectCity];
-//     na.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:na animated:YES completion:nil];
     [selectCity release];
     [na release];
@@ -405,7 +310,6 @@
 //地图定位
 - (void)searchSelfLocation:(id)sender
 {
-    NSLog(@"显示当前位置");
     PersonLocationViewController *location = [[PersonLocationViewController alloc]init];
     UINavigationController *na = [[UINavigationController alloc]initWithRootViewController:location];
     na.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -432,13 +336,13 @@
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
 {
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
-//    NSLog(@"++++>>%@",[dic objectForKey:@"1"]);
     NSLog(@"下载完成 dic **** >>%@",dic);
-    if (dic != nil) {
-        
+    if (dic != nil&&[dic allKeys].count > 1) {
         NSString *curpageStr = [dic objectForKey:@"curpage"];
         curpage = [curpageStr integerValue];
         NSLog(@"下载完成 curpage ---- >> %d",curpage);
+        NSLog(@"下载完成 [dic allKeys].count ---- >> %d",[dic allKeys].count);
+
         for (int i = 0; i <= [dic allKeys].count - 2; i++) {
             
             StoreList *storeList = [[[StoreList alloc]init]autorelease];
@@ -461,6 +365,15 @@
         NSLog(@"下载完成 数组个数---->>%d",self.mArray.count);
         [waitView stopWaiting];
         [self hudWasHidden:HUD];
+        
+    } else if ([dic allKeys].count == 1){
+        
+        [self.mArray removeAllObjects];
+        [self.customTV reloadData];
+        [self createTableFooterWithTitle:nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"没有数据可供加载" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+        [alert release];
     }
 }
 //下载失败
@@ -470,19 +383,14 @@
 }
 
 #pragma mark -
-
 #pragma mark MBProgressHUDDelegate methods
 
-- (void)hudWasHidden:(MBProgressHUD *)hud {
-    
-    NSLog(@"Hud: %@", hud);
-    
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
     // Remove HUD from screen when the HUD was hidded
-    
     [HUD removeFromSuperview];
     [HUD release];
      HUD = nil;
-    
 }
 //指示视图方法
 - (void)indicatorView
@@ -507,7 +415,6 @@
 }
 
 #pragma mark 
-
 #pragma mark -- UISearchBar delegate 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -560,13 +467,39 @@
     if (_mArray.count != 0) {
         
         StoreList *info = [_mArray objectAtIndex:indexPath.row];
-        
         [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:[UIImage imageNamed:nil]];
         cell.title.text = info.name;
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
         cell.address.text = info.address;
         cell.average.text = info.avmoney;
-
+    
+        float selectGrade = [info.grade floatValue];
+        
+        if (selectGrade == 0) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+        }else if (selectGrade == 1) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar10.png"];
+            
+        } else if (selectGrade == 2) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20.png"];
+        
+        }else if (selectGrade == 2.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar25.png"];
+            
+        }else if (selectGrade == 3) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar30.png"];
+            
+        }else if (selectGrade == 3.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar35.png"];
+            
+        }else if (selectGrade == 4) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar40.png"];
+            
+        }else if (selectGrade == 4.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar45.png"];
+            
+        }else if (selectGrade == 5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar50.png"];
+        }
     }
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -636,7 +569,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DetailViewController *detail = [[DetailViewController alloc]init];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];//cell返回时取消选中状态
     StoreList *storeListInfo = [self.mArray objectAtIndex:indexPath.row];
     detail.storeInfo = storeListInfo;
