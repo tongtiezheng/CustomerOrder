@@ -84,11 +84,17 @@
 - (void)collectData:(id)dender
 {
     NSLog(@"收藏成功");
+    if ([[DataBase defaultDataBase]isExistItem:_storeInfo]) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"记录已经存在！" delegate:self cancelButtonTitle:@"取消收藏" otherButtonTitles:@"确定", nil];
+        [alert show];
+        [alert release];
+    }else {
+        
     [[DataBase defaultDataBase]insertItem:_storeInfo];
-    
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"收藏成功！" delegate:self cancelButtonTitle:@"取消收藏" otherButtonTitles:@"确定", nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"收藏成功！" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     [alert show];
     [alert release];
+    }
 }
 
 #pragma mark -- UIAlertView Delegate
@@ -96,15 +102,7 @@
 {
     switch (buttonIndex) {
         case 0:
-            if ([[DataBase defaultDataBase]isExistItem:_storeInfo]) {
-                
-                [[DataBase defaultDataBase]deleteItem:_storeInfo];
-            }
-            NSLog(@"取消收藏");
-            break;
-            
-        case 1:
-            NSLog(@"确定");
+            [[DataBase defaultDataBase]deleteItem:_storeInfo];
             break;
             
         default:

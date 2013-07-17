@@ -15,7 +15,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <AGCommon/CoreDefinition.h>//ShareSDK 通用工具类框架
-    #import "CONST.h"
+    #import "CONST.h"                  //常量及接口
 
 #endif
 

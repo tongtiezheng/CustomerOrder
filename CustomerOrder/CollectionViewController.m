@@ -11,6 +11,8 @@
 #import "DetailViewController.h"
 #import "MoreViewController.h"
 #import "DataBase.h"
+#import "StoreList.h"
+
 
 @interface CollectionViewController ()
 
@@ -41,8 +43,8 @@
 
 
     //获取数据库数据
-    dataArray = [[[DataBase defaultDataBase]selectStoreSItemsFromDataBase]retain];
-    NSLog(@"**dataArray**%@",dataArray);
+    dataArray = [[[DataBase defaultDataBase]selectStoresItemsFromDataBase]retain];
+//    NSLog(@"**dataArray**%@",dataArray);
     
 }
 
@@ -60,7 +62,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
     // Return the number of sections.
     return 1;
 }
@@ -68,7 +69,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 1;
+    return [dataArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -79,12 +80,59 @@
         cell = [[[DetailDisplayCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    cell.leftImgView.image = [UIImage imageNamed:@"2.jpg"];
-    cell.title.text = @"华信咖啡厅";
-    cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
-    cell.average.text = @"81";
+    StoreList *info = [dataArray objectAtIndex:indexPath.row];
+    cell.title.text = info.name;
+    cell.average.text = info.avmoney;
+    cell.description.text = info.description;
     
+    NSString *strURL = [NSString stringWithFormat:@"%@",info.pic];
+    NSURL *url = [NSURL URLWithString:strURL];
+    NSData *imgData = [NSData dataWithContentsOfURL:url];
+    UIImage *img = [UIImage imageWithData:imgData];
+    cell.leftImgView.image = img;
+    
+    float selectGrade = [info.grade floatValue];
+    if (selectGrade == 0) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+    }else if (selectGrade == 1) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar10.png"];
+        
+    } else if (selectGrade == 2) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20.png"];
+        
+    }else if (selectGrade == 2.5) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar25.png"];
+        
+    }else if (selectGrade == 3) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar30.png"];
+        
+    }else if (selectGrade == 3.5) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar35.png"];
+        
+    }else if (selectGrade == 4) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar40.png"];
+        
+    }else if (selectGrade == 4.5) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar45.png"];
+        
+    }else if (selectGrade == 5) {
+        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar50.png"];
+    }
+ 
     return cell;
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    //获取数据库数据
+    dataArray = [[[DataBase defaultDataBase]selectStoresItemsFromDataBase]retain];
+    if(dataArray.count == 0)
+    {
+        self.tableView.hidden = YES;
+        return;
+    }
+    [self.tableView reloadData];
 }
 
 
@@ -93,16 +141,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DetailViewController *detail = [[DetailViewController alloc]init];
+    StoreList *storeInfo = [dataArray objectAtIndex:indexPath.row];
+    detail.storeInfo = storeInfo;
     [self.navigationController pushViewController:detail animated:YES];
     [detail release];
-    
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 160.5f;
-
 }
 
 @end

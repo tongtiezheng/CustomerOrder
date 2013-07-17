@@ -38,7 +38,7 @@ static DataBase *sg_database = nil;
 
 -(void)createTable
 {
-    NSString *newTableSql = @"CREATE TABLE IF NOT EXISTS STORELIST (storeid integer Primary Key Autoincrement,storeName TEXT(1024),storeGrade TEXT(1024) DEFAULT NULL,avmoney TEXT(1024) DEFAULT NULL,pic TEXT(1024) DEFAULT NULL,description TEXT(1024) DEFAULT NULL)";
+    NSString *newTableSql = @"CREATE TABLE IF NOT EXISTS STORELIST (storeid integer Primary Key Autoincrement,storeName TEXT,storeGrade TEXT DEFAULT NULL,avmoney TEXT DEFAULT NULL,pic TEXT DEFAULT NULL,description TEXT DEFAULT NULL,address TEXT DEFAULT NULL,tel TEXT DEFAULT NULL,lat TEXT DEFAULT NULL,lng TEXT DEFAULT NULL)";
     
     //执行语句（删除，修改，插入)
     if([fmdb executeUpdate:newTableSql])
@@ -96,9 +96,9 @@ static DataBase *sg_database = nil;
         NSLog(@"记录已经存在:%@",item.name);
         return;
     }
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO STORELIST(storeName,storeGrade,avmoney,pic,description) VALUES (?,?,?,?,?)"];
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO STORELIST(storeName,storeGrade,avmoney,pic,description,address,tel,lat,lng) VALUES (?,?,?,?,?,?,?,?,?)"];
     if([fmdb executeUpdate:sql,item.name,item.grade,item.avmoney,
-                                            item.pic,item.description])
+                                            item.pic,item.description,item.address,item.tel,item.lat,item.lng])
     {
         NSLog(@"插入记录成功");
     }
@@ -127,22 +127,24 @@ static DataBase *sg_database = nil;
     }
 }
 //查询记录
--(NSArray *)selectStoreSItemsFromDataBase
+-(NSArray *)selectStoresItemsFromDataBase
 {
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM STORELIST"];
     NSMutableArray *array = [[[NSMutableArray alloc]initWithCapacity:0]autorelease];
     FMResultSet *rs = [fmdb executeQuery:sql];
     while ([rs next])
     {
-        StoreList *storeInfo = [[StoreList alloc]init];
+        StoreList *storeInfo = [[[StoreList alloc]init]autorelease];
         
         storeInfo.name = [rs stringForColumn:@"storeName"];
         storeInfo.grade = [rs stringForColumn:@"storeGrade"];
         storeInfo.avmoney = [rs stringForColumn:@"avmoney"];
         storeInfo.pic = [rs stringForColumn:@"pic"];
         storeInfo.description = [rs stringForColumn:@"description"];
-        
-        NSLog(@"**storeName**%@",[rs stringForColumn:@"storeName"]);
+        storeInfo.address = [rs stringForColumn:@"address"];
+        storeInfo.tel = [rs stringForColumn:@"tel"];
+        storeInfo.lat = [rs stringForColumn:@"lat"];
+        storeInfo.lng = [rs stringForColumn:@"lng"];
         
         [array addObject:storeInfo];
     }

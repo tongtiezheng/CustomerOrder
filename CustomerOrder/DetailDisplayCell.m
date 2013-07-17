@@ -39,9 +39,8 @@
         [_average setBackgroundColor:[UIColor clearColor]];
         [self addSubview:_average];
         
-        _description = [[UILabel alloc]initWithFrame:CGRectMake(110, 80, WIDTH - 110, 80)];
+        _description = [[UITextView alloc]initWithFrame:CGRectMake(110, 80, WIDTH - 110, 80)];
         [_description setBackgroundColor:[UIColor clearColor]];
-        _description.numberOfLines = 0;
         _description.font = [UIFont systemFontOfSize:14];
         [self addSubview:_description];
         
