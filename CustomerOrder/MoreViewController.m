@@ -70,7 +70,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CellIdentifier";
-   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
         
@@ -100,24 +100,19 @@
         [self presentViewController:loginNa animated:YES completion:nil];
         [login release];
         [loginNa release];
-    }
-    
-    else if((indexPath.section == 0) && (indexPath.row == 1))
+    } else if((indexPath.section == 0) && (indexPath.row == 1)) {
         
-    {
         CollectionViewController *collection = [[CollectionViewController alloc]init];
         [self.navigationController pushViewController:collection animated:YES];
         [collection release];
     
-    }
-    
-    if ((indexPath.section == 1)&&(indexPath.row == 1)) {
+    } if ((indexPath.section == 1)&&(indexPath.row == 1)) {
+        
         AboutViewController *about = [[AboutViewController alloc]init];
         about.title = @"关于我们";
         [self.navigationController pushViewController:about animated:YES];
         [about release];
     }
-
 }
 
 
@@ -152,7 +147,6 @@
 {
     [_tableView release];
     [super dealloc];
-
 }
 - (void)didReceiveMemoryWarning
 {

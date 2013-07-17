@@ -914,13 +914,13 @@
 		67117689176D72E40088CA50 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				813E89F11795297D000E4127 /* DataBase.h */,
-				813E89F21795297D000E4127 /* DataBase.m */,
 				8109AD06178FB72800F30E5A /* EGORefreshTableHeaderView */,
 				81260868178D466900FD25E9 /* WaitingView.h */,
 				81260869178D466900FD25E9 /* WaitingView.m */,
 				81260865178D296500FD25E9 /* ChineseToPinyin.h */,
 				81260866178D296500FD25E9 /* ChineseToPinyin.m */,
+				813E89F11795297D000E4127 /* DataBase.h */,
+				813E89F21795297D000E4127 /* DataBase.m */,
 				67F0D70817700B130037CEF4 /* SortedNames.plist */,
 				672356E81779290E004EB29D /* CONST.h */,
 			);

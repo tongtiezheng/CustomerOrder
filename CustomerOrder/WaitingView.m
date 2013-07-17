@@ -1,9 +1,9 @@
 //
 //  WaitingView.m
-//  WEBCARS_L
+//  CustomerOrder
 //
-//  Created by mac on 13-2-26.
-//  Copyright (c) 2013年 __MyCompanyName__. All rights reserved.
+//  Created by ios on 13-6-20.
+//  Copyright (c) 2013年 hxhd. All rights reserved.
 //
 #define VIEW_X(a) a.frame.origin.x
 #define VIEW_Y(a) a.frame.origin.y
