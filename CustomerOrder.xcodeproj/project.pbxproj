@@ -356,6 +356,7 @@
 		810C0863178E7BD100526711 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C0858178E7BD100526711 /* SDWebImagePrefetcher.m */; };
 		810C0864178E7BD100526711 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C085A178E7BD100526711 /* UIButton+WebCache.m */; };
 		810C0865178E7BD100526711 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 810C085C178E7BD100526711 /* UIImageView+WebCache.m */; };
+		8116CDA81797C91E008288D5 /* CacheData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116CDA71797C91E008288D5 /* CacheData.m */; };
 		81260867178D296500FD25E9 /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260866178D296500FD25E9 /* ChineseToPinyin.m */; };
 		8126086A178D466900FD25E9 /* WaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260869178D466900FD25E9 /* WaitingView.m */; };
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
@@ -830,6 +831,8 @@
 		810C085A178E7BD100526711 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WebCache.m"; sourceTree = "<group>"; };
 		810C085B178E7BD100526711 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		810C085C178E7BD100526711 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
+		8116CDA61797C91E008288D5 /* CacheData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheData.h; sourceTree = "<group>"; };
+		8116CDA71797C91E008288D5 /* CacheData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheData.m; sourceTree = "<group>"; };
 		81260865178D296500FD25E9 /* ChineseToPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyin.h; sourceTree = "<group>"; };
 		81260866178D296500FD25E9 /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		81260868178D466900FD25E9 /* WaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingView.h; sourceTree = "<group>"; };
@@ -923,6 +926,8 @@
 				813E89F21795297D000E4127 /* DataBase.m */,
 				67F0D70817700B130037CEF4 /* SortedNames.plist */,
 				672356E81779290E004EB29D /* CONST.h */,
+				8116CDA61797C91E008288D5 /* CacheData.h */,
+				8116CDA71797C91E008288D5 /* CacheData.m */,
 			);
 			name = Others;
 			sourceTree = "<group>";
@@ -2109,6 +2114,7 @@
 				8109AD02178FADBF00F30E5A /* MBProgressHUD.m in Sources */,
 				8109AD05178FB72000F30E5A /* EGORefreshTableHeaderView.m in Sources */,
 				813E89F31795297D000E4127 /* DataBase.m in Sources */,
+				8116CDA81797C91E008288D5 /* CacheData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@
 
 @interface CollectionViewController : UITableViewController
 {
-    NSArray *dataArray;//数据库数据
+    NSMutableArray *dataArray;//数据库数据
 }
 
 @end

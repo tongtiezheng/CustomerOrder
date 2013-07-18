@@ -24,6 +24,8 @@
 #import "HTTPDownload.h"
 #import "UIImageView+WebCache.h"
 
+#import "CacheData.h"
+
 @interface HomeViewController ()
 
 @end
@@ -34,6 +36,7 @@
 @synthesize currentCity = _currentCity;
 @synthesize mArray = _mArray;
 @synthesize refreshTableView = _refreshTableView;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -108,20 +111,31 @@
     [self scrollViewMethod];
     [self customTableViewAndRefreshView];
     
-    //开始解析，默认全部数据
-    curpage = 0;
-    [self startJSONParserWithCurpage:curpage pro_id:0];
-    _mArray = [[NSMutableArray alloc]init];
     
     //载入等待指示页面
     waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
     [self.view addSubview:waitView];
     [waitView release];
-    [waitView startWaiting];
+   
+     _mArray = [[NSMutableArray alloc]init];
+    
+    //开始解析，默认全部数据
+    if ([self isNetworkRunning]) {
+        
+        curpage = 0;
+        [self startJSONParserWithCurpage:curpage pro_id:0];
+       
+        [waitView startWaiting];
+
+    }else {
+        
+        [waitView removeFromSuperview];
+        [self readUserDefaults];
+        
+    }
     
     //注册通知,接收城市信息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBackCity:) name:@"SelectCityNotification" object:nil];
-
 }
 
 
@@ -328,9 +342,80 @@
     NSString *argument = [NSString stringWithFormat:STORE_LIST_ARGUMENT,cPage,pro_id];
     NSLog(@"JSON解析 argument ---- >%@",argument);
     [HD downloadFromURL:urlStr withArgument:argument];
-    
 }
 
+#pragma mark
+#pragma mark -- 需要封装
+//保存数据到沙盒目录
+- (void)saveCacheData:(NSData *)userData
+{
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:userData forKey:@"data"];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:dic forKey:@"dic"];
+    [userDefault synchronize];//同步存储到磁盘中
+
+    [self readUserDefaults];
+}
+
+- (void)readUserDefaults
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userDic = [userDefault dictionaryForKey:@"dic"];
+    NSData *data = [userDic objectForKey:@"data"];
+    NSLog(@">>>>>>>>>>>>%@",data);
+    
+    if (data != nil) {
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"下载完成 dic **** >>%@",dic);
+        if (dic != nil&&[dic allKeys].count > 1) {
+            NSString *curpageStr = [dic objectForKey:@"curpage"];
+            curpage = [curpageStr integerValue];
+            NSLog(@"下载完成 curpage ---- >> %d",curpage);
+            NSLog(@"下载完成 [dic allKeys].count ---- >> %d",[dic allKeys].count);
+            
+            for (int i = 0; i <= [dic allKeys].count - 2; i++) {
+                
+                StoreList *storeList = [[[StoreList alloc]init]autorelease];
+                NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
+                storeList.pic = [subDic objectForKey:@"pic"];
+                storeList.name = [subDic objectForKey:@"name"];
+                storeList.grade = [subDic objectForKey:@"grade"];
+                storeList.avmoney = [subDic objectForKey:@"avmoney"];
+                storeList.address = [subDic objectForKey:@"address"];
+                storeList.tel = [subDic objectForKey:@"tel"];
+                storeList.lat = [subDic objectForKey:@"lat"];//纬度
+                storeList.lng = [subDic objectForKey:@"lng"];//经度
+                storeList.description = [subDic objectForKey:@"description"];
+                storeList.storeid = [subDic objectForKey:@"id"];
+                
+                [self.mArray addObject:storeList];
+                NSLog(@"----_mArray----%@",_mArray);
+            }
+            NSLog(@"----[_mArray count]----%d",[_mArray count]);
+            [self.customTV reloadData];
+        }
+    }
+    
+    
+}
+- (BOOL)isNetworkRunning;
+{
+    Reachability *r = [Reachability reachabilityWithHostName:@"http://www.baidu.com"];
+    switch ([r currentReachabilityStatus]) {
+        case NotReachable:
+            return FALSE;
+            break;
+        case ReachableViaWWAN:
+            return TRUE;
+            break;
+        case ReachableViaWiFi:
+            return TRUE;
+            break;
+    }
+    return FALSE;
+}
+
+#pragma mark
 #pragma mark -- HTTPDownloadDelegate Method
 //下载完成
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
@@ -362,7 +447,7 @@
         }
         
         [self.customTV reloadData];
-        NSLog(@"下载完成 数组个数---->>%d",self.mArray.count);
+        NSLog(@"下载完成 数组个数---- >>%d",self.mArray.count);
         [waitView stopWaiting];
         [self hudWasHidden:HUD];
         
@@ -375,10 +460,20 @@
         [alert show];
         [alert release];
     }
+    /*****************************/
+    
+    //缓存数据
+    [self saveCacheData:HD.mData];
+    
+    /*****************************/
 }
 //下载失败
 - (void)downloadDidFail:(HTTPDownload *)hd
 {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"下载失败" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alert show];
+    [alert release];
+    
     NSLog(@"下载失败");
 }
 

@@ -29,7 +29,6 @@
 //从指定网址下载数据
 - (void)downloadFromURL:(NSString *)url withArgument:(NSString *)argument;
 
-
 @property (retain,nonatomic)NSMutableData *mData;
 @property (assign,nonatomic)id <HTTPDownloadDelegate>delegate;
 

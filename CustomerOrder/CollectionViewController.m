@@ -12,6 +12,7 @@
 #import "MoreViewController.h"
 #import "DataBase.h"
 #import "StoreList.h"
+#import "UIImageView+WebCache.h"
 
 
 @interface CollectionViewController ()
@@ -40,11 +41,11 @@
     UIBarButtonItem *leftBar = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftBar;
     [leftBar release];
-
-
-    //获取数据库数据
-    dataArray = [[[DataBase defaultDataBase]selectStoresItemsFromDataBase]retain];
-//    NSLog(@"**dataArray**%@",dataArray);
+    
+    //增加右边删除按钮
+    self.editButtonItem.title = @"编辑";
+    self.editButtonItem.tintColor = [UIColor orangeColor];
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
 }
 
@@ -84,12 +85,15 @@
     cell.title.text = info.name;
     cell.average.text = info.avmoney;
     cell.description.text = info.description;
+    [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic]];
+
     
-    NSString *strURL = [NSString stringWithFormat:@"%@",info.pic];
-    NSURL *url = [NSURL URLWithString:strURL];
-    NSData *imgData = [NSData dataWithContentsOfURL:url];
-    UIImage *img = [UIImage imageWithData:imgData];
-    cell.leftImgView.image = img;
+//    NSString *strURL = [NSString stringWithFormat:@"%@",info.pic];
+//    NSURL *url = [NSURL URLWithString:strURL];
+//    NSData *imgData = [NSData dataWithContentsOfURL:url];
+//    UIImage *img = [UIImage imageWithData:imgData];
+//    cell.leftImgView.image = img;
+    
     
     float selectGrade = [info.grade floatValue];
     if (selectGrade == 0) {
@@ -119,6 +123,8 @@
         cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar50.png"];
     }
  
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
     return cell;
 }
 
@@ -132,6 +138,7 @@
         self.tableView.hidden = YES;
         return;
     }
+    
     [self.tableView reloadData];
 }
 
@@ -151,6 +158,53 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 160.5f;
+}
+
+
+//实现删除操作
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSUInteger row = [indexPath row];
+        //在数据库中删除记录
+        [[DataBase defaultDataBase]deleteItem:[dataArray objectAtIndex:row]];
+        
+        //在获得的数组中删除记录
+        //dataArray为当前tableView中显示的array
+        [dataArray removeObjectAtIndex:row];
+        
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationLeft];
+        [self.tableView reloadData];
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    
+    if (self.editing) {
+        
+        self.editButtonItem.title = @"完成";
+        
+    } else {
+        
+        self.editButtonItem.title = @"编辑";
+    }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
 }
 
 @end

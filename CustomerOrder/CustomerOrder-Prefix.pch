@@ -14,8 +14,10 @@
 
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+
     #import <AGCommon/CoreDefinition.h>//ShareSDK 通用工具类框架
     #import "CONST.h"                  //常量及接口
+    #import"Reachability.h"            //判断网络连接状态
 
 #endif
 

@@ -27,7 +27,7 @@
 -(void)deleteItem:(StoreList *)item;
 
 //查询记录
--(NSArray*)selectStoresItemsFromDataBase;
+-(NSMutableArray *)selectStoresItemsFromDataBase;
 
 //创建新表
 -(void)createTable;

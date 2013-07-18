@@ -127,7 +127,7 @@ static DataBase *sg_database = nil;
     }
 }
 //查询记录
--(NSArray *)selectStoresItemsFromDataBase
+-(NSMutableArray *)selectStoresItemsFromDataBase
 {
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM STORELIST"];
     NSMutableArray *array = [[[NSMutableArray alloc]initWithCapacity:0]autorelease];
