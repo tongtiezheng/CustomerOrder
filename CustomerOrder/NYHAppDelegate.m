@@ -12,8 +12,6 @@
 
 #import <ShareSDK/ShareSDK.h>
 #import "WXApi.h"
-
-
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 
@@ -69,7 +67,7 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
-    //检查网络
+    //开始监听网络
     [self startNotificationNetwork];
     
     //分享平台
@@ -114,7 +112,7 @@
 
 
 //处理连接改变后的情况,对连接改变做出响应的处理动作
-- (void)updateInterfaceWithReachability:(Reachability*)curReach
+- (void)updateInterfaceWithReachability:(Reachability *)curReach
 {
     NetworkStatus status = [curReach currentReachabilityStatus];
     
@@ -126,9 +124,8 @@
                                                 otherButtonTitles:nil];
         [alertView show];
         [alertView release];
-    }
-    else
-    {
+    } else {
+        
         NSLog(@"connect with the internet successfully!");
     }
 }
@@ -141,10 +138,11 @@
     [self updateInterfaceWithReachability: curReach];
 }
 
+//开始监听网络状态
 -(void)startNotificationNetwork
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    _hostReach = [[Reachability reachabilityWithHostName:@"www.baidu.com"] retain];
+    _hostReach = [[Reachability reachabilityWithHostName:@"http://www.baidu.com"] retain];
     
     switch ([_hostReach currentReachabilityStatus])
     {
@@ -162,10 +160,9 @@
     }
     
     [_hostReach startNotifier];
-    
 }
 
-//用于SSO登录
+//用于SSO客户端登录
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
     return [ShareSDK handleOpenURL:url

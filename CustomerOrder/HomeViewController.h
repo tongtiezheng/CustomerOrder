@@ -41,6 +41,9 @@ EGORefreshTableHeaderDelegate>
     
     MBProgressHUD *HUD;//进度指示轮
     int pro_ID; //省份ID
+    
+    int cacheID;
+    
 }
 
 @property(retain,nonatomic)UITableView *customTV;

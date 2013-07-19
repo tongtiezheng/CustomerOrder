@@ -10,21 +10,20 @@
 
 @implementation CacheData
 
-+ (void)saveCache:(int)type andID:(int)_id andString:(NSString *)str
++ (void)saveCache:(int)type andID:(int)_id andData:(NSData *)data
 {
-    NSUserDefaults *setting = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *key = [NSString stringWithFormat:@"detail-%d-%d",type,_id];
-    [setting setObject:str forKey:key];
-    [setting synchronize];
+    [userDefaults setObject:data forKey:key];
+    [userDefaults synchronize];//同步存储到磁盘中
 }
 
 
-+ (NSString *)getCache:(int)type andID:(int)_id
++ (NSData *)getCache:(int)type andID:(int)_id
 {
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     NSString *key = [NSString stringWithFormat:@"detail-%d-%d",type, _id];
-    
-    NSString *value = [settings objectForKey:key];
+    NSData *value = [settings dataForKey:key];
     
     return value;
 }

@@ -25,6 +25,7 @@
 #import "UIImageView+WebCache.h"
 
 #import "CacheData.h"
+#import "CheckNetwork.h"
 
 @interface HomeViewController ()
 
@@ -56,6 +57,7 @@
     cityBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cityBtn setFrame:CGRectMake(0, 0, 60, 44)];
     [cityBtn setTitle:@"默认" forState:UIControlStateNormal];
+    [cityBtn setShowsTouchWhenHighlighted:YES];
     [cityBtn addTarget:self action:@selector(selectCity:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithCustomView:cityBtn];
@@ -111,27 +113,25 @@
     [self scrollViewMethod];
     [self customTableViewAndRefreshView];
     
-    
     //载入等待指示页面
     waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
     [self.view addSubview:waitView];
     [waitView release];
-   
-     _mArray = [[NSMutableArray alloc]init];
+    
+    _mArray = [[NSMutableArray alloc]init];
     
     //开始解析，默认全部数据
-    if ([self isNetworkRunning]) {
+    if ([CheckNetwork isNetworkRunning]) {
         
         curpage = 0;
         [self startJSONParserWithCurpage:curpage pro_id:0];
-       
+        //启动等待指示页面
         [waitView startWaiting];
 
     }else {
         
         [waitView removeFromSuperview];
-        [self readUserDefaults];
-        
+        [self readUserDefaultsCacheData];
     }
     
     //注册通知,接收城市信息
@@ -193,14 +193,29 @@
     
     //  should be calling your tableviews data source model to reload
     //  put here just for demo
-    [_mArray removeAllObjects];
-    curpage = 0;
-    [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
     
-    _reloading = YES;
+    if (![CheckNetwork isNetworkRunning]) {
+        
+        [_mArray removeAllObjects];
+        [self.customTV reloadData];
+        
+    } else {
+        
+        [_mArray removeAllObjects];
+    
+        curpage = 0;
+    
+        [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
+    
+    
+        _reloading = YES;
    
-    [self.customTV.tableFooterView removeAllSubviews];
-    [self createTableFooterWithTitle:@"上拉加载更多"];
+    
+        [self.customTV.tableFooterView removeAllSubviews];
+    
+        [self createTableFooterWithTitle:@"上拉加载更多"];
+        
+    }
 }
 
 -(void)doneLoadingTableViewData {
@@ -223,12 +238,14 @@
     if (_refreshTableView)
     {
         [_refreshTableView egoRefreshScrollViewDidEndDragging:scrollView];
+
     }
     
     //上拉到最底部时显示更多数据
     if(!_loadingMore && (scrollView.contentOffset.y > (scrollView.contentSize.height - scrollView.frame.size.height)))
     {
         [self loadDataBegin];
+        
     }
 }
 
@@ -266,7 +283,12 @@
 // 加载数据中
 - (void) loadDataing
 {
-    if (curpage != -1) {
+    if (![CheckNetwork isNetworkRunning]) {
+        
+        [_mArray removeAllObjects];
+        [self.customTV reloadData];
+        
+    }else if (curpage != -1) {
         
         [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
     }
@@ -309,7 +331,6 @@
 }
 
 
-
 //选择城市
 - (void)selectCity:(id)sender
 {
@@ -345,34 +366,19 @@
 }
 
 #pragma mark
-#pragma mark -- 需要封装
-//保存数据到沙盒目录
-- (void)saveCacheData:(NSData *)userData
+#pragma mark -- handle cache method 
+//读取缓存
+- (void)readUserDefaultsCacheData
 {
-    NSDictionary *dic = [NSDictionary dictionaryWithObject:userData forKey:@"data"];
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setObject:dic forKey:@"dic"];
-    [userDefault synchronize];//同步存储到磁盘中
-
-    [self readUserDefaults];
-}
-
-- (void)readUserDefaults
-{
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userDic = [userDefault dictionaryForKey:@"dic"];
-    NSData *data = [userDic objectForKey:@"data"];
-    NSLog(@">>>>>>>>>>>>%@",data);
-    
+    NSData *data = [CacheData getCache:0 andID:0];
+    NSLog(@">>>>>>沙盒数据>>>>>>%@",data);
+     NSLog(@"读取缓存 判断缓存类型%d",cacheID);
     if (data != nil) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"下载完成 dic **** >>%@",dic);
         if (dic != nil&&[dic allKeys].count > 1) {
             NSString *curpageStr = [dic objectForKey:@"curpage"];
             curpage = [curpageStr integerValue];
             NSLog(@"下载完成 curpage ---- >> %d",curpage);
-            NSLog(@"下载完成 [dic allKeys].count ---- >> %d",[dic allKeys].count);
-            
             for (int i = 0; i <= [dic allKeys].count - 2; i++) {
                 
                 StoreList *storeList = [[[StoreList alloc]init]autorelease];
@@ -389,31 +395,13 @@
                 storeList.storeid = [subDic objectForKey:@"id"];
                 
                 [self.mArray addObject:storeList];
-                NSLog(@"----_mArray----%@",_mArray);
             }
             NSLog(@"----[_mArray count]----%d",[_mArray count]);
             [self.customTV reloadData];
         }
     }
-    
-    
 }
-- (BOOL)isNetworkRunning;
-{
-    Reachability *r = [Reachability reachabilityWithHostName:@"http://www.baidu.com"];
-    switch ([r currentReachabilityStatus]) {
-        case NotReachable:
-            return FALSE;
-            break;
-        case ReachableViaWWAN:
-            return TRUE;
-            break;
-        case ReachableViaWiFi:
-            return TRUE;
-            break;
-    }
-    return FALSE;
-}
+
 
 #pragma mark
 #pragma mark -- HTTPDownloadDelegate Method
@@ -460,11 +448,13 @@
         [alert show];
         [alert release];
     }
+    
     /*****************************/
-    
+
     //缓存数据
-    [self saveCacheData:HD.mData];
-    
+
+    [CacheData saveCache:0 andID:0 andData:HD.mData];
+    NSLog(@"判断缓存类型%d",pro_ID);
     /*****************************/
 }
 //下载失败
@@ -541,7 +531,6 @@
     }
     
     return [_mArray count];
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -562,7 +551,7 @@
     if (_mArray.count != 0) {
         
         StoreList *info = [_mArray objectAtIndex:indexPath.row];
-        [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:[UIImage imageNamed:nil]];
+        [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:[UIImage imageNamed:@"cellBg.png"]];
         cell.title.text = info.name;
         cell.address.text = info.address;
         cell.average.text = info.avmoney;

@@ -23,7 +23,6 @@
     NSMutableData *_mData;
     id <HTTPDownloadDelegate>_delegate;
     NSMutableURLRequest *mRequest;
-
 }
 
 //从指定网址下载数据

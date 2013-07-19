@@ -35,7 +35,7 @@
     [super viewDidLoad];
     //重写左边返回按钮
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [leftBtn setFrame:CGRectMake(0, 0, 60, 44)];
+    [leftBtn setFrame:CGRectMake(0, 0, 60, 30)];
     [leftBtn setImage:[UIImage imageNamed:@"NaviBack.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(backLeft) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftBar = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
@@ -51,6 +51,7 @@
 
 - (void)backLeft
 {
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning
@@ -85,8 +86,7 @@
     cell.title.text = info.name;
     cell.average.text = info.avmoney;
     cell.description.text = info.description;
-    [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic]];
-
+    [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:[UIImage imageNamed:@"cellBg.png"]];
     
 //    NSString *strURL = [NSString stringWithFormat:@"%@",info.pic];
 //    NSURL *url = [NSURL URLWithString:strURL];

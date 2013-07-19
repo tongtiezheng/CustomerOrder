@@ -219,7 +219,7 @@
 //自定义返回按钮
 - (void)backLeft
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

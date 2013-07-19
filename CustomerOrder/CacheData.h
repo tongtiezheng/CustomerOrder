@@ -10,8 +10,9 @@
 
 @interface CacheData : NSObject
 
-+ (void) saveCache:(int)type andID:(int)_id andString:(NSString *)str;
 
-+ (NSString *) getCache:(int)type andID:(int)_id;
++ (void) saveCache:(int)type andID:(int)_id andData:(NSData *)data;
+
++ (NSData *) getCache:(int)type andID:(int)_id;
 
 @end
