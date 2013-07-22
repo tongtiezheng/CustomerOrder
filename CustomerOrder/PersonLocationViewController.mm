@@ -47,7 +47,6 @@
 
     //地图视图
     _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
-    _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
     [self.view addSubview:_mapView];
     
@@ -58,6 +57,10 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+     _mapView.delegate = self;
+}
 - (void)performAction:(NSNotification *)noti
 {
     NSDictionary *dic = noti.userInfo;

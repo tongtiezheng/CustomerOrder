@@ -9,15 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "BMapKit.h"
 @class StoreList;
-@interface StoreLocationViewController : UIViewController<BMKMapViewDelegate>
+@interface StoreLocationViewController : UIViewController<BMKMapViewDelegate,UIActionSheetDelegate>
 {
     BMKMapView * _mapView;
    
     StoreList *_storeList;
+    
+    NSMutableArray *_availableMaps;
 }
 
 @property(retain,nonatomic)BMKMapView *mapView;
 @property(retain,nonatomic)StoreList *storeList;
+
+@property(retain,nonatomic)NSMutableArray *availableMaps;
 
 
 @end

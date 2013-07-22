@@ -52,9 +52,11 @@ EGORefreshTableHeaderDelegate>
 @property(retain,nonatomic)NSMutableArray *mArray;
 @property(retain,nonatomic)EGORefreshTableHeaderView *refreshTableView;
 
+
 //开始重新加载时调用的方法
 - (void)reloadTableViewDataSource;
 //完成加载时调用的方法
 - (void)doneLoadingTableViewData;
+
 
 @end
