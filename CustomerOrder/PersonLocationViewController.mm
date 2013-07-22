@@ -47,7 +47,6 @@
 
     //地图视图
     _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
-    _mapView.showsUserLocation = YES;
     [self.view addSubview:_mapView];
     
     //POI检索 咖啡厅 
@@ -60,7 +59,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
      _mapView.delegate = self;
+     _mapView.showsUserLocation = YES;
 }
+
 - (void)performAction:(NSNotification *)noti
 {
     NSDictionary *dic = noti.userInfo;

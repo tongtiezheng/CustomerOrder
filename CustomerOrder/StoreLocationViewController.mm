@@ -65,7 +65,6 @@
     
     CGRect frame = CGRectMake(0, 0, WIDTH, HEIGHT);
     _mapView = [[BMKMapView alloc]initWithFrame:frame];
-    _mapView.showsUserLocation = YES;
     _mapView.delegate = self;
    [self.view addSubview:_mapView];
     
@@ -88,6 +87,14 @@
     
     [annotation release];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    _mapView.showsUserLocation = YES;
+
 }
 
 
