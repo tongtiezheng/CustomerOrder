@@ -26,4 +26,26 @@
 #define STORE_LIST_API @"http://www.coolelife.com/json/shop_json.php"
 #define STORE_LIST_ARGUMENT @"op=getNewsList&curpage=%d&pro_id=%d"
 
+
+//会员注册
+//
+#define MEMBER_REGISTER_API @"http://www.coolelife.com/json/member_json.php"
+#define MEMBER_REGISTER_ARGUMENT @"op=register"
+
+
+//会员登录
+//
+#define MEMBER_LOGIN_API @"http://www.coolelife.com/json/member_json.php"
+#define MEMBER_LOGIN_ARGUMENT @"op=login"
+
+//发表评论
+//
+#define PUSLISH_COMMENT_API @"http://www.coolelife.com/json/comment_json.php"
+
+
+//获取评论列表
+//
+#define GET_COMMENT_LIST_API @"http://www.coolelife.com/json/comment_json.php"
+ 
+
 #endif

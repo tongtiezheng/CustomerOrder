@@ -12,6 +12,7 @@
 #import "AboutViewController.h"
 #import "CollectionViewController.h"
 #import "SetColor.h"
+#import "CacheData.h"
 
 @interface MoreViewController ()
 
@@ -106,13 +107,23 @@
         [self.navigationController pushViewController:collection animated:YES];
         [collection release];
     
-    } if ((indexPath.section == 1)&&(indexPath.row == 1)) {
+    } else if ((indexPath.section == 1)&&(indexPath.row == 0)) {
+        
+        [CacheData removeCacheDataWithType:0 andID:0];
+        
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"清除缓存成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+        [alert release];
+        
+    } else if ((indexPath.section == 1)&&(indexPath.row == 1)) {
         
         AboutViewController *about = [[AboutViewController alloc]init];
         about.title = @"关于我们";
         [self.navigationController pushViewController:about animated:YES];
         [about release];
     }
+
+    
 }
 
 

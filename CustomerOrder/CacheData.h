@@ -15,4 +15,6 @@
 
 + (NSData *) getCache:(int)type andID:(int)_id;
 
++ (void)removeCacheDataWithType:(int)type andID:(int)_id;
+
 @end

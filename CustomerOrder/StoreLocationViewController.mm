@@ -131,6 +131,7 @@
     NSString *toName = self.storeList.name;
     
     //判断应用类型
+    //百度地图
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]) {
         
         NSString *urlString = [NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=transit",
@@ -141,6 +142,7 @@
         [self.availableMaps addObject:dic];
     }
     
+    //高德地图
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]]) {
         
         NSString *urlString = [NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=applicationScheme&poiname=fangheng&poiid=BGVIS&lat=%f&lon=%f&dev=0&style=3",
@@ -151,6 +153,7 @@
         [self.availableMaps addObject:dic];
     }
     
+    //谷歌地图
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]) {
         
         NSString *urlString = [NSString stringWithFormat:@"comgooglemaps://?saddr=&daddr=%f,%f¢er=%f,%f&directionsmode=transit", endCoor.latitude, endCoor.longitude, startCoor.latitude, startCoor.longitude];
@@ -162,16 +165,17 @@
     
     
     UIActionSheet *action = [[UIActionSheet alloc] init];
-    
     [action addButtonWithTitle:@"使用系统自带地图导航"];
     for (NSDictionary *dic in self.availableMaps) {
         
         [action addButtonWithTitle:[NSString stringWithFormat:@"使用%@导航", dic[@"name"]]];
     }
+    
     [action addButtonWithTitle:@"取消"];
     action.cancelButtonIndex = self.availableMaps.count + 1;
     action.delegate = self;
-    [action showInView:self.view];
+//    [action showInView:self.view];
+    [action showInView:[UIApplication sharedApplication].keyWindow];
     [action release];
     
     
@@ -217,7 +221,6 @@
                        launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil]   forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
         
         [toLocation release];
-        
         
 //        NSURL *url  = [NSURL URLWithString:@"GoogleMaps://"];
 //        [[UIApplication sharedApplication] openURL:url];
@@ -266,7 +269,6 @@
         NSString *urlString = mapDic[@"url"];
         urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:urlString];
-//        DEBUG_LOG(@"\n%@\n%@\n%@", mapDic[@"name"], mapDic[@"url"], urlString);
         [[UIApplication sharedApplication] openURL:url];
     }
 }

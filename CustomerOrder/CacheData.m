@@ -28,4 +28,13 @@
     return value;
 }
 
+
++ (void)removeCacheDataWithType:(int)type andID:(int)_id
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *key = [NSString stringWithFormat:@"detail-%d-%d",type, _id];
+    [userDefaults removeObjectForKey:key];
+    [userDefaults synchronize];
+}
+
 @end

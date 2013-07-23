@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface RegisterViewController : UIViewController<UITextFieldDelegate>
 {
     UITextField *userField;
@@ -15,6 +16,7 @@
     UITextField *ensurePwdField;
     UITextField *telField;
     UITextField *infoEnsure;
+    
 
 }
 
