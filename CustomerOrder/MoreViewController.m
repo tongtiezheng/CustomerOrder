@@ -10,6 +10,7 @@
 
 #import "LoginViewController.h"
 #import "AboutViewController.h"
+#import "PersonalCenterViewController.h"
 #import "CollectionViewController.h"
 #import "SetColor.h"
 #import "CacheData.h"
@@ -48,7 +49,21 @@
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    _username = [userDefaults objectForKey:@"username"];
+    _pwd = [userDefaults objectForKey:@"pwd"];
+    
+    NSLog(@"--------_username------%@",_username);
+    
+    if (_username != nil && _pwd != nil) {
+        
+     _array1 = [[NSArray alloc]initWithObjects:@"已登录/个人中心",@"我的收藏",@"应用推荐", nil];
+        
+    } else {
+        
     _array1 = [[NSArray alloc]initWithObjects:@"登录",@"我的收藏",@"应用推荐", nil];
+        
+    }
     
     _array2 = [[NSArray alloc]initWithObjects:@"清除缓存",@"关于我们", nil];
     
@@ -56,6 +71,7 @@
     
     
 }
+
 
 #pragma mark -- tableView dataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -95,12 +111,24 @@
 {
     if ((indexPath.section == 0) && (indexPath.row == 0)) {
         
+        if (_username != nil && _pwd != nil) {
+            
+            PersonalCenterViewController *pCenter = [[PersonalCenterViewController alloc]init];
+            pCenter.title = @"个人中心";
+            [self.navigationController pushViewController:pCenter animated:YES];
+            [pCenter release];
+            
+        } else {
+            
         LoginViewController *login = [[LoginViewController alloc]init];
         UINavigationController *loginNa = [[UINavigationController alloc]initWithRootViewController:login];
         loginNa.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:loginNa animated:YES completion:nil];
         [login release];
         [loginNa release];
+            
+        }
+        
     } else if((indexPath.section == 0) && (indexPath.row == 1)) {
         
         CollectionViewController *collection = [[CollectionViewController alloc]init];

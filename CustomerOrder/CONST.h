@@ -30,13 +30,13 @@
 //会员注册
 //
 #define MEMBER_REGISTER_API @"http://www.coolelife.com/json/member_json.php"
-#define MEMBER_REGISTER_ARGUMENT @"op=register"
+#define MEMBER_REGISTER_ARGUMENT @"op=register&username=%@&userpwd=%@&repwd=%@&tel=%@&salt=%@"
 
 
 //会员登录
 //
 #define MEMBER_LOGIN_API @"http://www.coolelife.com/json/member_json.php"
-#define MEMBER_LOGIN_ARGUMENT @"op=login"
+#define MEMBER_LOGIN_ARGUMENT @"op=login&username=%@&userpwd=%@"
 
 //发表评论
 //

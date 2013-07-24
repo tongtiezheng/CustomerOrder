@@ -51,9 +51,6 @@
 		67147E5C175F2917001A14CE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 67147E5A175F2917001A14CE /* InfoPlist.strings */; };
 		67147E5E175F2917001A14CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 67147E5D175F2917001A14CE /* main.m */; };
 		67147E62175F2917001A14CE /* NYHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67147E61175F2917001A14CE /* NYHAppDelegate.m */; };
-		67147E73175F2B01001A14CE /* star-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 67147E70175F2B01001A14CE /* star-1.png */; };
-		67147E74175F2B01001A14CE /* star-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 67147E71175F2B01001A14CE /* star-2.png */; };
-		67147E75175F2B01001A14CE /* star-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 67147E72175F2B01001A14CE /* star-3.png */; };
 		67147E7A175F2BE4001A14CE /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67147E78175F2BE4001A14CE /* HomeViewController.m */; };
 		67147E7B175F2BE4001A14CE /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67147E79175F2BE4001A14CE /* HomeViewController.xib */; };
 		67147E7F175F2C35001A14CE /* NearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67147E7D175F2C35001A14CE /* NearbyViewController.m */; };
@@ -364,6 +361,8 @@
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
 		812965E0178AAC3E002C1BCA /* SetColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 812965DF178AAC3E002C1BCA /* SetColor.m */; };
 		813E89F31795297D000E4127 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 813E89F21795297D000E4127 /* DataBase.m */; };
+		816A41A2179FD076004898B6 /* PersonalCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816A41A1179FD076004898B6 /* PersonalCenterViewController.m */; };
+		816A41A5179FDB6E004898B6 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 816A41A4179FDB6E004898B6 /* UserInfo.m */; };
 		816B2B77178BFF2500B60195 /* SelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816B2B75178BFF2400B60195 /* SelectCityViewController.m */; };
 		816B2B78178BFF2500B60195 /* SelectCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816B2B76178BFF2500B60195 /* SelectCityViewController.xib */; };
 		81ACDFD81783EFB90078EB9A /* QZoneConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ACDFD71783EFB90078EB9A /* QZoneConnection.framework */; };
@@ -434,9 +433,6 @@
 		67147E5F175F2917001A14CE /* CustomerOrder-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomerOrder-Prefix.pch"; sourceTree = "<group>"; };
 		67147E60175F2917001A14CE /* NYHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYHAppDelegate.h; sourceTree = "<group>"; };
 		67147E61175F2917001A14CE /* NYHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYHAppDelegate.m; sourceTree = "<group>"; };
-		67147E70175F2B01001A14CE /* star-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star-1.png"; path = "../star-1.png"; sourceTree = "<group>"; };
-		67147E71175F2B01001A14CE /* star-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star-2.png"; path = "../star-2.png"; sourceTree = "<group>"; };
-		67147E72175F2B01001A14CE /* star-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star-3.png"; path = "../star-3.png"; sourceTree = "<group>"; };
 		67147E77175F2BE4001A14CE /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		67147E78175F2BE4001A14CE /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		67147E79175F2BE4001A14CE /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
@@ -848,6 +844,10 @@
 		812965DF178AAC3E002C1BCA /* SetColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetColor.m; sourceTree = "<group>"; };
 		813E89F11795297D000E4127 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
 		813E89F21795297D000E4127 /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
+		816A41A0179FD076004898B6 /* PersonalCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalCenterViewController.h; sourceTree = "<group>"; };
+		816A41A1179FD076004898B6 /* PersonalCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCenterViewController.m; sourceTree = "<group>"; };
+		816A41A3179FDB6E004898B6 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		816A41A4179FDB6E004898B6 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		816B2B74178BFF2400B60195 /* SelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCityViewController.h; sourceTree = "<group>"; };
 		816B2B75178BFF2400B60195 /* SelectCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCityViewController.m; sourceTree = "<group>"; };
 		816B2B76178BFF2500B60195 /* SelectCityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectCityViewController.xib; sourceTree = "<group>"; };
@@ -1024,9 +1024,6 @@
 				67C0ACB11760200D000C044F /* Icons */,
 				671049271761AD41001AFDD3 /* share.png */,
 				811CFD1E1799121200249142 /* cellBg.png */,
-				67147E70175F2B01001A14CE /* star-1.png */,
-				67147E71175F2B01001A14CE /* star-2.png */,
-				67147E72175F2B01001A14CE /* star-3.png */,
 				67F0D7191770629C0037CEF4 /* Icon.png */,
 				67F0D71A177062F00037CEF4 /* Icon@2x.png */,
 			);
@@ -1215,6 +1212,8 @@
 				813E89F21795297D000E4127 /* DataBase.m */,
 				811CFD1B1798EB4F00249142 /* CheckNetwork.h */,
 				811CFD1C1798EB4F00249142 /* CheckNetwork.m */,
+				816A41A3179FDB6E004898B6 /* UserInfo.h */,
+				816A41A4179FDB6E004898B6 /* UserInfo.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -1587,6 +1586,8 @@
 				677CDE31176B22E000BC10EE /* CollectionViewController.h */,
 				677CDE32176B22E000BC10EE /* CollectionViewController.m */,
 				677CDE33176B22E000BC10EE /* CollectionViewController.xib */,
+				816A41A0179FD076004898B6 /* PersonalCenterViewController.h */,
+				816A41A1179FD076004898B6 /* PersonalCenterViewController.m */,
 			);
 			name = VC4;
 			sourceTree = "<group>";
@@ -1795,9 +1796,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				67147E5C175F2917001A14CE /* InfoPlist.strings in Resources */,
-				67147E73175F2B01001A14CE /* star-1.png in Resources */,
-				67147E74175F2B01001A14CE /* star-2.png in Resources */,
-				67147E75175F2B01001A14CE /* star-3.png in Resources */,
 				67147E7B175F2BE4001A14CE /* HomeViewController.xib in Resources */,
 				67147E80175F2C35001A14CE /* NearbyViewController.xib in Resources */,
 				67147E85175F2C4F001A14CE /* MyOrderViewController.xib in Resources */,
@@ -2133,6 +2131,8 @@
 				813E89F31795297D000E4127 /* DataBase.m in Sources */,
 				8116CDA81797C91E008288D5 /* CacheData.m in Sources */,
 				811CFD1D1798EB4F00249142 /* CheckNetwork.m in Sources */,
+				816A41A2179FD076004898B6 /* PersonalCenterViewController.m in Sources */,
+				816A41A5179FDB6E004898B6 /* UserInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

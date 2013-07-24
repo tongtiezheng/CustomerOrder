@@ -14,6 +14,9 @@
     NSArray *_array1;
     NSArray *_array2;
     NSArray *_sectionArray;
+    
+    NSString *_username;
+    NSString *_pwd;
 
 }
 

@@ -11,13 +11,18 @@
 
 @interface RegisterViewController : UIViewController<UITextFieldDelegate>
 {
-    UITextField *userField;
-    UITextField *pwdField;
-    UITextField *ensurePwdField;
-    UITextField *telField;
-    UITextField *infoEnsure;
-    
-
+    UITextField *_username;
+    UITextField *_userpwd;
+    UITextField *_repwd;
+    UITextField *_tel;
+    UITextField *_salt;
 }
+
+@property(retain,nonatomic)UITextField *username;
+@property(retain,nonatomic)UITextField *userpwd;
+@property(retain,nonatomic)UITextField *repwd;
+@property(retain,nonatomic)UITextField *tel;
+@property(retain,nonatomic)UITextField *salt;
+
 
 @end

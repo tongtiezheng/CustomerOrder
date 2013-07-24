@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
+#import "UserInfo.h"
 
 @interface LoginViewController ()
 
@@ -108,12 +109,11 @@
     _shareImgA = [[NSArray alloc]initWithObjects:sinaImg,qqImg,kaixinImg,chkImg,renrenImg, nil];
     
     
-    
-    
     UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [loginBtn setFrame:CGRectMake(60, 115, 200, 40)];
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn setBackgroundImage:[UIImage imageNamed:@"Button_0_D.png"] forState:UIControlStateNormal];
+    [loginBtn addTarget:self action:@selector(loginMethod) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginBtn];
     
     UILabel *other = [[UILabel alloc]initWithFrame:CGRectMake(10, 180, 300, 20)];
@@ -124,6 +124,67 @@
     [self.view addSubview:other];
     [other release];
 }
+
+- (void)loginMethod
+{
+    
+    if (_username.text == nil || _pwd == nil) {
+            
+        _username.text = @"";
+        _pwd.text = @"";
+           
+    }
+    
+    //post提交的参数，格式如下：
+    //参数1名字=参数1数据 & 参数2名字＝参数2数据 & 参数3名字＝参数3数据 & ...
+    NSString *post = [NSString stringWithFormat:MEMBER_LOGIN_ARGUMENT,_username.text,_pwd.text];
+    NSLog(@"post:%@",post);
+        
+    //将NSSrring格式的参数转换格式为NSData，POST提交必须用NSData数据
+    NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding];
+    //计算POST提交数据的长度
+    NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    NSLog(@"postLength=%@",postLength);
+    //定义NSMutableURLRequest
+    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
+    //设置提交目的url
+    [request setURL:[NSURL URLWithString:MEMBER_REGISTER_API]];
+    //设置提交方式为 POST
+    [request setHTTPMethod:@"POST"];
+    //设置http-header:Content-Type
+    //这里设置为 application/x-www-form-urlencoded ，如果设置为其它的，比如text/html;charset=utf-8，或者 text/html 等，都会出错
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    //设置http-header:Content-Length
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    //设置需要post提交的内容
+    [request setHTTPBody:postData];
+    //定义
+    NSHTTPURLResponse *urlResponse = nil;
+    NSError *error = [[[NSError alloc] init]autorelease];
+    //同步提交:POST提交并等待返回值（同步），返回值是NSData类型
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+        
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:nil];
+    NSLog(@"dic %@",dic);
+    NSString *msg = [dic objectForKey:@"msg"];
+    NSString *online_key = [dic objectForKey:@"online_key"];
+
+    NSLog(@"online_key %@",online_key);
+    
+    [self alertView:msg];
+    
+    [UserInfo savaLoginNameAndPwdWithName:_username.text andNameKey:@"username" pwd:_pwd.text andPwdKey:@"pwd"];
+}
+
+        
+//信登录息展示
+- (void)alertView:(NSString *)msgInfo
+{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:msgInfo delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alert show];
+    [alert release];
+}
+
 
 
 #pragma mark - Table view data source
@@ -176,9 +237,9 @@
     
     if ((indexPath.section == 0)&&(indexPath.row == 0)) {
         
-        _username = [[UITextField alloc]initWithFrame:CGRectMake(70, 10, 240, 40)];
-        _username.placeholder = @"email ，昵称，手机号";
-        _username.delegate = self;
+         _username = [[UITextField alloc]initWithFrame:CGRectMake(70, 10, 240, 40)];
+         _username.placeholder = @"email ，昵称，手机号";
+         _username.delegate = self;
         [cell.contentView addSubview:_username];
         [_username release];
         
@@ -187,10 +248,10 @@
     
     if ((indexPath.section == 0)&&(indexPath.row == 1)) {
         
-        _pwd = [[UITextField alloc]initWithFrame:CGRectMake(70, 10, 240, 40)];
-        _pwd.placeholder = @"密码";
+         _pwd = [[UITextField alloc]initWithFrame:CGRectMake(70, 10, 240, 40)];
+         _pwd.placeholder = @"密码";
         [_pwd setSecureTextEntry:YES];
-        _pwd.delegate = self;
+         _pwd.delegate = self;
         [cell.contentView addSubview:_pwd];
         [_pwd release];
         
