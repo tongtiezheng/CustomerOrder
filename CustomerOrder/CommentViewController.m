@@ -16,7 +16,15 @@
 @end
 
 @implementation CommentViewController
+@synthesize storeInfo = _storeInfo;
 
+- (void)dealloc
+{
+    [_storeInfo release];
+    
+    [super dealloc];
+
+}
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -56,8 +64,8 @@
     self.navigationItem.title = @"个人评论";
     [self customNavigationBarButton];
     
-    
-    [self startJSONParserWithCurpage:0 shop_id:0];
+    int storeid = [self.storeInfo.storeid intValue];
+    [self startJSONParserWithCurpage:0 shop_id:storeid];
     
 }
 
@@ -65,9 +73,7 @@
 - (void)backLeft
 {
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
-
 
 //JSON 解析
 - (void)startJSONParserWithCurpage:(int)cPage shop_id:(int)shop_id
@@ -76,18 +82,16 @@
     HD.delegate = self;
     NSString *urlStr = [NSString stringWithFormat:GET_COMMENT_LIST_API];
     NSString *argument = [NSString stringWithFormat:GET_COMMENT_LIST_ARGUMENT,cPage,shop_id];
-    NSLog(@"JSON解析 argument ---- >%@",argument);
+    
     [HD downloadFromURL:urlStr withArgument:argument];
     
 }
 
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
 {
-
-
     NSString *str =  [NSJSONSerialization JSONObjectWithData:HD.mData options:nil error:nil];
     
-    NSLog(@"%@",str);
+    NSLog(@"--评论内容--%@",str);
 
 }
 
@@ -103,8 +107,8 @@
 //进入评论页面
 - (void)startComment
 {
-    NSLog(@"评论");
     PersonCommentViewController *pComment = [[PersonCommentViewController alloc]init];
+    pComment.storeInfo = self.storeInfo;
     [self.navigationController pushViewController:pComment animated:YES];
     [pComment release];
 

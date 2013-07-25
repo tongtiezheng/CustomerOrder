@@ -56,6 +56,7 @@
 {
     NSLog(@"移除用户信息");
     [UserInfo removeLoginNameAndPwdWithNameKey:@"username" andPwdKey:@"pwd"];
+    [UserInfo removeOnline_keyValueWithKey:@"online_key"];
 }
 
 - (void)didReceiveMemoryWarning

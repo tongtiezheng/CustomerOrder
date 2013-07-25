@@ -165,14 +165,14 @@
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
         
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:nil];
-    NSLog(@"dic %@",dic);
+    NSLog(@"login -- dic %@",dic);
     NSString *msg = [dic objectForKey:@"msg"];
     NSString *online_key = [dic objectForKey:@"online_key"];
-    NSLog(@"online_key %@",online_key);
+    NSLog(@" login -- online_key %@",online_key);
     
     [self alertView:msg];
     
-    //保存用户名和密码到沙河
+    //保存用户名和密码到沙盒
     [UserInfo savaLoginNameAndPwdWithName:_username.text andNameKey:@"username" pwd:_pwd.text andPwdKey:@"pwd"];
     //保存online_key
     [UserInfo savaOnline_keyValue:online_key andKey:@"online_key"];

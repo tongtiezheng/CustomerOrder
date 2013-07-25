@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HTTPDownload.h"
-@interface PersonCommentViewController : UIViewController<UITextViewDelegate,HTTPDownloadDelegate>
+#import "StoreList.h"
+
+@interface PersonCommentViewController : UIViewController<UITextViewDelegate,HTTPDownloadDelegate,UIAlertViewDelegate>
 {
     UITextView *_txtView;
     UITextField *_mGrade;
@@ -18,6 +20,7 @@
     int count;
     
     HTTPDownload *HD;
+    StoreList *_storeInfo;
 
 }
 
@@ -26,5 +29,7 @@
 @property(retain,nonatomic)UITextField *mAvmoney;
 
 @property(retain,nonatomic)UILabel *fontCount;
+
+@property(retain,nonatomic)StoreList *storeInfo;
 
 @end

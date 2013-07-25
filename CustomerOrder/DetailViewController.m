@@ -407,7 +407,10 @@
         [action release];
     }
     if (indexPath.row == 3) {
+        
         CommentViewController *comment = [[CommentViewController alloc]init];
+        comment.storeInfo = self.storeInfo;
+        
         [self.navigationController pushViewController:comment animated:YES];
         [comment release];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];

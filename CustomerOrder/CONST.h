@@ -41,7 +41,7 @@
 //发表评论
 //
 #define PUBLISH_COMMENT_API @"http://www.coolelife.com/json/comment_json.php"
-#define PUBLISH_COMMENT_ARGUMENT @"op=addComment&online_key=%@&￼shop_id=%@grade=%f&avmoney=%f&content=%@"
+#define PUBLISH_COMMENT_ARGUMENT @"op=addComment&online_key=%@&￼shop_id=%@&grade=%f&avmoney=%f&content=%@"
 
 //获取评论列表
 //

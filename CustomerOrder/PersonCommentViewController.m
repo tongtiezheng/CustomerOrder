@@ -8,6 +8,7 @@
 
 #import "PersonCommentViewController.h"
 #import "UserInfo.h"
+#import "PostDataTools.h"
 
 #define kMaxCharacterCount 100
 
@@ -23,6 +24,7 @@
 
 @synthesize fontCount = _fontCount;
 
+@synthesize storeInfo = _storeInfo;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,7 +37,6 @@
 
 - (void)customNavigationBarButton
 {
-    
     //重写左边返回按钮
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftBtn setFrame:CGRectMake(0, 0, 40, 40)];
@@ -53,7 +54,6 @@
     UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
     self.navigationItem.rightBarButtonItem = rightBar;
     [rightBar release];
-    
 }
 
 //自定义返回按钮
@@ -65,18 +65,41 @@
 //提交评论
 - (void)commitComment
 {
-    NSLog(@"提交评论");
     if (_txtView.text.length == 0 || _mGrade.text.length == 0 || _mAvmoney.text.length == 0) {
         
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"不能提交" message:@"请输入评论" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请输完整信息" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alert show];
         [alert release];
     }
-    NSString *value = [UserInfo getOnline_keyValueWithKey:@"online_key"];
-    NSLog(@"****value****%@",value);
     
-    [self startJSONParserWithOnline_key:value shop_id:0 grade:0 avmoney:0 content:0];
+    NSString *storeid = [NSString stringWithFormat:@"%@",self.storeInfo.storeid];
+    NSLog(@"----storeid----%@",storeid);
+    NSString *online_key = [UserInfo getOnline_keyValueWithKey:@"online_key"];
+    NSLog(@"****value****%@",online_key);
+    
+    
+    if (_txtView.text.length != 0 && _mGrade.text.length != 0 && _mAvmoney.text.length != 0) {
+        
+        NSString *argument = [NSString stringWithFormat:PUBLISH_COMMENT_ARGUMENT,online_key,storeid,[_mGrade.text floatValue],[_mAvmoney.text floatValue],_txtView.text];
+        
+        NSLog(@"----------%@",argument);
+        NSString *api = [NSString stringWithFormat:@"%@",PUBLISH_COMMENT_API];
+        
+       
+        NSString *msg = [PostDataTools postDataWithPostArgument:argument andAPI:api];
+        
+        [self alertView:msg];
+    }
 }
+
+//信息提示
+- (void)alertView:(NSString *)msgInfo
+{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:msgInfo delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alert show];
+    [alert release];
+}
+
 
 - (void)viewDidLoad
 {
@@ -84,77 +107,42 @@
 
     [self customNavigationBarButton];
     
-    //评论内容
-    _txtView = [[UITextView alloc]initWithFrame:CGRectMake(10, 140, 300, 140)];
-    [_txtView setBackgroundColor:[UIColor orangeColor]];
-    [_txtView setDelegate:self];
-    [self.view addSubview:_txtView];
-    
-    
     //评论等级
-    UILabel *gLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, HEIGHT - 44 - 20 - 50 - 400 , 100, 20)];
+    UILabel *gLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, HEIGHT - 44 - 20  - 360 , 100, 20)];
     [gLabel setText:@"等       级："];
     [self.view addSubview:gLabel];
+    [gLabel release];
     
-    _mGrade = [[UITextField alloc]initWithFrame:CGRectMake(110, HEIGHT - 44 - 20 - 50 - 400 , 200, 25)];
+    _mGrade = [[UITextField alloc]initWithFrame:CGRectMake(110, HEIGHT - 44 - 20  - 360 , 200, 25)];
     _mGrade.borderStyle = UITextBorderStyleLine;
     [self.view addSubview:_mGrade];
     
     
     //人均消费
-    UILabel *aLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, HEIGHT - 44 - 20 - 50 - 360 , 100, 20)];
+    UILabel *aLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, HEIGHT - 44 - 20  - 320 , 100, 20)];
     [aLabel setText:@"人均消费："];
     [self.view addSubview:aLabel];
+    [aLabel release];
     
-    _mAvmoney = [[UITextField alloc]initWithFrame:CGRectMake(110, HEIGHT - 44 - 20 - 50 - 360 , 200, 25)];
+    _mAvmoney = [[UITextField alloc]initWithFrame:CGRectMake(110, HEIGHT - 44 - 20  - 320 , 200, 25)];
     _mAvmoney.borderStyle = UITextBorderStyleLine;
     [self.view addSubview:_mAvmoney];
 
+    //评论内容
+    _txtView = [[UITextView alloc]initWithFrame:CGRectMake(10, HEIGHT - 44 - 20  - 275, 300, 140)];
+    [_txtView setBackgroundColor:[UIColor orangeColor]];
+    [_txtView setDelegate:self];
+    [self.view addSubview:_txtView];
+
     
     //字数限制
-    _fontCount = [[UILabel alloc]initWithFrame:CGRectMake(145, 260, 160, 20)];
+    _fontCount = [[UILabel alloc]initWithFrame:CGRectMake(145, HEIGHT - 44 - 20 - 155, 160, 20)];
     [_fontCount setTextColor:[UIColor grayColor]];
     [_fontCount setBackgroundColor:[UIColor clearColor]];
     [_fontCount setText:[NSString stringWithFormat:@"你还可以输入%d字",kMaxCharacterCount]];
     [self.view addSubview:_fontCount];
     
 }
-
-//JSON 解析
-- (void)startJSONParserWithOnline_key:(NSString *)online_key shop_id:(NSString *)shop_id grade:(float)grade
-                              avmoney:(float)avmoney         content:(NSString *)content
-{
-    HD = [[[HTTPDownload alloc]init]autorelease];
-    HD.delegate = self;
-    NSString *urlStr = [NSString stringWithFormat:PUBLISH_COMMENT_API];
-    NSString *argument = [NSString stringWithFormat:PUBLISH_COMMENT_ARGUMENT,online_key,shop_id,grade,avmoney,content];
-    NSLog(@"JSON解析 argument ---- >%@",argument);
-    [HD downloadFromURL:urlStr withArgument:argument];
-}
-
-
-#pragma mark
-#pragma mark -- HTTPDownloadDelegate Method
-//下载完成
-- (void)downloadDidFinishLoading:(HTTPDownload *)hd
-{
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
-    NSLog(@"下载完成 dic **** >>%@",dic);
-}
-
-//下载失败
-- (void)downloadDidFail:(HTTPDownload *)hd
-{
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"下载失败" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    [alert show];
-    [alert release];
-    
-    NSLog(@"下载失败");
-}
-
-
-
-
 
 
 //点击空白处键盘消失
@@ -171,13 +159,12 @@
     if (![_mAvmoney isExclusiveTouch]) {
         [_mAvmoney resignFirstResponder];
     }
-
 }
+
 
 #pragma mark -- UITextView delegate 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    
 	count = kMaxCharacterCount - [[_txtView text] length];
     [_fontCount setTextColor:[UIColor grayColor]];
 	[_fontCount setText:[NSString stringWithFormat:@"你还可以输入%d字", count]];
@@ -202,9 +189,9 @@
     if (range.location >= 100)
     {
         return  NO;
-    }
-    else
-    {
+        
+    } else {
+        
         return YES;
     }
 }
@@ -221,6 +208,7 @@
     [_fontCount release];
     [_mGrade release];
     [_mAvmoney release];
+    [_storeInfo release];
     
     [super dealloc];
 

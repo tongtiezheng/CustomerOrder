@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "HTTPDownload.h"
+#import "StoreList.h"
 
 @interface CommentViewController : UITableViewController<HTTPDownloadDelegate>
 {
     HTTPDownload *HD;
+    StoreList *_storeInfo;
+    
 }
+
+@property (retain,nonatomic)StoreList *storeInfo;
 
 @end

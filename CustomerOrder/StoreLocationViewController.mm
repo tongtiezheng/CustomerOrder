@@ -254,8 +254,8 @@
         } else {// 直接调用ios自己带的apple map
             
             MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
-            MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil];
-            MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:placemark];
+            MKPlacemark *placemark = [[[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil]autorelease];
+            MKMapItem *toLocation = [[[MKMapItem alloc] initWithPlacemark:placemark]autorelease];
             toLocation.name = self.storeList.name;
             
             [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
