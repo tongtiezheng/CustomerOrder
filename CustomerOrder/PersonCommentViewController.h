@@ -7,16 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface PersonCommentViewController : UIViewController<UITextViewDelegate>
+#import "HTTPDownload.h"
+@interface PersonCommentViewController : UIViewController<UITextViewDelegate,HTTPDownloadDelegate>
 {
     UITextView *_txtView;
+    UITextField *_mGrade;
+    UITextField *_mAvmoney;
+    
     UILabel *_fontCount;
     int count;
+    
+    HTTPDownload *HD;
 
 }
 
 @property(retain,nonatomic)UITextView *txtView;
+@property(retain,nonatomic)UITextField *mGrade;
+@property(retain,nonatomic)UITextField *mAvmoney;
+
 @property(retain,nonatomic)UILabel *fontCount;
 
 @end

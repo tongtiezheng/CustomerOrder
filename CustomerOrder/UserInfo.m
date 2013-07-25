@@ -30,5 +30,28 @@
     [userInfo synchronize];
 }
 
+//
++ (void)savaOnline_keyValue:(NSString *)online_Value andKey:(NSString *)online_key
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    [user setObject:online_Value forKey:online_key];
+    [user synchronize];
+}
+
+//
++ (NSString *)getOnline_keyValueWithKey:(NSString *)online_key
+{
+    NSUserDefaults *getKey = [NSUserDefaults standardUserDefaults];
+    NSString *value = [getKey objectForKey:online_key];
+    [getKey synchronize];
+    return value;
+}
+
++ (void)removeOnline_keyValueWithKey:(NSString *)online_key
+{
+    NSUserDefaults *userInfo = [NSUserDefaults standardUserDefaults];
+    [userInfo removeObjectForKey:online_key];
+    [userInfo synchronize];
+}
 
 @end

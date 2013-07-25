@@ -369,6 +369,8 @@
 		81ACDFDA1783F7360078EB9A /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ACDFD91783F7360078EB9A /* libstdc++.dylib */; };
 		81ACDFDC1783F7470078EB9A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ACDFDB1783F7470078EB9A /* CoreTelephony.framework */; };
 		81ACDFDE1783F77A0078EB9A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ACDFDD1783F77A0078EB9A /* libsqlite3.dylib */; };
+		81FB708617A0D41700E936A4 /* Exit_Account.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FB708417A0D41700E936A4 /* Exit_Account.png */; };
+		81FB708717A0D41700E936A4 /* Exit_Account@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FB708517A0D41700E936A4 /* Exit_Account@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -855,6 +857,8 @@
 		81ACDFD91783F7360078EB9A /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		81ACDFDB1783F7470078EB9A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		81ACDFDD1783F77A0078EB9A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		81FB708417A0D41700E936A4 /* Exit_Account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Exit_Account.png; sourceTree = "<group>"; };
+		81FB708517A0D41700E936A4 /* Exit_Account@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Exit_Account@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1667,6 +1671,8 @@
 		811CFD211799129A00249142 /* IconOthers */ = {
 			isa = PBXGroup;
 			children = (
+				81FB708417A0D41700E936A4 /* Exit_Account.png */,
+				81FB708517A0D41700E936A4 /* Exit_Account@2x.png */,
 				671AEF7317695AA2006E1B77 /* MC_Feed_BG.png */,
 				671AEF7817695AAD006E1B77 /* MC_Feed_BG@2x.png */,
 				671049311761D353001AFDD3 /* Cancel_D.png */,
@@ -2047,6 +2053,8 @@
 				8109AD0D178FB74900F30E5A /* blueArrowDown.png in Resources */,
 				8109AD0E178FB74900F30E5A /* blueArrowDown@2x.png in Resources */,
 				811CFD1F1799121200249142 /* cellBg.png in Resources */,
+				81FB708617A0D41700E936A4 /* Exit_Account.png in Resources */,
+				81FB708717A0D41700E936A4 /* Exit_Account@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

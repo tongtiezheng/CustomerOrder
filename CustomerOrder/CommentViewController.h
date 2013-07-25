@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HTTPDownload.h"
 
-@interface CommentViewController : UITableViewController
+@interface CommentViewController : UITableViewController<HTTPDownloadDelegate>
+{
+    HTTPDownload *HD;
+}
 
 @end

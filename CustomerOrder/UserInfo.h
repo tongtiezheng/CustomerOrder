@@ -17,4 +17,13 @@
 + (void)removeLoginNameAndPwdWithNameKey:(NSString *)nameKey andPwdKey:(NSString *)pwdKey;
 
 
+//保存登录结果
++ (void)savaOnline_keyValue:(NSString *)online_Value andKey:(NSString *)online_key;
+
+//取得登录结果
++ (NSString *)getOnline_keyValueWithKey:(NSString *)online_key;
+
++ (void)removeOnline_keyValueWithKey:(NSString *)online_key;
+
+
 @end

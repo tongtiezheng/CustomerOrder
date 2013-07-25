@@ -9,6 +9,8 @@
 #import "CommentViewController.h"
 #import "CommentCell.h"
 #import "PersonCommentViewController.h"
+
+
 @interface CommentViewController ()
 
 @end
@@ -23,7 +25,7 @@
     }
     return self;
 }
-
+//自定义导航按钮
 - (void)customNavigationBarButton
 {
 
@@ -46,14 +48,16 @@
     [rightBar release];
 
 }
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.navigationItem.title = @"个人评论";
-    
     [self customNavigationBarButton];
     
     
+    [self startJSONParserWithCurpage:0 shop_id:0];
     
 }
 
@@ -63,6 +67,39 @@
     [self.navigationController popViewControllerAnimated:YES];
     
 }
+
+
+//JSON 解析
+- (void)startJSONParserWithCurpage:(int)cPage shop_id:(int)shop_id
+{
+    HD = [[[HTTPDownload alloc]init]autorelease];
+    HD.delegate = self;
+    NSString *urlStr = [NSString stringWithFormat:GET_COMMENT_LIST_API];
+    NSString *argument = [NSString stringWithFormat:GET_COMMENT_LIST_ARGUMENT,cPage,shop_id];
+    NSLog(@"JSON解析 argument ---- >%@",argument);
+    [HD downloadFromURL:urlStr withArgument:argument];
+    
+}
+
+- (void)downloadDidFinishLoading:(HTTPDownload *)hd
+{
+
+
+    NSString *str =  [NSJSONSerialization JSONObjectWithData:HD.mData options:nil error:nil];
+    
+    NSLog(@"%@",str);
+
+}
+
+
+- (void)downloadDidFail:(HTTPDownload *)hd
+{
+    
+
+}
+
+
+
 //进入评论页面
 - (void)startComment
 {

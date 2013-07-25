@@ -14,6 +14,7 @@
 #import "CollectionViewController.h"
 #import "SetColor.h"
 #import "CacheData.h"
+#import "UserInfo.h"
 
 @interface MoreViewController ()
 
@@ -39,7 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
     
     self.title = @"更多";
@@ -49,6 +50,22 @@
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
     
+    //退出登录按钮
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightBtn setImage:[UIImage imageNamed:@"Exit_Account.png"] forState:UIControlStateNormal];
+    [rightBtn setFrame:CGRectMake(0, 0, 60, 44)];
+    [rightBtn setShowsTouchWhenHighlighted:YES];
+    [rightBtn addTarget:self action:@selector(cancelLogin) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
+    self.navigationItem.rightBarButtonItem = rightBar;
+    [rightBar release];
+   
+    
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     _username = [userDefaults objectForKey:@"username"];
     _pwd = [userDefaults objectForKey:@"pwd"];
@@ -57,22 +74,78 @@
     
     if (_username != nil && _pwd != nil) {
         
-     _array1 = [[NSArray alloc]initWithObjects:@"已登录/个人中心",@"我的收藏",@"应用推荐", nil];
+        _array1 = [[NSArray alloc]initWithObjects:@"已登录/个人中心",@"我的收藏",@"应用推荐", nil];
         
     } else {
         
-    _array1 = [[NSArray alloc]initWithObjects:@"登录",@"我的收藏",@"应用推荐", nil];
-        
+        _array1 = [[NSArray alloc]initWithObjects:@"登录",@"我的收藏",@"应用推荐", nil];
     }
     
     _array2 = [[NSArray alloc]initWithObjects:@"清除缓存",@"关于我们", nil];
     
+    //分区数组
     _sectionArray = [[NSArray alloc]initWithObjects:_array1,_array2, nil];
     
     
+    [self.tableView reloadData];
+
 }
 
+//退出登录
+- (void)cancelLogin
+{
+     if (_username != nil && _pwd != nil) {
+         
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定要退出吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alertView show];
+    [alertView release];
+     
+     } else {
+         
+         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请先登录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        
+         [alertView show];
+         [alertView release];
+         
+     }
+}
 
+#pragma mark 
+#pragma mark -- alertView delegate 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            
+            break;
+            
+        case 1:
+            
+            if (_username != nil && _pwd != nil) {
+                
+                [UserInfo removeLoginNameAndPwdWithNameKey:@"username" andPwdKey:@"pwd"];
+                [UserInfo removeOnline_keyValueWithKey:@"online_key"];
+                [self viewWillAppear:YES];
+            
+            } else {
+                
+                LoginViewController *login = [[LoginViewController alloc]init];
+                UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:login];
+                
+                [self presentViewController:navi animated:YES completion:nil];
+                
+                [login release];
+                [navi release];
+            }
+            
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark 
 #pragma mark -- tableView dataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -150,8 +223,6 @@
         [self.navigationController pushViewController:about animated:YES];
         [about release];
     }
-
-    
 }
 
 
@@ -182,11 +253,15 @@
     return [view autorelease];
 }
 
+
+
 - (void)dealloc
 {
     [_tableView release];
     [super dealloc];
 }
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
