@@ -45,9 +45,13 @@
     self.navigationItem.rightBarButtonItem = rightBar;
     [rightBar release];
 
+    
     //地图视图
-    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
-    [self.view addSubview:_mapView];
+    if (!_mapView) {
+        
+        _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
+        [self.view addSubview:_mapView];
+    }
     
     //POI检索 咖啡厅 
     _search = [[BMKSearch alloc]init];

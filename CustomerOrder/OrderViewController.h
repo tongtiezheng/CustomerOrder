@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@class StoreList;
 
 @interface OrderViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
@@ -23,6 +24,9 @@
     UIView *_seatView3;//三楼视图
     UIView *_seatViewAll;//全部视图
     
+
+    StoreList *_oStoreInfo;
+    
     
 }
 
@@ -33,5 +37,8 @@
 @property(retain,nonatomic)UIView *seatView2;
 @property(retain,nonatomic)UIView *seatView3;
 @property(retain,nonatomic)UIView *seatViewAll;
+
+@property(retain,nonatomic)StoreList *oStoreInfo;
+
 
 @end

@@ -27,6 +27,8 @@
 #import "CacheData.h"
 #import "CheckNetwork.h"
 
+#import "UserInfo.h"
+
 @interface HomeViewController ()
 
 @end
@@ -457,6 +459,7 @@
     NSLog(@"判断缓存类型%d",pro_ID);
     /*****************************/
 }
+
 //下载失败
 - (void)downloadDidFail:(HTTPDownload *)hd
 {
@@ -558,8 +561,11 @@
     
         float selectGrade = [info.grade floatValue];
         
+//        NSLog(@"----selectGrade----%f",selectGrade);
+        
         if (selectGrade == 0) {
             cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+            
         }else if (selectGrade == 1) {
             cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar10.png"];
             
@@ -601,17 +607,22 @@
 {
     NSLog(@"预订");
     
-//    //判断用户是否是会员,如果是，提示先登录；如果不是，提示先注册
-//    if () {
-//        
-//    }else
-//    {
-//    
-//    }
+    NSString *online_key = [UserInfo getOnline_keyValueWithKey:@"online_key"];
     
-    UIAlertView *aleart = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您还没有登录，请先登录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [aleart show];
-    [aleart release];
+    if (online_key) {
+        
+        OrderViewController *order = [[OrderViewController alloc]init];
+        [self.navigationController pushViewController:order animated:YES];
+        [order release];
+        
+    } else {
+    
+        UIAlertView *aleart = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您还没有登录，请先登录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [aleart show];
+        [aleart release];
+
+    }
+      
     
 }
 

@@ -38,15 +38,17 @@
 #define MEMBER_LOGIN_API @"http://www.coolelife.com/json/member_json.php"
 #define MEMBER_LOGIN_ARGUMENT @"op=login&username=%@&userpwd=%@"
 
+
 //发表评论
 //
 #define PUBLISH_COMMENT_API @"http://www.coolelife.com/json/comment_json.php"
-#define PUBLISH_COMMENT_ARGUMENT @"op=addComment&online_key=%@&￼shop_id=%@&grade=%f&avmoney=%f&content=%@"
+#define PUBLISH_COMMENT_ARGUMENT @"op=addComment&online_key=%@&shop_id=%@&grade=%f&avmoney=%f&content=%@"
+
 
 //获取评论列表
 //
 #define GET_COMMENT_LIST_API @"http://www.coolelife.com/json/comment_json.php"
-#define GET_COMMENT_LIST_ARGUMENT @"op=￼getCommentList&curpage=%d&shop_id=%d"
+#define GET_COMMENT_LIST_ARGUMENT @"op=getCommentList&curpage=%d&shop_id=%d"
 
 
 #endif

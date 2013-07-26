@@ -24,8 +24,6 @@
 		6710491717617ADF001AFDD3 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710491517617ADE001AFDD3 /* DetailViewController.m */; };
 		6710491817617ADF001AFDD3 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6710491617617ADF001AFDD3 /* DetailViewController.xib */; };
 		6710491C17617BA8001AFDD3 /* DetailDisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710491B17617BA8001AFDD3 /* DetailDisplayCell.m */; };
-		671049241761AB93001AFDD3 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 671049221761AB93001AFDD3 /* CommentViewController.m */; };
-		671049251761AB93001AFDD3 /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671049231761AB93001AFDD3 /* CommentViewController.xib */; };
 		671049281761AD41001AFDD3 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 671049271761AD41001AFDD3 /* share.png */; };
 		6710492B1761C2FC001AFDD3 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710492A1761C2FC001AFDD3 /* CommentCell.m */; };
 		6710492F1761CFE2001AFDD3 /* PersonCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6710492D1761CFE1001AFDD3 /* PersonCommentViewController.m */; };
@@ -368,6 +366,10 @@
 		81ACDFDA1783F7360078EB9A /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ACDFD91783F7360078EB9A /* libstdc++.dylib */; };
 		81ACDFDC1783F7470078EB9A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ACDFDB1783F7470078EB9A /* CoreTelephony.framework */; };
 		81ACDFDE1783F77A0078EB9A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ACDFDD1783F77A0078EB9A /* libsqlite3.dylib */; };
+		81DBC2C617A2207A0059DC30 /* CommentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBC2C517A2207A0059DC30 /* CommentList.m */; };
+		81DBC2C917A22AA90059DC30 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBC2C817A22AA90059DC30 /* PullingRefreshTableView.m */; };
+		81DBC2D017A23CE20059DC30 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBC2CE17A23CE20059DC30 /* CommentViewController.m */; };
+		81DBC2D117A23CE20059DC30 /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81DBC2CF17A23CE20059DC30 /* CommentViewController.xib */; };
 		81FB708617A0D41700E936A4 /* Exit_Account.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FB708417A0D41700E936A4 /* Exit_Account.png */; };
 		81FB708717A0D41700E936A4 /* Exit_Account@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FB708517A0D41700E936A4 /* Exit_Account@2x.png */; };
 		81FB708A17A110E900E936A4 /* PostDataTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB708917A110E900E936A4 /* PostDataTools.m */; };
@@ -395,9 +397,6 @@
 		6710491617617ADF001AFDD3 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		6710491A17617BA8001AFDD3 /* DetailDisplayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailDisplayCell.h; sourceTree = "<group>"; };
 		6710491B17617BA8001AFDD3 /* DetailDisplayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailDisplayCell.m; sourceTree = "<group>"; };
-		671049211761AB93001AFDD3 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
-		671049221761AB93001AFDD3 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
-		671049231761AB93001AFDD3 /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
 		671049271761AD41001AFDD3 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		671049291761C2FB001AFDD3 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		6710492A1761C2FC001AFDD3 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
@@ -856,6 +855,13 @@
 		81ACDFD91783F7360078EB9A /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		81ACDFDB1783F7470078EB9A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		81ACDFDD1783F77A0078EB9A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		81DBC2C417A2207A0059DC30 /* CommentList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentList.h; sourceTree = "<group>"; };
+		81DBC2C517A2207A0059DC30 /* CommentList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentList.m; sourceTree = "<group>"; };
+		81DBC2C717A22AA90059DC30 /* PullingRefreshTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullingRefreshTableView.h; sourceTree = "<group>"; };
+		81DBC2C817A22AA90059DC30 /* PullingRefreshTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullingRefreshTableView.m; sourceTree = "<group>"; };
+		81DBC2CD17A23CE20059DC30 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
+		81DBC2CE17A23CE20059DC30 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
+		81DBC2CF17A23CE20059DC30 /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
 		81FB708417A0D41700E936A4 /* Exit_Account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Exit_Account.png; sourceTree = "<group>"; };
 		81FB708517A0D41700E936A4 /* Exit_Account@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Exit_Account@2x.png"; sourceTree = "<group>"; };
 		81FB708817A110E900E936A4 /* PostDataTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDataTools.h; sourceTree = "<group>"; };
@@ -1048,7 +1054,7 @@
 		671AEF991769A291006E1B77 /* OtherFramework */ = {
 			isa = PBXGroup;
 			children = (
-				8109AD06178FB72800F30E5A /* EGORefreshTableHeaderView */,
+				8109AD06178FB72800F30E5A /* EGORefreshTableView */,
 				8109ACFF178FADBF00F30E5A /* MBProgressHUD */,
 				810C0848178E7BD100526711 /* SDWebImage */,
 				67BE67A7177D3BC1000F66CE /* ShareSDK */,
@@ -1231,6 +1237,8 @@
 				672C48A9176EBA800055DA3F /* CityName.m */,
 				8126086B178D5EA800FD25E9 /* StoreList.h */,
 				8126086C178D5EA800FD25E9 /* StoreList.m */,
+				81DBC2C417A2207A0059DC30 /* CommentList.h */,
+				81DBC2C517A2207A0059DC30 /* CommentList.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1541,9 +1549,9 @@
 				6710491417617ADE001AFDD3 /* DetailViewController.h */,
 				6710491517617ADE001AFDD3 /* DetailViewController.m */,
 				6710491617617ADF001AFDD3 /* DetailViewController.xib */,
-				671049211761AB93001AFDD3 /* CommentViewController.h */,
-				671049221761AB93001AFDD3 /* CommentViewController.m */,
-				671049231761AB93001AFDD3 /* CommentViewController.xib */,
+				81DBC2CD17A23CE20059DC30 /* CommentViewController.h */,
+				81DBC2CE17A23CE20059DC30 /* CommentViewController.m */,
+				81DBC2CF17A23CE20059DC30 /* CommentViewController.xib */,
 				6710492C1761CFE1001AFDD3 /* PersonCommentViewController.h */,
 				6710492D1761CFE1001AFDD3 /* PersonCommentViewController.m */,
 				6710492E1761CFE1001AFDD3 /* PersonCommentViewController.xib */,
@@ -1621,17 +1629,19 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
-		8109AD06178FB72800F30E5A /* EGORefreshTableHeaderView */ = {
+		8109AD06178FB72800F30E5A /* EGORefreshTableView */ = {
 			isa = PBXGroup;
 			children = (
+				8109AD03178FB72000F30E5A /* EGORefreshTableHeaderView.h */,
+				8109AD04178FB72000F30E5A /* EGORefreshTableHeaderView.m */,
 				8109AD07178FB74900F30E5A /* blueArrow.png */,
 				8109AD08178FB74900F30E5A /* blueArrow@2x.png */,
 				8109AD09178FB74900F30E5A /* blueArrowDown.png */,
 				8109AD0A178FB74900F30E5A /* blueArrowDown@2x.png */,
-				8109AD03178FB72000F30E5A /* EGORefreshTableHeaderView.h */,
-				8109AD04178FB72000F30E5A /* EGORefreshTableHeaderView.m */,
+				81DBC2C717A22AA90059DC30 /* PullingRefreshTableView.h */,
+				81DBC2C817A22AA90059DC30 /* PullingRefreshTableView.m */,
 			);
-			name = EGORefreshTableHeaderView;
+			name = EGORefreshTableView;
 			sourceTree = "<group>";
 		};
 		810C0840178E4A9300526711 /* HTTPDownload */ = {
@@ -1996,7 +2006,6 @@
 				67C0AE781760928E000C044F /* icon_Share_D@2x.png in Resources */,
 				676729F7176095AF00002FDB /* ShareViewController.xib in Resources */,
 				6710491817617ADF001AFDD3 /* DetailViewController.xib in Resources */,
-				671049251761AB93001AFDD3 /* CommentViewController.xib in Resources */,
 				671049281761AD41001AFDD3 /* share.png in Resources */,
 				671049301761CFE2001AFDD3 /* PersonCommentViewController.xib in Resources */,
 				671049391761D393001AFDD3 /* Cancel_D.png in Resources */,
@@ -2056,6 +2065,7 @@
 				811CFD1F1799121200249142 /* cellBg.png in Resources */,
 				81FB708617A0D41700E936A4 /* Exit_Account.png in Resources */,
 				81FB708717A0D41700E936A4 /* Exit_Account@2x.png in Resources */,
+				81DBC2D117A23CE20059DC30 /* CommentViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2079,7 +2089,6 @@
 				676729F6176095AF00002FDB /* ShareViewController.m in Sources */,
 				6710491717617ADF001AFDD3 /* DetailViewController.m in Sources */,
 				6710491C17617BA8001AFDD3 /* DetailDisplayCell.m in Sources */,
-				671049241761AB93001AFDD3 /* CommentViewController.m in Sources */,
 				6710492B1761C2FC001AFDD3 /* CommentCell.m in Sources */,
 				6710492F1761CFE2001AFDD3 /* PersonCommentViewController.m in Sources */,
 				671049451761E0AD001AFDD3 /* StoreLocationViewController.mm in Sources */,
@@ -2143,6 +2152,9 @@
 				816A41A2179FD076004898B6 /* PersonalCenterViewController.m in Sources */,
 				816A41A5179FDB6E004898B6 /* UserInfo.m in Sources */,
 				81FB708A17A110E900E936A4 /* PostDataTools.m in Sources */,
+				81DBC2C617A2207A0059DC30 /* CommentList.m in Sources */,
+				81DBC2C917A22AA90059DC30 /* PullingRefreshTableView.m in Sources */,
+				81DBC2D017A23CE20059DC30 /* CommentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

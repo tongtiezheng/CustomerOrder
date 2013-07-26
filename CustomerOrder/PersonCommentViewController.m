@@ -67,7 +67,7 @@
 {
     if (_txtView.text.length == 0 || _mGrade.text.length == 0 || _mAvmoney.text.length == 0) {
         
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请输完整信息" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入完整信息" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alert show];
         [alert release];
     }
@@ -79,18 +79,20 @@
     
     
     if (_txtView.text.length != 0 && _mGrade.text.length != 0 && _mAvmoney.text.length != 0) {
-        
+    
         NSString *argument = [NSString stringWithFormat:PUBLISH_COMMENT_ARGUMENT,online_key,storeid,[_mGrade.text floatValue],[_mAvmoney.text floatValue],_txtView.text];
         
         NSLog(@"----------%@",argument);
+        
         NSString *api = [NSString stringWithFormat:@"%@",PUBLISH_COMMENT_API];
         
-       
         NSString *msg = [PostDataTools postDataWithPostArgument:argument andAPI:api];
-        
+    
         [self alertView:msg];
+        
     }
 }
+
 
 //信息提示
 - (void)alertView:(NSString *)msgInfo

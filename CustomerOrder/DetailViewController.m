@@ -283,6 +283,8 @@
         cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
         cell.average.text = self.storeInfo.avmoney;
         cell.description.text = self.storeInfo.description;
+        
+        
         UIButton *order = [UIButton buttonWithType:UIButtonTypeCustom];
         [order setFrame:CGRectMake(245, 35, 80, 30)];
         [order setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
@@ -327,7 +329,7 @@
 
             
             UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 20, 290, 80)];
-            label.text = @"一些网友的评论 赶快发表你的评论 此处要多加一些内容 显示多行 一定要加油呀 哈哈哈哈哈哈";
+            label.text = @"点击进入查看详细内容";
             label.numberOfLines = 0;
             label.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:label];
@@ -348,7 +350,7 @@
         {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 290, 50)];
-            label.text = @"评论（共49条）";
+//            label.text = @"评论（共49条）";
             [cell.contentView addSubview:label];
             [label release];
         }
@@ -357,6 +359,7 @@
         [instance setCellBackgroundColor:cell];
         return cell;
     }
+    
 }
 
 
@@ -364,6 +367,7 @@
 {
     NSLog(@"点击预订你的桌位");
     OrderViewController *order = [[OrderViewController alloc]init];
+    order.oStoreInfo = self.storeInfo;
     [self.navigationController pushViewController:order animated:YES];
     [order release];
     

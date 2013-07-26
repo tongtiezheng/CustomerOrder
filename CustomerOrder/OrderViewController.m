@@ -9,7 +9,9 @@
 #import "OrderViewController.h"
 #import "OrderCell.h"
 #import "OrderDetailViewController.h"
-#import "CONST.h"
+#import "UIImageView+WebCache.h"
+#import "StoreList.h"
+
 @interface OrderViewController ()
 
 @end
@@ -22,6 +24,8 @@
 @synthesize seatView2 = _seatView2;
 @synthesize seatView3 = _seatView3;
 @synthesize seatViewAll = _seatViewAll;
+
+@synthesize oStoreInfo = _oStoreInfo;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -434,9 +438,15 @@
         cell = [[[OrderCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
     }
     
-    cell.leftImgView.image = [UIImage imageNamed:@"4.jpg"];
-    cell.title.text = @"上地咖啡厅";
-    cell.description.text = @"本咖啡厅环境优美，欢迎惠顾 哈哈哈哈啊哈哈哈哈 再详细点 ";
+//    cell.leftImgView.image = [UIImage imageNamed:@"4.jpg"];
+//    cell.title.text = @"上地咖啡厅";
+//    cell.description.text = @"本咖啡厅环境优美，欢迎惠顾 哈哈哈哈啊哈哈哈哈 再详细点 ";
+    
+    
+    [cell.leftImgView setImageWithURL:[NSURL URLWithString:self.oStoreInfo.pic]];
+    cell.title.text = self.oStoreInfo.name;
+    cell.description.text = self.oStoreInfo.description;
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;

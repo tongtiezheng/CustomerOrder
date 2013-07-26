@@ -28,6 +28,7 @@
         [self addSubview:_title];
         
         _description = [[UILabel alloc]initWithFrame:CGRectMake(145, 35, self.frame.size.width - 145, 60)];
+        _description.font = [UIFont systemFontOfSize:10.0f];
         _description.numberOfLines = 0;
         [self addSubview:_description];
     }

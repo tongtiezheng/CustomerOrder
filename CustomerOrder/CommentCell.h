@@ -11,8 +11,8 @@
 @interface CommentCell : UITableViewCell
 {
     UILabel *_title;
-    UIImageView *_pGrade;
-    UIImageView *_sGrade;
+    UIImageView *_pGrade;//个人等级
+    UIImageView *_sGrade;//店铺等级
     UILabel *_person;
     UILabel *_average;
     

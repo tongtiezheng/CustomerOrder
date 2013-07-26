@@ -2,41 +2,48 @@
 //  CommentViewController.m
 //  CustomerOrder
 //
-//  Created by ios on 13-6-7.
+//  Created by ios on 13-7-26.
 //  Copyright (c) 2013年 hxhd. All rights reserved.
 //
 
 #import "CommentViewController.h"
 #import "CommentCell.h"
+#import "CommentList.h"
 #import "PersonCommentViewController.h"
-
 
 @interface CommentViewController ()
 
 @end
 
 @implementation CommentViewController
+@synthesize tableView = _tableView;
+@synthesize mArray = _mArray;
 @synthesize storeInfo = _storeInfo;
+
+@synthesize refreshing = _refreshing;
+@synthesize curpage = _curpage;
 
 - (void)dealloc
 {
-    [_storeInfo release];
+    [_tableView release];
+    [_mArray release];
     
     [super dealloc];
 
 }
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
     return self;
 }
+
 //自定义导航按钮
 - (void)customNavigationBarButton
 {
-
+    
     //重写左边返回按钮
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftBtn setFrame:CGRectMake(0, 0, 60, 30)];
@@ -54,26 +61,40 @@
     UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
     self.navigationItem.rightBarButtonItem = rightBar;
     [rightBar release];
-
+    
 }
-
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"个人评论";
+    // Do any additional setup after loading the view from its nib.
+    
     [self customNavigationBarButton];
     
-    int storeid = [self.storeInfo.storeid intValue];
-    [self startJSONParserWithCurpage:0 shop_id:storeid];
+    _mArray = [[NSMutableArray alloc]init];
     
+    //创建刷新表格
+    _tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT - 44 - 20 - 50) pullingDelegate:self];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    [self.view addSubview:_tableView];
+    
+    
+    //每次进入刷新数据
+    if (self.curpage == 0) {
+        
+        [self.tableView launchRefreshing];
+        
+    }
 }
+
 
 //自定义返回按钮
 - (void)backLeft
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 //JSON 解析
 - (void)startJSONParserWithCurpage:(int)cPage shop_id:(int)shop_id
@@ -87,19 +108,46 @@
     
 }
 
+#pragma mark
+#pragma mark -- HTTPDownload delegate
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
 {
-    NSString *str =  [NSJSONSerialization JSONObjectWithData:HD.mData options:nil error:nil];
+    NSDictionary *dic =  [NSJSONSerialization JSONObjectWithData:HD.mData options:nil error:nil];
+    NSLog(@"--评论内容--%@",dic);
     
-    NSLog(@"--评论内容--%@",str);
-
+    if (dic != nil && [dic allKeys].count > 1) {
+        
+        NSString *curpageStr = [dic objectForKey:@"curpage"];
+        self.curpage = [curpageStr integerValue];
+        NSLog(@"下载完成 curpage ---- >> %d",self.curpage);
+        NSLog(@"下载完成 [dic allKeys].count ---- >> %d",[dic allKeys].count);
+        
+        for (int i = 0; i <= [dic allKeys].count - 2; i++) {
+            
+            CommentList *cList = [[[CommentList alloc]init]autorelease];
+            NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
+            
+            cList.avmoney = [subDic objectForKey:@"avmoney"];
+            cList.c_id = [subDic objectForKey:@"c_id"];
+            cList.content = [subDic objectForKey:@"content"];
+            cList.grade = [subDic objectForKey:@"grade"];
+            cList.publish = [subDic objectForKey:@"publish"];
+            
+            
+            [self.mArray addObject:cList];
+        }
+        
+         [self.tableView reloadData];
+    }
+    
+   
+    
 }
 
 
 - (void)downloadDidFail:(HTTPDownload *)hd
 {
-    
-
+    NSLog(@"下载失败！");
 }
 
 
@@ -111,29 +159,19 @@
     pComment.storeInfo = self.storeInfo;
     [self.navigationController pushViewController:pComment animated:YES];
     [pComment release];
-
+    
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
-    // Return the number of rows in the section.
-    return 10;
+    return [self.mArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -141,80 +179,150 @@
     static NSString *CellIdentifier = @"Cell";
     CommentCell *cell = (CommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
+        
         cell = [[[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    cell.title.text = @"沙漠的鱼骨头";
-    cell.pGrade.image = [UIImage imageNamed:@"UserLevel30@2x.png"];
-    cell.sGrade.image = [UIImage imageNamed:@"ShopStar50.png"];
-    cell.average.text = @"80";
-    cell.content.text = @"这个店铺环境不错，咖啡味道一级棒，推荐光临品尝 哈哈哈哈 ";
-    cell.date.text = @"06-07 04:00";
+    CommentList *cListInfo = [self.mArray objectAtIndex:indexPath.row];
+    
+    //    cell.title.text = @"沙漠的鱼骨头";
+    //    cell.pGrade.image = [UIImage imageNamed:@"UserLevel30@2x.png"];
+    //    cell.sGrade.image = [UIImage imageNamed:@"ShopStar50.png"];
+    
+    cell.average.text = cListInfo.avmoney;
+    cell.content.text = cListInfo.content;
+    cell.date.text = cListInfo.publish;
+    
+    
+    float selectGrade = [cListInfo.grade floatValue];
+    
+    if (selectGrade == 0) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar0.png"];
+        
+    }else if (selectGrade == 1) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar10.png"];
+        
+    } else if (selectGrade == 2) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar20.png"];
+        
+    }else if (selectGrade == 2.5) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar25.png"];
+        
+    }else if (selectGrade == 3) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar30.png"];
+        
+    }else if (selectGrade == 3.5) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar35.png"];
+        
+    }else if (selectGrade == 4) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar40.png"];
+        
+    }else if (selectGrade == 4.5) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar45.png"];
+        
+    }else if (selectGrade == 5) {
+        cell.sGrade.image = [UIImage imageNamed:@"ShopStar50.png"];
+    }
     
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;//cell不被选择
-
+    
+    
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 100.0f;
-
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+
+
 }
 
 
+
+#pragma mark - load data 
+
+- (void)loadData {
+    
+       if (self.refreshing) {
+        
+        self.curpage = 0;
+        self.refreshing = NO;
+        [self.mArray removeAllObjects];
+    }
+    
+    
+    if (self.curpage != -1) {
+        
+        [self startJSONParserWithCurpage:self.curpage shop_id:[self.storeInfo.storeid intValue]];
+        [self.tableView reloadData];
+        
+    } 
+        
+    
+    if (self.curpage == -1) {
+        
+        [self.tableView tableViewDidFinishedLoadingWithMessage:@"All Loaded!"];
+        self.tableView.reachedTheEnd  = YES;
+        
+    } else {
+        
+        [self.tableView tableViewDidFinishedLoading];
+        self.tableView.reachedTheEnd  = NO;
+        [self.tableView reloadData];
+    }
+}
+
+
+#pragma mark - PullingRefreshTableViewDelegate
+
+- (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView
+{
+    self.refreshing = YES;
+    [self performSelector:@selector(loadData) withObject:nil afterDelay:1.0f];
+}
+
+- (NSDate *)pullingTableViewRefreshingFinishedDate
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init ];
+    df.dateFormat = @"YYYY-MM-dd HH:mm";
+    NSString *strDate = [df stringFromDate:[NSDate date]];//获取当前时间
+    NSDate *date = [df dateFromString:strDate];
+    [df release];
+    
+    return date;
+}
+
+
+- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView
+{
+    [self performSelector:@selector(loadData) withObject:nil afterDelay:1.0f];
+}
+
+#pragma mark - ScrollView delegate methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+    [self.tableView tableViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.tableView tableViewDidEndDragging:scrollView];
+}
+
+
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
 @end
-
-

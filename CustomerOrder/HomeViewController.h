@@ -44,6 +44,7 @@ EGORefreshTableHeaderDelegate>
     
     int cacheID;
     
+    
 }
 
 @property(retain,nonatomic)UITableView *customTV;

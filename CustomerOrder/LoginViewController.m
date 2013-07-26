@@ -9,8 +9,13 @@
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
 #import "UserInfo.h"
+#import "MBProgressHUD.h"
 
-@interface LoginViewController ()
+@interface LoginViewController ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate,MBProgressHUDDelegate>
+{
+    NSMutableData *_mData;
+    MBProgressHUD *HUD;
+}
 
 @end
 
@@ -158,24 +163,19 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     //设置需要post提交的内容
     [request setHTTPBody:postData];
-    //定义
-    NSHTTPURLResponse *urlResponse = nil;
-    NSError *error = [[[NSError alloc] init]autorelease];
-    //同步提交:POST提交并等待返回值（同步），返回值是NSData类型
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
-        
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:nil];
-    NSLog(@"login -- dic %@",dic);
-    NSString *msg = [dic objectForKey:@"msg"];
-    NSString *online_key = [dic objectForKey:@"online_key"];
-    NSLog(@" login -- online_key %@",online_key);
     
-    [self alertView:msg];
     
-    //保存用户名和密码到沙盒
-    [UserInfo savaLoginNameAndPwdWithName:_username.text andNameKey:@"username" pwd:_pwd.text andPwdKey:@"pwd"];
-    //保存online_key
-    [UserInfo savaOnline_keyValue:online_key andKey:@"online_key"];
+//    //定义
+//    NSHTTPURLResponse *urlResponse = nil;
+//    NSError *error = [[[NSError alloc] init]autorelease];
+//    //同步提交:POST提交并等待返回值（同步），返回值是NSData类型
+//    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+//    
+    
+    //异步提交
+    [NSURLConnection connectionWithRequest:request delegate:self];
+    [self indicatorView];
+    //
 }
 
         
@@ -187,19 +187,84 @@
     [alert release];
 }
 
+#pragma mark -- 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    _mData = [[NSMutableData alloc]init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [_mData appendData:data];
+}
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:_mData options:nil error:nil];
+    NSLog(@"login -- dic %@",dic);
+    NSString *msg = [dic objectForKey:@"msg"];
+    NSString *online_key = [dic objectForKey:@"online_key"];
+    NSLog(@" login -- online_key %@",online_key);
+    
+    [self alertView:msg];
+    
+    //保存用户名和密码到沙盒
+    [UserInfo savaLoginNameAndPwdWithName:_username.text andNameKey:@"username" pwd:_pwd.text andPwdKey:@"pwd"];
+    //保存online_key
+    [UserInfo savaOnline_keyValue:online_key andKey:@"online_key"];
+    
+    [self hudWasHidden:HUD];
+
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [self alertView:@"登录失败"];
+}
+
+
+
+#pragma mark -
+#pragma mark MBProgressHUDDelegate methods
+
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
+    // Remove HUD from screen when the HUD was hidded
+    [HUD removeFromSuperview];
+    [HUD release];
+    HUD = nil;
+}
+
+//指示视图方法
+- (void)indicatorView
+{
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    HUD.mode = MBProgressHUDModeIndeterminate;
+    
+    [HUD showAnimated:YES whileExecutingBlock:^{
+        float progress = 0.0f;
+        while (progress < 1.0f) {
+            progress += 0.01f;
+            HUD.progress = progress;
+            usleep(10000);
+        }
+    } completionBlock:^{
+        [HUD removeFromSuperview];
+        [HUD release];
+        HUD = nil;
+    }];
+}
 
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return [_sectionA count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     return [[_sectionA objectAtIndex:section] count] ;
 }
 
@@ -275,11 +340,12 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ((indexPath.row == 0||indexPath.row == 1)&& (indexPath.section == 0)) {
-        return 40;
-    }else
-    {
+        
         return 40;
         
+    } else {
+        
+        return 40;
     }
 }
 
@@ -378,6 +444,7 @@
 
     [_username release];
     [_pwd release];
+    [_mData release];
     
     [super dealloc];
 }

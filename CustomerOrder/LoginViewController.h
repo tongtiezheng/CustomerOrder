@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LoginViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
-{
-
-    
+{    
     UITableView *_customTV;
     
     NSArray * _loginA;

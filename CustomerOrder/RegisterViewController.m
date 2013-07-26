@@ -7,10 +7,16 @@
 //
 
 #import "RegisterViewController.h"
+#import "MBProgressHUD.h"
+
 
 #define Y HEIGHT - 44 - 20 - 20
 
-@interface RegisterViewController ()
+@interface RegisterViewController ()<NSURLConnectionDataDelegate,NSURLConnectionDelegate>
+{
+    MBProgressHUD *HUD;
+    NSMutableData *_mData;
+}
 
 @end
 
@@ -27,7 +33,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+       
     }
     return self;
 }
@@ -35,8 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    
+
     self.title = @"用户注册";
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
@@ -186,18 +191,83 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     //设置需要post提交的内容
     [request setHTTPBody:postData];
-    //定义
-    NSHTTPURLResponse *urlResponse = nil;
-    NSError *error = [[[NSError alloc] init]autorelease];
-    //同步提交:POST提交并等待返回值（同步），返回值是NSData类型
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
     
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:nil];
-    NSLog(@"dic %@",dic);
-    NSString *msg = [dic objectForKey:@"msg"];
-        
-    [self alertView:msg];
+//    //定义
+//    NSHTTPURLResponse *urlResponse = nil;
+//    NSError *error = [[[NSError alloc] init]autorelease];
+//    //同步提交:POST提交并等待返回值（同步），返回值是NSData类型
+//    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+//    
+//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:nil];
+//    NSLog(@"dic %@",dic);
+//    NSString *msg = [dic objectForKey:@"msg"];
+    
+    
+    //异步提交
+    [NSURLConnection connectionWithRequest:request delegate:self];
+    [self indicatorView];
+
 }
+
+#pragma mark -- 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    _mData = [[NSMutableData alloc]init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [_mData appendData:data];
+}
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:_mData options:nil error:nil];
+    NSLog(@"login -- dic %@",dic);
+    NSString *msg = [dic objectForKey:@"msg"];
+    
+    [self alertView:msg];
+    
+    [self hudWasHidden:HUD];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [self alertView:@"注册失败"];
+}
+
+
+#pragma mark --
+#pragma mark MBProgressHUDDelegate methods
+
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
+    // Remove HUD from screen when the HUD was hidded
+    [HUD removeFromSuperview];
+    [HUD release];
+    HUD = nil;
+}
+
+//指示视图方法
+- (void)indicatorView
+{
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    HUD.mode = MBProgressHUDModeIndeterminate;
+    
+    [HUD showAnimated:YES whileExecutingBlock:^{
+        float progress = 0.0f;
+        while (progress < 1.0f) {
+            progress += 0.01f;
+            HUD.progress = progress;
+            usleep(10000);
+        }
+    } completionBlock:^{
+        [HUD removeFromSuperview];
+        [HUD release];
+        HUD = nil;
+    }];
+}
+
 
 //注册信息展示
 - (void)alertView:(NSString *)msgInfo
@@ -206,6 +276,7 @@
     [alert show];
     [alert release];
 }
+
 
 //自定义返回按钮
 - (void)backLeft
