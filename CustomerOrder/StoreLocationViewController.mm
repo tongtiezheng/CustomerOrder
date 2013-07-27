@@ -97,6 +97,13 @@
 
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+                                                                                                                                  
+    _mapView.showsUserLocation = NO;
+
+}
 
 #pragma mark -- BMKMapViewDelegate 
 //加大头钉注释

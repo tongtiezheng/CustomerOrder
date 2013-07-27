@@ -60,10 +60,18 @@
     
 }
 
+
 - (void)viewWillAppear:(BOOL)animated
 {
      _mapView.delegate = self;
      _mapView.showsUserLocation = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    _mapView.delegate =nil;
+    _mapView.showsUserLocation = NO;
+
 }
 
 - (void)performAction:(NSNotification *)noti
