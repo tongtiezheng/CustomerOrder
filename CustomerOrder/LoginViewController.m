@@ -132,6 +132,8 @@
 
 - (void)loginMethod
 {
+    [_username resignFirstResponder];
+    [_pwd resignFirstResponder];
     
     if (_username.text == nil || _pwd == nil) {
             
@@ -182,12 +184,31 @@
 //信登录息展示
 - (void)alertView:(NSString *)msgInfo
 {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:msgInfo delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:msgInfo delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     [alert show];
     [alert release];
 }
 
-#pragma mark -- 
+#pragma mark -- alertView delegate 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *online_key = [UserInfo getOnline_keyValueWithKey:@"online_key"];
+    
+    switch (buttonIndex) {
+        case 0:
+        {
+            if (online_key) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark -- 异步下载方法
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     _mData = [[NSMutableData alloc]init];
@@ -220,7 +241,6 @@
 {
     [self alertView:@"登录失败"];
 }
-
 
 
 #pragma mark -

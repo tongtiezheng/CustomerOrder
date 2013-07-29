@@ -139,9 +139,6 @@
         
          [self.tableView reloadData];
     }
-    
-   
-    
 }
 
 
@@ -222,6 +219,10 @@
         
     }else if (selectGrade == 5) {
         cell.sGrade.image = [UIImage imageNamed:@"ShopStar50.png"];
+        
+    } else {
+    
+        cell.sGrade.image = [UIImage imageNamed:nil];
     }
     
     
@@ -288,16 +289,17 @@
     [self performSelector:@selector(loadData) withObject:nil afterDelay:1.0f];
 }
 
-- (NSDate *)pullingTableViewRefreshingFinishedDate
-{
-    NSDateFormatter *df = [[NSDateFormatter alloc] init ];
-    df.dateFormat = @"YYYY-MM-dd HH:mm";
-    NSString *strDate = [df stringFromDate:[NSDate date]];//获取当前时间
-    NSDate *date = [df dateFromString:strDate];
-    [df release];
-    
-    return date;
-}
+
+//- (NSDate *)pullingTableViewRefreshingFinishedDate
+//{
+//    NSDateFormatter *df = [[NSDateFormatter alloc] init ];
+//    df.dateFormat = @"yyyy-MM-dd HH:mm";
+//    NSString *strDate = [df stringFromDate:[NSDate date]];//获取当前时间
+//    NSDate *date = [df dateFromString:strDate];
+//    [df release];
+//    
+//    return date;
+//}
 
 
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView

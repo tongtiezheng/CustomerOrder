@@ -204,7 +204,7 @@
 - (void)updateRefreshDate :(NSDate *)date {
     
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    df.dateFormat = @"YYYY-MM-dd HH:mm";
+    df.dateFormat = @"yyyy-MM-dd HH:mm";
     NSString *dateString = [df stringFromDate:date];
     NSString *title = NSLocalizedString(@"今天", nil);
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -222,14 +222,10 @@
             title = NSLocalizedString(@"前天",nil);
         }
         
-        //----
-        NSString *cDate = [df stringFromDate:[NSDate date]];
-        df.dateFormat = [NSString stringWithFormat:@"%@",cDate];
-        //====
-        
-        dateString = [df stringFromDate:date];
-        
-    } 
+        df.dateFormat = [NSString stringWithFormat:@"%@ HH:mm",title];
+//        dateString = [df stringFromDate:date];
+    }
+    
     _dateLabel.text = [NSString stringWithFormat:@"%@: %@",
                        NSLocalizedString(@"最后更新", @""),
                        dateString];

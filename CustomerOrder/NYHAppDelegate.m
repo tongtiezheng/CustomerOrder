@@ -14,6 +14,7 @@
 #import "WXApi.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
+#import "UserInfo.h"
 
 @implementation NYHAppDelegate
 
@@ -37,6 +38,9 @@
     {
         _scene = WXSceneSession;
         _viewDelegate = [[AGViewDelegate alloc] init];
+        
+        //移除上次用户信息
+        [UserInfo removeLoginNameAndPwdWithNameKey:@"username" andPwdKey:@"pwd"];
     }
     return self;
 }

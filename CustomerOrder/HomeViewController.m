@@ -230,12 +230,12 @@
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_search resignFirstResponder];
     [_refreshTableView egoRefreshScrollViewDidScroll:scrollView];
 }
 
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     
     if (_refreshTableView)
     {
@@ -254,18 +254,18 @@
 #pragma mark -
 #pragma mark EGORefreshTableHeaderDelegate Methods
 
--(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+-(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
     
     [self reloadTableViewDataSource];
     [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:2.0];
 }
 
--(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+-(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
     
     return _reloading; // should return if data source model is reloading
 }
 
--(NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+-(NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view {
     
     return[NSDate date]; // should return date data source was last changed
 }
@@ -538,7 +538,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     static NSString *CellIdentifier = @"CustomCell";
     CustomHomeCell *cell = (CustomHomeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -589,10 +588,15 @@
             
         }else if (selectGrade == 5) {
             cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar50.png"];
+            
+        } else {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+        
         }
     }
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.tag = indexPath.row;
     [btn setFrame:CGRectMake(self.view.bounds.size.width - 50, 30, 40, 20)];
     [btn setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(orderStore:) forControlEvents:UIControlEventTouchUpInside];
@@ -612,6 +616,8 @@
     if (online_key) {
         
         OrderViewController *order = [[OrderViewController alloc]init];
+        StoreList *listInfo = [self.mArray objectAtIndex:sender.tag];
+        order.oStoreInfo = listInfo;
         [self.navigationController pushViewController:order animated:YES];
         [order release];
         

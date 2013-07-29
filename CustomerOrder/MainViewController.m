@@ -175,7 +175,6 @@
             _item3.image=[UIImage imageNamed:@"TabTuan@2x.png"];
             _item4.image=[UIImage imageNamed:@"TabMore@2x.png"];
             
-            
         }
             break;
             
@@ -185,7 +184,6 @@
             _item2.image=[UIImage imageNamed:@"TabMe@2x.png"];
             _item3.image=[UIImage imageNamed:@"TabTuanSelected@2x.png"];
             _item4.image=[UIImage imageNamed:@"TabMore@2x.png"];
-            
             
         }
             break;
@@ -204,8 +202,6 @@
             break;
     }
 }
-
-
 
 
 - (void)didReceiveMemoryWarning
