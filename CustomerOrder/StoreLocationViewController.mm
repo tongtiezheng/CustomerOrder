@@ -82,6 +82,7 @@
     
     // 跳转到用户位置
     [_mapView setCenterCoordinate:coor animated:YES];
+    [self setMapRegionWithCoordinate:coor];
     
 	[_mapView addAnnotation:annotation];
     
@@ -278,6 +279,40 @@
         NSURL *url = [NSURL URLWithString:urlString];
         [[UIApplication sharedApplication] openURL:url];
     }
+}
+
+
+//传入经纬度,将_mapView锁定到以当前经纬度为中心点的显示区域和合适的显示范围
+- (void)setMapRegionWithCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    BMKCoordinateRegion region;
+    if (!_isSetMapSpan)//判断一下,只在第一次锁定显示区域时,设置一下显示范围 Map Region
+    {
+        region = BMKCoordinateRegionMake(coordinate, BMKCoordinateSpanMake(0.01, 0.01));//比例尺越小，显示地图越详细
+        _isSetMapSpan = YES;
+        [_mapView setRegion:region animated:YES];
+    }
+    
+    _currentSelectCoordinate = coordinate;
+    //跳转到传入的用户位置
+    [_mapView setCenterCoordinate:coordinate animated:YES];
+    
+}
+
+//地图区域改变完成后会调用此接口
+//执行 setCenterCoordinate:coordinate 以后,开始移动,当移动完成后,会执此方法
+- (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    [_mapView.annotations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        BMKPointAnnotation *item = (BMKPointAnnotation *)obj;
+        
+        if (item.coordinate.latitude == _currentSelectCoordinate.latitude && item.coordinate.longitude == _currentSelectCoordinate.longitude)
+        {
+            [_mapView selectAnnotation:obj animated:YES];//执行之后,会让地图中的标注处于弹出气泡框状态
+            *stop = YES;
+        }
+    }];
 }
 
 

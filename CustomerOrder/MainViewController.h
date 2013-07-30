@@ -9,18 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface MainViewController : UIViewController<UITabBarControllerDelegate>
-
 {
-    
     UIImageView *_img;
     UIImageView *_item1;
     UIImageView *_item2;
     UIImageView *_item3;
     UIImageView *_item4;
     UITabBarController *_tab;
-
-    
-
 }
 
 @property(nonatomic,retain)UIImageView *item1;

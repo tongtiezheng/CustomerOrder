@@ -179,7 +179,7 @@
     BMKCoordinateRegion region;
     if (!_isSetMapSpan)//判断一下,只在第一次锁定显示区域时,设置一下显示范围 Map Region
     {
-        region = BMKCoordinateRegionMake(coordinate, BMKCoordinateSpanMake(0.15, 0.15));//比例尺越小，显示地图越详细
+        region = BMKCoordinateRegionMake(coordinate, BMKCoordinateSpanMake(0.01, 0.01));//比例尺越小，显示地图越详细
         _isSetMapSpan = YES;
         [_mapView setRegion:region animated:YES];
     }

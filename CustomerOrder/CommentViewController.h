@@ -11,7 +11,7 @@
 #import "StoreList.h"
 #import "HTTPDownload.h"
 
-@interface CommentViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PullingRefreshTableViewDelegate,HTTPDownloadDelegate>
+@interface CommentViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PullingRefreshTableViewDelegate,HTTPDownloadDelegate,UIAlertViewDelegate>
 {
     
     PullingRefreshTableView *_tableView;

@@ -9,9 +9,16 @@
 #ifndef CustomerOrder_CONST_h
 #define CustomerOrder_CONST_h
 
+//常量控制
 #define HEIGHT [UIScreen mainScreen].bounds.size.height
 #define WIDTH  [UIScreen mainScreen].bounds.size.width
 #define TABBAR_HEIGHT  self.tabBarController.tabBar.bounds.size.height
+
+
+//分享
+#define CONTENT @"咖啡厅座位预订 测试版 http://hxhd.cn"
+#define SHARE_URL @"http://www.sharesdk.cn"
+
 
 //******** API ********//
 

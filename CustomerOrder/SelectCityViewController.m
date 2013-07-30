@@ -39,6 +39,7 @@
     
     [super dealloc];
 }
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -47,6 +48,7 @@
     }
     return self;
 }
+
 
 - (void)viewDidLoad
 {
@@ -167,7 +169,7 @@
     self.cityList = [NSMutableDictionary dictionary];
     
     //
-    for (int i=0; i<self.mArray.count; i++) {
+    for (int i = 0; i < self.mArray.count; i++) {
         NSString *cityName = [self.mArray objectAtIndex:i];
         NSString *cityPinYin = [ChineseToPinyin pinyinFromChiniseString:cityName];
         NSString *firstWord = [cityPinYin substringToIndex:1];
@@ -251,16 +253,22 @@
 {
     return [self.cityKeys array];
 }
+
+
 #pragma mark -- searchBar delegate  
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [_searchBar resignFirstResponder];
 }
+
+
 #pragma mark -- scrollView delegate 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [_searchBar resignFirstResponder];
 }
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

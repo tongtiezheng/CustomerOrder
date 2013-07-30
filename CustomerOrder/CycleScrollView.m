@@ -7,7 +7,7 @@
 //
 
 #import "CycleScrollView.h"
-#import "CONST.h"
+
 @implementation CycleScrollView
 
 @synthesize delegate;

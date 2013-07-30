@@ -104,8 +104,6 @@
 		67341BA1177A80B100DCD5EC /* HelperViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67341B9F177A80B100DCD5EC /* HelperViewController.xib */; };
 		67341BB4177AE3E400DCD5EC /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67341BB3177AE3E400DCD5EC /* libbaidumapapi.a */; };
 		6763F1C61772D17C0030B5BA /* MyOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6763F1C51772D17C0030B5BA /* MyOrderCell.m */; };
-		676729F6176095AF00002FDB /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 676729F4176095AF00002FDB /* ShareViewController.m */; };
-		676729F7176095AF00002FDB /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 676729F5176095AF00002FDB /* ShareViewController.xib */; };
 		677CDE27176B0E2900BC10EE /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 677CDE25176B0E2900BC10EE /* OrderDetailViewController.m */; };
 		677CDE28176B0E2900BC10EE /* OrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 677CDE26176B0E2900BC10EE /* OrderDetailViewController.xib */; };
 		677CDE34176B22E000BC10EE /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 677CDE32176B22E000BC10EE /* CollectionViewController.m */; };
@@ -370,6 +368,10 @@
 		81DBC2C917A22AA90059DC30 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBC2C817A22AA90059DC30 /* PullingRefreshTableView.m */; };
 		81DBC2D017A23CE20059DC30 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBC2CE17A23CE20059DC30 /* CommentViewController.m */; };
 		81DBC2D117A23CE20059DC30 /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81DBC2CF17A23CE20059DC30 /* CommentViewController.xib */; };
+		81EF3DC017A76331003E0432 /* MyFavorite_X.png in Resources */ = {isa = PBXBuildFile; fileRef = 81EF3DBC17A7630B003E0432 /* MyFavorite_X.png */; };
+		81EF3DC117A76331003E0432 /* MyFavorite_X@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 81EF3DBD17A76315003E0432 /* MyFavorite_X@2x.png */; };
+		81EF3DC217A76331003E0432 /* MyFavorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 81EF3DBE17A7631E003E0432 /* MyFavorite.png */; };
+		81EF3DC317A76331003E0432 /* MyFavorite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 81EF3DBF17A76327003E0432 /* MyFavorite@2x.png */; };
 		81FB708617A0D41700E936A4 /* Exit_Account.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FB708417A0D41700E936A4 /* Exit_Account.png */; };
 		81FB708717A0D41700E936A4 /* Exit_Account@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FB708517A0D41700E936A4 /* Exit_Account@2x.png */; };
 		81FB708A17A110E900E936A4 /* PostDataTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FB708917A110E900E936A4 /* PostDataTools.m */; };
@@ -556,9 +558,6 @@
 		67341BB3177AE3E400DCD5EC /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
 		6763F1C41772D17C0030B5BA /* MyOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderCell.h; sourceTree = "<group>"; };
 		6763F1C51772D17C0030B5BA /* MyOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderCell.m; sourceTree = "<group>"; };
-		676729F3176095AF00002FDB /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
-		676729F4176095AF00002FDB /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
-		676729F5176095AF00002FDB /* ShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareViewController.xib; sourceTree = "<group>"; };
 		677CDE24176B0E2900BC10EE /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
 		677CDE25176B0E2900BC10EE /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
 		677CDE26176B0E2900BC10EE /* OrderDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderDetailViewController.xib; sourceTree = "<group>"; };
@@ -862,6 +861,10 @@
 		81DBC2CD17A23CE20059DC30 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		81DBC2CE17A23CE20059DC30 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		81DBC2CF17A23CE20059DC30 /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
+		81EF3DBC17A7630B003E0432 /* MyFavorite_X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyFavorite_X.png; sourceTree = "<group>"; };
+		81EF3DBD17A76315003E0432 /* MyFavorite_X@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyFavorite_X@2x.png"; sourceTree = "<group>"; };
+		81EF3DBE17A7631E003E0432 /* MyFavorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyFavorite.png; sourceTree = "<group>"; };
+		81EF3DBF17A76327003E0432 /* MyFavorite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyFavorite@2x.png"; sourceTree = "<group>"; };
 		81FB708417A0D41700E936A4 /* Exit_Account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Exit_Account.png; sourceTree = "<group>"; };
 		81FB708517A0D41700E936A4 /* Exit_Account@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Exit_Account@2x.png"; sourceTree = "<group>"; };
 		81FB708817A110E900E936A4 /* PostDataTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDataTools.h; sourceTree = "<group>"; };
@@ -1432,6 +1435,10 @@
 		67C0ACC917602098000C044F /* Grade */ = {
 			isa = PBXGroup;
 			children = (
+				81EF3DBC17A7630B003E0432 /* MyFavorite_X.png */,
+				81EF3DBD17A76315003E0432 /* MyFavorite_X@2x.png */,
+				81EF3DBE17A7631E003E0432 /* MyFavorite.png */,
+				81EF3DBF17A76327003E0432 /* MyFavorite@2x.png */,
 				67C0AE2B17605D1C000C044F /* order.png */,
 				67C0ADE01760220D000C044F /* common_list_icon_star_half_on@2x.png */,
 				67C0ACCA176020AE000C044F /* ShopStar10@2x.png */,
@@ -1543,9 +1550,6 @@
 				677CDE24176B0E2900BC10EE /* OrderDetailViewController.h */,
 				677CDE25176B0E2900BC10EE /* OrderDetailViewController.m */,
 				677CDE26176B0E2900BC10EE /* OrderDetailViewController.xib */,
-				676729F3176095AF00002FDB /* ShareViewController.h */,
-				676729F4176095AF00002FDB /* ShareViewController.m */,
-				676729F5176095AF00002FDB /* ShareViewController.xib */,
 				6710491417617ADE001AFDD3 /* DetailViewController.h */,
 				6710491517617ADE001AFDD3 /* DetailViewController.m */,
 				6710491617617ADF001AFDD3 /* DetailViewController.xib */,
@@ -2004,7 +2008,6 @@
 				67C0AE7517609263000C044F /* Arrow_Down@2x.png in Resources */,
 				67C0AE7617609263000C044F /* Arrow_Left.png in Resources */,
 				67C0AE781760928E000C044F /* icon_Share_D@2x.png in Resources */,
-				676729F7176095AF00002FDB /* ShareViewController.xib in Resources */,
 				6710491817617ADF001AFDD3 /* DetailViewController.xib in Resources */,
 				671049281761AD41001AFDD3 /* share.png in Resources */,
 				671049301761CFE2001AFDD3 /* PersonCommentViewController.xib in Resources */,
@@ -2066,6 +2069,10 @@
 				81FB708617A0D41700E936A4 /* Exit_Account.png in Resources */,
 				81FB708717A0D41700E936A4 /* Exit_Account@2x.png in Resources */,
 				81DBC2D117A23CE20059DC30 /* CommentViewController.xib in Resources */,
+				81EF3DC017A76331003E0432 /* MyFavorite_X.png in Resources */,
+				81EF3DC117A76331003E0432 /* MyFavorite_X@2x.png in Resources */,
+				81EF3DC217A76331003E0432 /* MyFavorite.png in Resources */,
+				81EF3DC317A76331003E0432 /* MyFavorite@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2086,7 +2093,6 @@
 				67C0AE2A17604477000C044F /* CustomHomeCell.m in Sources */,
 				67C0AE3A17606293000C044F /* PersonLocationViewController.mm in Sources */,
 				67C0AE4F17607C9F000C044F /* OrderViewController.m in Sources */,
-				676729F6176095AF00002FDB /* ShareViewController.m in Sources */,
 				6710491717617ADF001AFDD3 /* DetailViewController.m in Sources */,
 				6710491C17617BA8001AFDD3 /* DetailDisplayCell.m in Sources */,
 				6710492B1761C2FC001AFDD3 /* CommentCell.m in Sources */,

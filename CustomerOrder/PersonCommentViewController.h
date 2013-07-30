@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HTTPDownload.h"
-#import "StoreList.h"
+@class StoreList;
 
 @interface PersonCommentViewController : UIViewController<UITextViewDelegate,HTTPDownloadDelegate,UIAlertViewDelegate>
 {
     UITextView *_txtView;
-    UITextField *_mGrade;
     UITextField *_mAvmoney;
     
     UILabel *_fontCount;
@@ -21,11 +20,20 @@
     
     HTTPDownload *HD;
     StoreList *_storeInfo;
-
+    
+    UIButton *imgBtn1;//等级选择按钮
+    UIButton *imgBtn2;
+    UIButton *imgBtn3;
+    UIButton *imgBtn4;
+    UIButton *imgBtn5;
+    
+    UIImage *imgNormal;//等级图片
+    UIImage *imgPress;
+    
+    float grade; //等级
 }
 
 @property(retain,nonatomic)UITextView *txtView;
-@property(retain,nonatomic)UITextField *mGrade;
 @property(retain,nonatomic)UITextField *mAvmoney;
 
 @property(retain,nonatomic)UILabel *fontCount;

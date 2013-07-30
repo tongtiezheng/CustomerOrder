@@ -16,6 +16,9 @@
     StoreList *_storeList;
     
     NSMutableArray *_availableMaps;
+    
+    BOOL _isSetMapSpan;
+    CLLocationCoordinate2D _currentSelectCoordinate;
 }
 
 @property(retain,nonatomic)BMKMapView *mapView;

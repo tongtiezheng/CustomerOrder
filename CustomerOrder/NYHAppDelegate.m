@@ -41,6 +41,8 @@
         
         //移除上次用户信息
         [UserInfo removeLoginNameAndPwdWithNameKey:@"username" andPwdKey:@"pwd"];
+        //移除用户online_key
+        [UserInfo removeOnline_keyValueWithKey:@"online_key"];
     }
     return self;
 }

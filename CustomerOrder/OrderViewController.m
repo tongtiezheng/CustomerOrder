@@ -64,7 +64,7 @@
 //数据刷新
 - (void)collectData:(id)dender
 {
-    NSLog(@"收藏成功");
+    NSLog(@"刷新成功");
 }
 
 

@@ -11,16 +11,12 @@
 #import "CommentViewController.h"
 #import "StoreLocationViewController.h"
 #import "OrderViewController.h"
-#import "CONST.h"
 #import "NYHAppDelegate.h"
 
 #import "SetColor.h"
 #import "StoreList.h"
 #import "UIImageView+WebCache.h"
 #import "DataBase.h"
-
-#define CONTENT @"咖啡厅座位预订 测试版 http://hxhd.cn"
-#define SHARE_URL @"http://www.sharesdk.cn"
 
 
 @interface DetailViewController ()
@@ -83,11 +79,11 @@
 //数据收藏
 - (void)collectData:(id)dender
 {
-    NSLog(@"收藏成功");
     if ([[DataBase defaultDataBase]isExistItem:_storeInfo]) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"记录已经存在！" delegate:self cancelButtonTitle:@"取消收藏" otherButtonTitles:@"确定", nil];
         [alert show];
         [alert release];
+        
     }else {
         
     [[DataBase defaultDataBase]insertItem:_storeInfo];
@@ -114,7 +110,6 @@
 //分享数据
 - (void)shareData:(id)sender
 {
-    NSLog(@"开始分享");
     //分享的图片
     id<ISSCAttachment> fileName = [ShareSDK pngImageWithImage:[UIImage imageNamed:@"Icon.png"]];
     
@@ -246,6 +241,10 @@
     
     _othersArray = [[NSArray alloc]initWithObjects:self.storeInfo.address,self.storeInfo.tel, nil];
     
+    
+//    //设置不让表格滑动
+//    [self.tableView setBounces:NO];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -313,9 +312,8 @@
         [instance setCellBackgroundColor:cell];
         return cell;
         
-    } else if (indexPath.row == 3)
-    
-    {
+    } else if (indexPath.row == 3) {
+        
         static NSString *CellIdentifier = @"Cell3";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil)
@@ -328,7 +326,7 @@
             [nameLabel release];
 
             
-            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 20, 290, 80)];
+            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 20, 290, 120)];
             label.text = @"点击进入查看详细内容";
             label.numberOfLines = 0;
             label.backgroundColor = [UIColor clearColor];
@@ -340,9 +338,8 @@
         [instance setCellBackgroundColor:cell];
         return cell;
        
-    } else
-    
-    {
+    } else {
+        
         static NSString *CellIdentifier = @"Cell4";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
@@ -358,6 +355,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [instance setCellBackgroundColor:cell];
         return cell;
+        
     }
     
 }
@@ -365,7 +363,6 @@
 
 - (void)orderSeat:(UIButton *)sender
 {
-    NSLog(@"点击预订你的桌位");
     OrderViewController *order = [[OrderViewController alloc]init];
     order.oStoreInfo = self.storeInfo;
     [self.navigationController pushViewController:order animated:YES];
@@ -389,7 +386,7 @@
     
     if (indexPath.row == 3)
     {
-        return 100;
+        return 140;
     }
 
     return 48.0f;
@@ -398,6 +395,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 1) {
+        
         StoreLocationViewController *storeLocation = [[StoreLocationViewController alloc]init];
         storeLocation.storeList = self.storeInfo;
         [self.navigationController pushViewController:storeLocation animated:YES];
@@ -419,14 +417,12 @@
         [comment release];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
-    
 }
+
 #pragma mark -- UIActionSheet delegate 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-        
-        NSLog(@"开始拨打电话");
         
         NSString *telStr = [NSString stringWithFormat:@"tel://%@",[_othersArray objectAtIndex:1]];
         NSLog(@"%@",telStr);
@@ -437,9 +433,9 @@
         [callWebView loadRequest:[NSURLRequest requestWithURL:telURL]];
         [self.view addSubview:callWebView];
         [callWebView release];
-    }
-    else
-    {
+    
+    } else {
+        
         NSLog(@"取消");
     }
 }

@@ -10,6 +10,8 @@
 #import "CommentCell.h"
 #import "CommentList.h"
 #import "PersonCommentViewController.h"
+#import "LoginViewController.h"
+#import "UserInfo.h"
 
 @interface CommentViewController ()
 
@@ -148,17 +150,52 @@
 }
 
 
-
 //进入评论页面
 - (void)startComment
 {
-    PersonCommentViewController *pComment = [[PersonCommentViewController alloc]init];
-    pComment.storeInfo = self.storeInfo;
-    [self.navigationController pushViewController:pComment animated:YES];
-    [pComment release];
+    NSString *online_key = [UserInfo getOnline_keyValueWithKey:@"online_key"];
     
+    if (online_key) {
+        
+        PersonCommentViewController *pComment = [[PersonCommentViewController alloc]init];
+        pComment.storeInfo = self.storeInfo;
+        [self.navigationController pushViewController:pComment animated:YES];
+        [pComment release];
+
+    } else {
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请先登录！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        
+        [alertView show];
+        [alertView release];
+        
+    }
 }
 
+#pragma mark -- UIAlertView delegate 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            
+            break;
+            
+        case 1:
+        {
+            LoginViewController *login = [[LoginViewController alloc]init];
+            UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:login];
+            [self presentViewController:navi animated:YES completion:nil];
+            
+            [login release];
+            [navi release];
+        }
+            break;
+
+        default:
+            break;
+    }
+
+}
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
