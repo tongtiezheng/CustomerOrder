@@ -7,7 +7,6 @@
 //
 
 #import "PersonLocationViewController.h"
-#import "CONST.h"
 #import "NYHAppDelegate.h"
 @interface PersonLocationViewController ()
 
@@ -34,6 +33,7 @@
     [super viewDidLoad];
     
     self.title = @"个人位置";
+    
     //自定义导航栏背景颜色
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
     //重写右边边返回按钮
@@ -65,6 +65,8 @@
 {
      _mapView.delegate = self;
      _mapView.showsUserLocation = YES;
+//     NSLog(@"%f **** %f",_mapView.userLocation.coordinate.latitude,_mapView.userLocation.coordinate.longitude);
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -79,7 +81,6 @@
     NSDictionary *dic = noti.userInfo;
     NSString *name = [dic objectForKey:@"cityName"];
     cityName = name;
-    NSLog(@"---- > %@",cityName);
     [self POISearchMethod];
 }
 
@@ -112,9 +113,9 @@
         localLatitude = userLocation.location.coordinate.latitude; //获取纬度
         localLongitude = userLocation.location.coordinate.longitude; //获取经度
         
-		NSLog(@"%f -- %f", localLatitude, localLongitude);
+		NSLog(@"用户位置坐标：%f -- %f", localLatitude, localLongitude);
         
-
+        
         //反向地理编码
         CLGeocoder *geocoder = [[CLGeocoder alloc]init];
         CLLocation *location = [[CLLocation alloc] initWithLatitude:localLatitude longitude:localLongitude];
@@ -137,13 +138,13 @@
                                    NSLog(@"2 - >%@",info);
                                    NSLog(@"3 - >%@",cityName);
                                }
-                           }
-                           else if (error == nil && [placemarks count] == 0)
-                           {
+                               
+                           } else if (error == nil && [placemarks count] == 0) {
+                               
                                NSLog(@"No results were returned.");
-                           }
-                           else if (error != nil)
-                           {
+                               
+                           } else if (error != nil) {
+                               
                                NSLog(@"An error occurred = %@", error);
                            }
                        }];
@@ -160,9 +161,9 @@
 	if (error != nil)
     {
 		NSLog(@"locate failed: %@", [error localizedDescription]);
-    }
-	else
-    {
+        
+    } else {
+        
 		NSLog(@"locate failed");
 	}
 }

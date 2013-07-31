@@ -295,6 +295,7 @@
     
     _currentSelectCoordinate = coordinate;
     //跳转到传入的用户位置
+    
     [_mapView setCenterCoordinate:coordinate animated:YES];
     
 }

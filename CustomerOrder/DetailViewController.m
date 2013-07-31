@@ -279,9 +279,42 @@
         
         cell.title.text = self.storeInfo.name;
         [cell.leftImgView setImageWithURL:[NSURL URLWithString:self.storeInfo.pic] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20@2x.png"];
+        
         cell.average.text = self.storeInfo.avmoney;
         cell.description.text = self.storeInfo.description;
+        
+        float selectGrade = [self.storeInfo.grade floatValue];
+        if (selectGrade == 0) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+            
+        }else if (selectGrade == 1) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar10.png"];
+            
+        } else if (selectGrade == 2) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20.png"];
+            
+        }else if (selectGrade == 2.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar25.png"];
+            
+        }else if (selectGrade == 3) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar30.png"];
+            
+        }else if (selectGrade == 3.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar35.png"];
+            
+        }else if (selectGrade == 4) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar40.png"];
+            
+        }else if (selectGrade == 4.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar45.png"];
+            
+        }else if (selectGrade == 5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar50.png"];
+            
+        } else {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+        }
+
         
         
         UIButton *order = [UIButton buttonWithType:UIButtonTypeCustom];

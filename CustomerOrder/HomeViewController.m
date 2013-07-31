@@ -119,7 +119,7 @@
     waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
     [self.view addSubview:waitView];
     [waitView release];
-    
+    NSLog(@"sizeof(waitView) %li",sizeof(waitView));
     _mArray = [[NSMutableArray alloc]init];
     
     //开始解析，默认全部数据

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class WaitingView;
-@interface SelectCityViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate>
+@interface SelectCityViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 {
     UITableView *_cityTableView;
     
@@ -20,6 +20,8 @@
     
     NSMutableOrderedSet *_cityKeys;
     NSMutableDictionary *_cityList;
+    NSMutableArray *_searchResult;
+    NSMutableArray *_cityName;
     
     NSString *_selectCity;
     WaitingView *waitingView;
@@ -37,6 +39,8 @@
 @property (retain,nonatomic) NSMutableArray *headTitleArray;
 @property (retain,nonatomic) NSMutableOrderedSet *cityKeys;
 @property (retain,nonatomic) NSMutableDictionary *cityList;
+@property (retain,nonatomic) NSMutableArray *searchResult;
+@property (retain,nonatomic) NSMutableArray *cityName;
 
 @property (copy,nonatomic) NSString *selectCity;
 
