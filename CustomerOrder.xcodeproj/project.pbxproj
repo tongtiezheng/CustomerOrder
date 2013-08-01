@@ -355,6 +355,9 @@
 		8126086A178D466900FD25E9 /* WaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260869178D466900FD25E9 /* WaitingView.m */; };
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
 		812965E0178AAC3E002C1BCA /* SetColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 812965DF178AAC3E002C1BCA /* SetColor.m */; };
+		812D9D6017AA53CB000BEF9E /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 812D9D5A17AA53CB000BEF9E /* Base64Transcoder.c */; };
+		812D9D6117AA53CB000BEF9E /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 812D9D5C17AA53CB000BEF9E /* hmac.c */; };
+		812D9D6217AA53CB000BEF9E /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 812D9D5E17AA53CB000BEF9E /* sha1.c */; };
 		813E89F31795297D000E4127 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 813E89F21795297D000E4127 /* DataBase.m */; };
 		816A41A2179FD076004898B6 /* PersonalCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816A41A1179FD076004898B6 /* PersonalCenterViewController.m */; };
 		816A41A5179FDB6E004898B6 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 816A41A4179FDB6E004898B6 /* UserInfo.m */; };
@@ -841,6 +844,12 @@
 		8126086C178D5EA800FD25E9 /* StoreList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreList.m; sourceTree = "<group>"; };
 		812965DE178AAC3E002C1BCA /* SetColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetColor.h; sourceTree = "<group>"; };
 		812965DF178AAC3E002C1BCA /* SetColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetColor.m; sourceTree = "<group>"; };
+		812D9D5A17AA53CB000BEF9E /* Base64Transcoder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Base64Transcoder.c; sourceTree = "<group>"; };
+		812D9D5B17AA53CB000BEF9E /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
+		812D9D5C17AA53CB000BEF9E /* hmac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hmac.c; sourceTree = "<group>"; };
+		812D9D5D17AA53CB000BEF9E /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
+		812D9D5E17AA53CB000BEF9E /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
+		812D9D5F17AA53CB000BEF9E /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
 		813E89F11795297D000E4127 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
 		813E89F21795297D000E4127 /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
 		816A41A0179FD076004898B6 /* PersonalCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalCenterViewController.h; sourceTree = "<group>"; };
@@ -936,6 +945,7 @@
 		67117689176D72E40088CA50 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				812D9D5917AA53CB000BEF9E /* Crypto */,
 				81260868178D466900FD25E9 /* WaitingView.h */,
 				81260869178D466900FD25E9 /* WaitingView.m */,
 				81260865178D296500FD25E9 /* ChineseToPinyin.h */,
@@ -1765,6 +1775,19 @@
 			name = IconOthers;
 			sourceTree = "<group>";
 		};
+		812D9D5917AA53CB000BEF9E /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				812D9D5A17AA53CB000BEF9E /* Base64Transcoder.c */,
+				812D9D5B17AA53CB000BEF9E /* Base64Transcoder.h */,
+				812D9D5C17AA53CB000BEF9E /* hmac.c */,
+				812D9D5D17AA53CB000BEF9E /* hmac.h */,
+				812D9D5E17AA53CB000BEF9E /* sha1.c */,
+				812D9D5F17AA53CB000BEF9E /* sha1.h */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2161,6 +2184,9 @@
 				81DBC2C617A2207A0059DC30 /* CommentList.m in Sources */,
 				81DBC2C917A22AA90059DC30 /* PullingRefreshTableView.m in Sources */,
 				81DBC2D017A23CE20059DC30 /* CommentViewController.m in Sources */,
+				812D9D6017AA53CB000BEF9E /* Base64Transcoder.c in Sources */,
+				812D9D6117AA53CB000BEF9E /* hmac.c in Sources */,
+				812D9D6217AA53CB000BEF9E /* sha1.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

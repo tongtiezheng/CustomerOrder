@@ -18,6 +18,8 @@
     NSString *_avmoney;//人均消费
     NSString *_lat;//纬度
     NSString *_lng;//经度
+    NSString *_g_lat;
+    NSString *_g_lng;
     NSString *_description;//商铺介绍
     NSString *_address;//商铺地址
     NSString *_province;//商铺所属省份
@@ -33,6 +35,10 @@
 @property (nonatomic,copy) NSString *avmoney;
 @property (nonatomic,copy) NSString *lat;
 @property (nonatomic,copy) NSString *lng;
+
+@property (nonatomic,copy) NSString *g_lat;
+@property (nonatomic,copy) NSString *g_lng;
+
 @property (nonatomic,copy) NSString *description;
 @property (nonatomic,copy) NSString *address;
 @property (nonatomic,copy) NSString *provines;

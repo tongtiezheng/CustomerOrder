@@ -10,7 +10,7 @@
 #import "HTTPDownload.h"
 #import "BMKMapView.h"
 
-@interface NearbyViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate,HTTPDownloadDelegate>
+@interface NearbyViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate,HTTPDownloadDelegate,BMKMapViewDelegate>
 {
     UITableView *_tableView;
     UISearchDisplayController *_searchDidplay;

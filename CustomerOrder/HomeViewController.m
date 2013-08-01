@@ -428,8 +428,10 @@
             storeList.avmoney = [subDic objectForKey:@"avmoney"];
             storeList.address = [subDic objectForKey:@"address"];
             storeList.tel = [subDic objectForKey:@"tel"];
-            storeList.lat = [subDic objectForKey:@"lat"];//纬度
-            storeList.lng = [subDic objectForKey:@"lng"];//经度
+            storeList.lat = [subDic objectForKey:@"lat"];//纬度g_lat
+            storeList.lng = [subDic objectForKey:@"lng"];//经度g_lng
+            storeList.g_lat = [subDic objectForKey:@"g_lat"];
+            storeList.g_lng = [subDic objectForKey:@"g_lng"];
             storeList.description = [subDic objectForKey:@"description"];
             storeList.storeid = [subDic objectForKey:@"id"];
             

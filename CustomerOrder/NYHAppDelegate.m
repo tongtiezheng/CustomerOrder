@@ -76,8 +76,9 @@
     //开始监听网络
     [self startNotificationNetwork];
     
-    //分享平台
+    //加入分享平台
     [ShareSDK registerApp:@"523d5e58594"];
+    //初始化平台
     [self initializePlat];
 
     //设置导航视图
@@ -85,13 +86,14 @@
     NSString *path = [docPath stringByAppendingPathComponent:@"Helper"];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:path] == NO) {
+        
         [fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
         HelperViewController *helper = [[HelperViewController alloc]init];
         [self.window setRootViewController:helper];
         [helper release];
-    }
-    else
-    {
+        
+    } else {
+        
         MainViewController *main = [[MainViewController alloc]init];
         [self.window setRootViewController:main];
         [main release];

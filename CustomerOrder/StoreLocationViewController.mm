@@ -9,6 +9,8 @@
 #import "StoreLocationViewController.h"
 #import "StoreList.h"
 #import <MapKit/MapKit.h>
+#import "BMKMapManager.h"
+#import "Base64Transcoder.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -150,6 +152,7 @@
         [self.availableMaps addObject:dic];
     }
     
+    
     //高德地图
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]]) {
         
@@ -161,14 +164,26 @@
         [self.availableMaps addObject:dic];
     }
     
+    
     //谷歌地图
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]) {
         
-        NSString *urlString = [NSString stringWithFormat:@"comgooglemaps://?saddr=&daddr=%f,%f¢er=%f,%f&directionsmode=transit", endCoor.latitude, endCoor.longitude, startCoor.latitude, startCoor.longitude];
+
+        CLLocationCoordinate2D g_startCoor = self.mapView.userLocation.location.coordinate;
+        CLLocationCoordinate2D g_endCoor = CLLocationCoordinate2DMake([self.storeList.lat floatValue], [self.storeList.lng floatValue]);
+
+        
+        NSString *urlString = [NSString stringWithFormat:@"comgooglemaps://?saddr=&daddr=%f,%f&¢er=%f,%f&directionsmode=transit", g_endCoor.latitude, g_endCoor.longitude, g_startCoor.latitude, g_startCoor.longitude];
+        
+        
+//        NSString *urlString = [NSString stringWithFormat:@"comgooglemaps://?saddr=%f,%f&daddr=%f,%f&z=10&directionsmode=transit",    startCoor.latitude, startCoor.longitude, endCoor.latitude, endCoor.longitude];
+    
         
         NSDictionary *dic = @{@"name": @"Google Maps",
                               @"url": urlString};
+        
         [self.availableMaps addObject:dic];
+        
     }
     
     
@@ -236,14 +251,13 @@
     }
 */
     
-    
 }
 
-#pragma mark 
-#pragma mark -- UIActionSheet delegate 
+
+#pragma mark -- 
+#pragma mark -- UIActionSheet delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
     if (buttonIndex == 0) {
         
         CLLocationCoordinate2D startCoor = self.mapView.userLocation.location.coordinate;

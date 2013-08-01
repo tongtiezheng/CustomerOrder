@@ -15,8 +15,13 @@
 @synthesize pic = _pic;
 @synthesize grade = _grade;
 @synthesize avmoney = _avmoney;
-@synthesize lat = _lat;
+
+@synthesize lat = _lat;//百度坐标
 @synthesize lng = _lng;
+
+@synthesize g_lat = _g_lat;//谷歌坐标
+@synthesize g_lng = _g_lng;//
+
 @synthesize description = _description;
 @synthesize address = _address;
 @synthesize provines = _province;
@@ -33,6 +38,10 @@
     [_avmoney release];
     [_lat release];
     [_lng release];
+    
+    [_g_lat release];
+    [_g_lng release];
+    
     [_description release];
     [_address release];
     [_province release];

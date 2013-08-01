@@ -79,7 +79,7 @@
     
     _mArray = [[NSMutableArray alloc]init];
     
-    [self startJSONParserWithCurpage:0 pro_id:0];
+//    [self startJSONParserWithCurpage:0 pro_id:0];
     
 }
 
@@ -87,7 +87,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     _mapView.showsUserLocation = YES;
-    NSLog(@"%f ---- %f",_mapView.userLocation.coordinate.latitude,_mapView.userLocation.coordinate.longitude);
+    
+    float lan = _mapView.userLocation.coordinate.latitude;
+    float lng = _mapView.userLocation.coordinate.longitude;
+    NSLog(@"%f ---- %f",lan,lng);
+
+    [self.mArray removeAllObjects];
+    [self startJSONParserWithCurpage:0 pro_id:0];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -131,14 +138,27 @@
             storeList.description = [subDic objectForKey:@"description"];
             storeList.storeid = [subDic objectForKey:@"id"];
             
+            
             [self.mArray addObject:storeList];
         }
-        NSLog(@"----[_mArray count]----%d",[_mArray count]);
         
         [self.tableView reloadData];
     }
 }
 
+//***********************
+
+//通过经纬度计算两个之间的距离
+- (double)distanceBetweenOrderBy:(double)lat1 :(double)lat2 :(double)lng1 :(double)lng2
+{
+    CLLocation * curLocation = [[CLLocation alloc] initWithLatitude:lat1 longitude:lng1];
+    CLLocation * otherLocation = [[CLLocation alloc] initWithLatitude:lat2 longitude:lng2];
+    double distance  = [curLocation distanceFromLocation:otherLocation];
+    
+    return distance;
+}
+
+//***********************
 
 - (void)downloadDidFail:(HTTPDownload *)hd
 {
