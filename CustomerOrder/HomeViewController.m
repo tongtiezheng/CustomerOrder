@@ -351,9 +351,11 @@
     UINavigationController *na = [[UINavigationController alloc]initWithRootViewController:location];
     na.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:na animated:YES completion:nil];
+    
     [na release];
     [location release];
-   }
+   
+}
 
 
 //JSON 解析

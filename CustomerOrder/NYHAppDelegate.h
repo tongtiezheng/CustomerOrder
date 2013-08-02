@@ -12,6 +12,8 @@
 #import "WXApi.h"
 #import "AGViewDelegate.h"
 
+
+
 @interface NYHAppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate>
 {
     BMKMapManager* _mapManager;

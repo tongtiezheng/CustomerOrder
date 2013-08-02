@@ -153,16 +153,16 @@
     }
     
     
-    //高德地图
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]]) {
-        
-        NSString *urlString = [NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=applicationScheme&poiname=fangheng&poiid=BGVIS&lat=%f&lon=%f&dev=0&style=3",
-                               @"云华时代", endCoor.latitude, endCoor.longitude];
-        
-        NSDictionary *dic = @{@"name": @"高德地图",
-                              @"url": urlString};
-        [self.availableMaps addObject:dic];
-    }
+//    //高德地图
+//    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]]) {
+//        
+//        NSString *urlString = [NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=applicationScheme&poiname=fangheng&poiid=BGVIS&lat=%f&lon=%f&dev=0&style=3",
+//                               @"云华时代", endCoor.latitude, endCoor.longitude];
+//        
+//        NSDictionary *dic = @{@"name": @"高德地图",
+//                              @"url": urlString};
+//        [self.availableMaps addObject:dic];
+//    }
     
     
     //谷歌地图
@@ -170,7 +170,7 @@
         
 
         CLLocationCoordinate2D g_startCoor = self.mapView.userLocation.location.coordinate;
-        CLLocationCoordinate2D g_endCoor = CLLocationCoordinate2DMake([self.storeList.lat floatValue], [self.storeList.lng floatValue]);
+        CLLocationCoordinate2D g_endCoor = CLLocationCoordinate2DMake([self.storeList.g_lat floatValue], [self.storeList.g_lng floatValue]);
 
         
         NSString *urlString = [NSString stringWithFormat:@"comgooglemaps://?saddr=&daddr=%f,%f&¢er=%f,%f&directionsmode=transit", g_endCoor.latitude, g_endCoor.longitude, g_startCoor.latitude, g_startCoor.longitude];
