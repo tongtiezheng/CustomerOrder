@@ -351,6 +351,7 @@
 		8116CDA81797C91E008288D5 /* CacheData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116CDA71797C91E008288D5 /* CacheData.m */; };
 		811CFD1D1798EB4F00249142 /* CheckNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 811CFD1C1798EB4F00249142 /* CheckNetwork.m */; };
 		811CFD1F1799121200249142 /* cellBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 811CFD1E1799121200249142 /* cellBg.png */; };
+		811D28F217AFA1F90046CD92 /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 811D28F117AFA1F90046CD92 /* CustomAnnotation.m */; };
 		81260867178D296500FD25E9 /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260866178D296500FD25E9 /* ChineseToPinyin.m */; };
 		8126086A178D466900FD25E9 /* WaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260869178D466900FD25E9 /* WaitingView.m */; };
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
@@ -836,6 +837,8 @@
 		811CFD1B1798EB4F00249142 /* CheckNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckNetwork.h; sourceTree = "<group>"; };
 		811CFD1C1798EB4F00249142 /* CheckNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckNetwork.m; sourceTree = "<group>"; };
 		811CFD1E1799121200249142 /* cellBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellBg.png; sourceTree = "<group>"; };
+		811D28F017AFA1F90046CD92 /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
+		811D28F117AFA1F90046CD92 /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
 		81260865178D296500FD25E9 /* ChineseToPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyin.h; sourceTree = "<group>"; };
 		81260866178D296500FD25E9 /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		81260868178D466900FD25E9 /* WaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingView.h; sourceTree = "<group>"; };
@@ -976,7 +979,6 @@
 			isa = PBXGroup;
 			children = (
 				810C0846178E7B9200526711 /* ImageIO.framework */,
-				810C0844178E7B8500526711 /* MapKit.framework */,
 				81ACDFDD1783F77A0078EB9A /* libsqlite3.dylib */,
 				81ACDFDB1783F7470078EB9A /* CoreTelephony.framework */,
 				81ACDFD91783F7360078EB9A /* libstdc++.dylib */,
@@ -984,11 +986,12 @@
 				67BE6803177D3E55000F66CE /* MessageUI.framework */,
 				672C4882176E9CEE0055DA3F /* libxml2.dylib */,
 				672C487C176E99800055DA3F /* libz.1.2.5.dylib */,
+				671AEFBB1769A365006E1B77 /* CoreLocation.framework */,
+				810C0844178E7B8500526711 /* MapKit.framework */,
 				672C487A176E99570055DA3F /* MobileCoreServices.framework */,
 				672C4878176E994B0055DA3F /* SystemConfiguration.framework */,
 				672C4876176E993F0055DA3F /* CFNetwork.framework */,
 				671AEFBD1769A37A006E1B77 /* QuartzCore.framework */,
-				671AEFBB1769A365006E1B77 /* CoreLocation.framework */,
 				67147E51175F2917001A14CE /* UIKit.framework */,
 				67147E53175F2917001A14CE /* Foundation.framework */,
 				67147E55175F2917001A14CE /* CoreGraphics.framework */,
@@ -1252,6 +1255,8 @@
 				8126086C178D5EA800FD25E9 /* StoreList.m */,
 				81DBC2C417A2207A0059DC30 /* CommentList.h */,
 				81DBC2C517A2207A0059DC30 /* CommentList.m */,
+				811D28F017AFA1F90046CD92 /* CustomAnnotation.h */,
+				811D28F117AFA1F90046CD92 /* CustomAnnotation.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2187,6 +2192,7 @@
 				812D9D6017AA53CB000BEF9E /* Base64Transcoder.c in Sources */,
 				812D9D6117AA53CB000BEF9E /* hmac.c in Sources */,
 				812D9D6217AA53CB000BEF9E /* sha1.c in Sources */,
+				811D28F217AFA1F90046CD92 /* CustomAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

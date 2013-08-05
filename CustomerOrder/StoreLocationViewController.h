@@ -7,21 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BMapKit.h"
+#import <MapKit/MapKit.h>
 @class StoreList;
-@interface StoreLocationViewController : UIViewController<BMKMapViewDelegate,UIActionSheetDelegate>
+
+@interface StoreLocationViewController : UIViewController<UIActionSheetDelegate,MKMapViewDelegate>
 {
-    BMKMapView * _mapView;
+    MKMapView *_mapView;
    
     StoreList *_storeList;
     
     NSMutableArray *_availableMaps;
-    
-    BOOL _isSetMapSpan;
-    CLLocationCoordinate2D _currentSelectCoordinate;
+   
 }
 
-@property(retain,nonatomic)BMKMapView *mapView;
+
+@property(retain,nonatomic)MKMapView *mapView;
 @property(retain,nonatomic)StoreList *storeList;
 
 @property(retain,nonatomic)NSMutableArray *availableMaps;

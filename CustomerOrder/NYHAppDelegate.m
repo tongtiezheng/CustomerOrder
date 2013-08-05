@@ -7,29 +7,28 @@
 //
 
 #import "NYHAppDelegate.h"
+
 #import "MainViewController.h"
 #import "HelperViewController.h"
 
 #import <ShareSDK/ShareSDK.h>
-#import "WXApi.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "UserInfo.h"
 
-#import <CoreLocation/CoreLocation.h>
-
 @implementation NYHAppDelegate
 
-@synthesize mapManager = _mapManager;
 @synthesize hostReach = _hostReach;
 @synthesize viewDelegate = _viewDelegate;
+@synthesize locManager = _locManager;
 
 - (void)dealloc
 {
     [_window release];
-    [_mapManager release];
     [_hostReach release];
     [_viewDelegate release];
+    [_locManager release];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
@@ -43,7 +42,7 @@
         
         //移除上次用户信息
         [UserInfo removeLoginNameAndPwdWithNameKey:@"username" andPwdKey:@"pwd"];
-        //移除用户online_key
+        //移除上次用户online_key
         [UserInfo removeOnline_keyValueWithKey:@"online_key"];
     }
     return self;
@@ -80,7 +79,8 @@
     
     //加入分享平台
     [ShareSDK registerApp:@"523d5e58594"];
-    //初始化平台
+    
+    //初始化分享平台
     [self initializePlat];
 
     //设置导航视图
@@ -101,15 +101,15 @@
         [main release];
     }
     
-    
-//    //启动BaiduMapManager
-//    _mapManager = [[BMKMapManager alloc]init];
-//    // 如果要关注网络及授权验证事件，须设定generalDelegate参数
-////    BOOL ret = [_mapManager start:@"2b21d1259156cd707d00a02f315afd00" generalDelegate:nil];
-//    BOOL ret = [_mapManager start:@"6BFC54B771E97D1DC21C36D71DC8C5F09FDEC65F" generalDelegate:nil];
-//    if (!ret){
-//        NSLog(@"manager start failed!");
-//    }
+    //启动地图管理器
+    if ([CLLocationManager locationServicesEnabled]) {
+        
+        _locManager = [[CLLocationManager alloc]init];
+        
+        _locManager.desiredAccuracy = kCLLocationAccuracyBest;
+        
+        [_locManager startUpdatingLocation];
+    }
     
     
     //检查设备

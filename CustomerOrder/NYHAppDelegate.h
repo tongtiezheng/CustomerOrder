@@ -7,27 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BMapKit.h"
-
 #import "WXApi.h"
 #import "AGViewDelegate.h"
-
-
+#import <MapKit/MapKit.h>
 
 @interface NYHAppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate>
 {
-    BMKMapManager* _mapManager;
     Reachability *_hostReach;
     
     enum WXScene _scene;
     AGViewDelegate *_viewDelegate;
+    
+    CLLocationManager *_locManager;
 }
 
 @property (strong, nonatomic) UIWindow *window;
-@property (retain, nonatomic) BMKMapManager *mapManager;
 @property (retain, nonatomic) Reachability *hostReach;
-
 @property (readonly,nonatomic) AGViewDelegate *viewDelegate;
+@property (retain,nonatomic) CLLocationManager *locManager;
 
 
 @end

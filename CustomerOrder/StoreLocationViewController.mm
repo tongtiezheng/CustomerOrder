@@ -8,9 +8,7 @@
 
 #import "StoreLocationViewController.h"
 #import "StoreList.h"
-#import <MapKit/MapKit.h>
-#import "BMKMapManager.h"
-#import "Base64Transcoder.h"
+#import "CustomAnnotation.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -65,64 +63,24 @@
     //导航栏按钮
     [self customNavagationButton];
     
-    CGRect frame = CGRectMake(0, 0, WIDTH, HEIGHT);
-    _mapView = [[BMKMapView alloc]initWithFrame:frame];
+    _mapView = [[MKMapView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
     _mapView.delegate = self;
-   [self.view addSubview:_mapView];
+    [self.view addSubview:_mapView];
     
-    
-    // 添加一个PointAnnotation
-	BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
-	CLLocationCoordinate2D coor;
-	coor.latitude = [self.storeList.lat floatValue];
-	coor.longitude = [self.storeList.lng floatValue];
-
-	annotation.coordinate = coor;
-    
-	annotation.title = self.storeList.name;
-	annotation.subtitle = self.storeList.address;
-    
-    // 跳转到用户位置
-    [_mapView setCenterCoordinate:coor animated:YES];
-    [self setMapRegionWithCoordinate:coor];
-    
-	[_mapView addAnnotation:annotation];
-    
-    [annotation release];
-    
+    [self setMapRegion];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     _mapView.showsUserLocation = YES;
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-                                                                                                                                  
     _mapView.showsUserLocation = NO;
-
 }
-
-#pragma mark -- BMKMapViewDelegate 
-//加大头钉注释
-- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
-{
-	if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
-		BMKPinAnnotationView *newAnnotation = [[[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"]autorelease];
-		newAnnotation.pinColor = BMKPinAnnotationColorPurple;
-		newAnnotation.animatesDrop = YES;
-		newAnnotation.draggable = YES;
-		
-		return newAnnotation;
-	}
-	return nil;
-}
-
 
 //返回按钮
 - (void)backLeft
@@ -130,19 +88,44 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+//添加大头针的方法
+-(void)createAnnotationWithCoords:(CLLocationCoordinate2D) coords {
+    CustomAnnotation *annotation = [[CustomAnnotation alloc] initWithCoordinate:
+                                    coords];
+    
+    annotation.title = self.storeList.name;
+    annotation.subtitle = self.storeList.address;
+    
+    [_mapView addAnnotation:annotation];
+    [annotation release];
+}
 
+- (void)setMapRegion
+{
+    CLLocationCoordinate2D coords = CLLocationCoordinate2DMake([self.storeList.g_lat floatValue],[self.storeList.g_lng floatValue]);
+    
+    float zoomLevel = 0.008;
+    MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
+    [_mapView setRegion:[_mapView regionThatFits:region] animated:YES];
+    
+    
+    [self createAnnotationWithCoords:coords];
+}
+
+//选择地图导航
 - (void)backRight
 {
     _availableMaps = [[NSMutableArray alloc]init];
     [self.availableMaps removeAllObjects];
     
-    CLLocationCoordinate2D startCoor = self.mapView.userLocation.location.coordinate;
-    CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([self.storeList.lat floatValue], [self.storeList.lng floatValue]);
     NSString *toName = self.storeList.name;
     
     //判断应用类型
     //百度地图
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]) {
+        
+        CLLocationCoordinate2D startCoor = self.mapView.userLocation.location.coordinate;
+        CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([self.storeList.lat floatValue], [self.storeList.lng floatValue]);
         
         NSString *urlString = [NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=transit",
                                startCoor.latitude, startCoor.longitude, endCoor.latitude, endCoor.longitude, toName];
@@ -261,7 +244,7 @@
     if (buttonIndex == 0) {
         
         CLLocationCoordinate2D startCoor = self.mapView.userLocation.location.coordinate;
-        CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([self.storeList.lat floatValue], [self.storeList.lng floatValue]);
+        CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([self.storeList.g_lat floatValue], [self.storeList.g_lng floatValue]);
         
         if (SYSTEM_VERSION_LESS_THAN(@"6.0")) { // ios6以下，调用google map
             
@@ -296,39 +279,39 @@
 }
 
 
-//传入经纬度,将_mapView锁定到以当前经纬度为中心点的显示区域和合适的显示范围
-- (void)setMapRegionWithCoordinate:(CLLocationCoordinate2D)coordinate
-{
-    BMKCoordinateRegion region;
-    if (!_isSetMapSpan)//判断一下,只在第一次锁定显示区域时,设置一下显示范围 Map Region
-    {
-        region = BMKCoordinateRegionMake(coordinate, BMKCoordinateSpanMake(0.01, 0.01));//比例尺越小，显示地图越详细
-        _isSetMapSpan = YES;
-        [_mapView setRegion:region animated:YES];
-    }
-    
-    _currentSelectCoordinate = coordinate;
-    //跳转到传入的用户位置
-    
-    [_mapView setCenterCoordinate:coordinate animated:YES];
-    
-}
-
-//地图区域改变完成后会调用此接口
-//执行 setCenterCoordinate:coordinate 以后,开始移动,当移动完成后,会执此方法
-- (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
-{
-    [_mapView.annotations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        
-        BMKPointAnnotation *item = (BMKPointAnnotation *)obj;
-        
-        if (item.coordinate.latitude == _currentSelectCoordinate.latitude && item.coordinate.longitude == _currentSelectCoordinate.longitude)
-        {
-            [_mapView selectAnnotation:obj animated:YES];//执行之后,会让地图中的标注处于弹出气泡框状态
-            *stop = YES;
-        }
-    }];
-}
+////传入经纬度,将_mapView锁定到以当前经纬度为中心点的显示区域和合适的显示范围
+//- (void)setMapRegionWithCoordinate:(CLLocationCoordinate2D)coordinate
+//{
+//    BMKCoordinateRegion region;
+//    if (!_isSetMapSpan)//判断一下,只在第一次锁定显示区域时,设置一下显示范围 Map Region
+//    {
+//        region = BMKCoordinateRegionMake(coordinate, BMKCoordinateSpanMake(0.01, 0.01));//比例尺越小，显示地图越详细
+//        _isSetMapSpan = YES;
+//        [_mapView setRegion:region animated:YES];
+//    }
+//    
+//    _currentSelectCoordinate = coordinate;
+//    //跳转到传入的用户位置
+//    
+//    [_mapView setCenterCoordinate:coordinate animated:YES];
+//    
+//}
+//
+////地图区域改变完成后会调用此接口
+////执行 setCenterCoordinate:coordinate 以后,开始移动,当移动完成后,会执此方法
+//- (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+//{
+//    [_mapView.annotations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        
+//        BMKPointAnnotation *item = (BMKPointAnnotation *)obj;
+//        
+//        if (item.coordinate.latitude == _currentSelectCoordinate.latitude && item.coordinate.longitude == _currentSelectCoordinate.longitude)
+//        {
+//            [_mapView selectAnnotation:obj animated:YES];//执行之后,会让地图中的标注处于弹出气泡框状态
+//            *stop = YES;
+//        }
+//    }];
+//}
 
 
 -(void)dealloc
@@ -338,9 +321,7 @@
     [_availableMaps release];
     
     [super dealloc];
-
 }
-
 
 - (void)didReceiveMemoryWarning
 {

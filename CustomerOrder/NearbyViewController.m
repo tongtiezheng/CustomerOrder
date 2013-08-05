@@ -146,19 +146,6 @@
     }
 }
 
-//***********************
-
-//通过经纬度计算两个之间的距离
-- (double)distanceBetweenOrderBy:(double)lat1 :(double)lat2 :(double)lng1 :(double)lng2
-{
-    CLLocation * curLocation = [[CLLocation alloc] initWithLatitude:lat1 longitude:lng1];
-    CLLocation * otherLocation = [[CLLocation alloc] initWithLatitude:lat2 longitude:lng2];
-    double distance  = [curLocation distanceFromLocation:otherLocation];
-    
-    return distance;
-}
-
-//***********************
 
 - (void)downloadDidFail:(HTTPDownload *)hd
 {
@@ -178,7 +165,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
-
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
