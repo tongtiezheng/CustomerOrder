@@ -16,10 +16,12 @@
     NSString *_pic;//商铺图片
     NSString *_grade;//商铺等级
     NSString *_avmoney;//人均消费
-    NSString *_lat;//纬度
-    NSString *_lng;//经度
-    NSString *_g_lat;
-    NSString *_g_lng;
+    
+    NSString *_lat;//百度纬度
+    NSString *_lng;//百度经度
+    NSString *_g_lat;//谷歌纬度
+    NSString *_g_lng;//谷歌经度
+    
     NSString *_description;//商铺介绍
     NSString *_address;//商铺地址
     NSString *_province;//商铺所属省份
@@ -33,6 +35,7 @@
 @property (nonatomic,copy) NSString *pic;
 @property (nonatomic,copy) NSString *grade;
 @property (nonatomic,copy) NSString *avmoney;
+
 @property (nonatomic,copy) NSString *lat;
 @property (nonatomic,copy) NSString *lng;
 

@@ -36,7 +36,7 @@
 		6710493E1761D393001AFDD3 /* Cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 671049361761D383001AFDD3 /* Cancel@2x.png */; };
 		6710493F1761D393001AFDD3 /* MyComments_X@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 671049371761D388001AFDD3 /* MyComments_X@2x.png */; };
 		671049401761D393001AFDD3 /* MyComments_X.png in Resources */ = {isa = PBXBuildFile; fileRef = 671049381761D38E001AFDD3 /* MyComments_X.png */; };
-		671049451761E0AD001AFDD3 /* StoreLocationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 671049431761E0AB001AFDD3 /* StoreLocationViewController.mm */; };
+		671049451761E0AD001AFDD3 /* StoreLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 671049431761E0AB001AFDD3 /* StoreLocationViewController.m */; };
 		671049461761E0AD001AFDD3 /* StoreLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671049441761E0AC001AFDD3 /* StoreLocationViewController.xib */; };
 		67117679176D60D90088CA50 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 67117670176D60D90088CA50 /* FMDatabase.m */; };
 		6711767A176D60D90088CA50 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 67117672176D60D90088CA50 /* FMDatabaseAdditions.m */; };
@@ -296,7 +296,7 @@
 		67C0AE2717604296000C044F /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67C0AE2317604295000C044F /* 4.jpg */; };
 		67C0AE2A17604477000C044F /* CustomHomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C0AE2917604477000C044F /* CustomHomeCell.m */; };
 		67C0AE2C17605D1D000C044F /* order.png in Resources */ = {isa = PBXBuildFile; fileRef = 67C0AE2B17605D1C000C044F /* order.png */; };
-		67C0AE3A17606293000C044F /* PersonLocationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67C0AE3817606292000C044F /* PersonLocationViewController.mm */; };
+		67C0AE3A17606293000C044F /* PersonLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C0AE3817606292000C044F /* PersonLocationViewController.m */; };
 		67C0AE3B17606293000C044F /* PersonLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67C0AE3917606292000C044F /* PersonLocationViewController.xib */; };
 		67C0AE4F17607C9F000C044F /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C0AE4D17607C9E000C044F /* OrderViewController.m */; };
 		67C0AE5017607C9F000C044F /* OrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67C0AE4E17607C9F000C044F /* OrderViewController.xib */; };
@@ -418,7 +418,7 @@
 		671049371761D388001AFDD3 /* MyComments_X@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyComments_X@2x.png"; sourceTree = "<group>"; };
 		671049381761D38E001AFDD3 /* MyComments_X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyComments_X.png; sourceTree = "<group>"; };
 		671049421761E0AB001AFDD3 /* StoreLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreLocationViewController.h; sourceTree = "<group>"; };
-		671049431761E0AB001AFDD3 /* StoreLocationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = StoreLocationViewController.mm; sourceTree = "<group>"; };
+		671049431761E0AB001AFDD3 /* StoreLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreLocationViewController.m; sourceTree = "<group>"; };
 		671049441761E0AC001AFDD3 /* StoreLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreLocationViewController.xib; sourceTree = "<group>"; };
 		6711766F176D60D90088CA50 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		67117670176D60D90088CA50 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -764,7 +764,7 @@
 		67C0AE2917604477000C044F /* CustomHomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomHomeCell.m; sourceTree = "<group>"; };
 		67C0AE2B17605D1C000C044F /* order.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = order.png; sourceTree = "<group>"; };
 		67C0AE3717606292000C044F /* PersonLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonLocationViewController.h; sourceTree = "<group>"; };
-		67C0AE3817606292000C044F /* PersonLocationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PersonLocationViewController.mm; sourceTree = "<group>"; };
+		67C0AE3817606292000C044F /* PersonLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonLocationViewController.m; sourceTree = "<group>"; };
 		67C0AE3917606292000C044F /* PersonLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonLocationViewController.xib; sourceTree = "<group>"; };
 		67C0AE4C17607C9E000C044F /* OrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderViewController.h; sourceTree = "<group>"; };
 		67C0AE4D17607C9E000C044F /* OrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderViewController.m; sourceTree = "<group>"; };
@@ -1557,7 +1557,7 @@
 				816B2B75178BFF2400B60195 /* SelectCityViewController.m */,
 				816B2B76178BFF2500B60195 /* SelectCityViewController.xib */,
 				67C0AE3717606292000C044F /* PersonLocationViewController.h */,
-				67C0AE3817606292000C044F /* PersonLocationViewController.mm */,
+				67C0AE3817606292000C044F /* PersonLocationViewController.m */,
 				67C0AE3917606292000C044F /* PersonLocationViewController.xib */,
 				67C0AE4C17607C9E000C044F /* OrderViewController.h */,
 				67C0AE4D17607C9E000C044F /* OrderViewController.m */,
@@ -1575,7 +1575,7 @@
 				6710492D1761CFE1001AFDD3 /* PersonCommentViewController.m */,
 				6710492E1761CFE1001AFDD3 /* PersonCommentViewController.xib */,
 				671049421761E0AB001AFDD3 /* StoreLocationViewController.h */,
-				671049431761E0AB001AFDD3 /* StoreLocationViewController.mm */,
+				671049431761E0AB001AFDD3 /* StoreLocationViewController.m */,
 				671049441761E0AC001AFDD3 /* StoreLocationViewController.xib */,
 			);
 			name = VC1;
@@ -2119,13 +2119,13 @@
 				67147E89175F2C59001A14CE /* MoreViewController.m in Sources */,
 				67C0AE1F1760420F000C044F /* CycleScrollView.m in Sources */,
 				67C0AE2A17604477000C044F /* CustomHomeCell.m in Sources */,
-				67C0AE3A17606293000C044F /* PersonLocationViewController.mm in Sources */,
+				67C0AE3A17606293000C044F /* PersonLocationViewController.m in Sources */,
 				67C0AE4F17607C9F000C044F /* OrderViewController.m in Sources */,
 				6710491717617ADF001AFDD3 /* DetailViewController.m in Sources */,
 				6710491C17617BA8001AFDD3 /* DetailDisplayCell.m in Sources */,
 				6710492B1761C2FC001AFDD3 /* CommentCell.m in Sources */,
 				6710492F1761CFE2001AFDD3 /* PersonCommentViewController.m in Sources */,
-				671049451761E0AD001AFDD3 /* StoreLocationViewController.mm in Sources */,
+				671049451761E0AD001AFDD3 /* StoreLocationViewController.m in Sources */,
 				67069A3417631E7A00F297EC /* RegisterViewController.m in Sources */,
 				67069A3D176321B900F297EC /* AboutViewController.m in Sources */,
 				67EDF9C017644F7500AB2897 /* OrderCell.m in Sources */,

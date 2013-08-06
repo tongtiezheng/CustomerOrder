@@ -92,7 +92,6 @@
 -(void)createAnnotationWithCoords:(CLLocationCoordinate2D) coords {
     CustomAnnotation *annotation = [[CustomAnnotation alloc] initWithCoordinate:
                                     coords];
-    
     annotation.title = self.storeList.name;
     annotation.subtitle = self.storeList.address;
     

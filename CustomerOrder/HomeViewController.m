@@ -12,7 +12,6 @@
 #import "CustomHomeCell.h"
 
 #import "SelectCityViewController.h"
-#import "PersonLocationViewController.h"
 #import "OrderViewController.h"
 #import "DetailViewController.h"
 #import "LoginViewController.h"
@@ -55,6 +54,7 @@
 {
     //自定义导航栏背景颜色
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
+    
     //导航栏左边按钮
     cityBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cityBtn setFrame:CGRectMake(0, 0, 60, 44)];
@@ -74,15 +74,6 @@
     self.search = searchBar;
     [self.navigationController.view addSubview:searchBar];
     [searchBar release];
-    
-    //导航栏右边 地图确认当前位置
-    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setFrame:CGRectMake(0, 0, 30, 30)];
-    [rightBtn setImage:[UIImage imageNamed:@"定位.png"] forState:UIControlStateNormal];
-    [rightBtn addTarget:self action:@selector(searchSelfLocation:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
-    self.navigationItem.rightBarButtonItem = rightBar;
-    [rightBar release];
 }
 
 //滚动视图
@@ -332,7 +323,6 @@
     [tableFooterView release];
 }
 
-
 //选择城市
 - (void)selectCity:(id)sender
 {
@@ -342,21 +332,6 @@
     [selectCity release];
     [na release];
 }
-
-
-//地图定位
-- (void)searchSelfLocation:(id)sender
-{
-    PersonLocationViewController *location = [[PersonLocationViewController alloc]init];
-    UINavigationController *na = [[UINavigationController alloc]initWithRootViewController:location];
-    na.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:na animated:YES completion:nil];
-    
-    [na release];
-    [location release];
-   
-}
-
 
 //JSON 解析
 - (void)startJSONParserWithCurpage:(int)cPage pro_id:(int)pro_id
@@ -632,8 +607,6 @@
         [aleart release];
 
     }
-      
-    
 }
 
 #pragma mark -- UIAlertView delegate 

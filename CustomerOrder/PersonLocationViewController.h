@@ -13,6 +13,10 @@
 {
     //ios自带地图
     MKMapView *_mapView;
+    
+    BOOL _isSetMapSpan;
+    
+    CLLocationCoordinate2D _currentSelectCoordinate;
 }
 
 

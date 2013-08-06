@@ -50,13 +50,15 @@
     self.navigationItem.rightBarButtonItem = rightBar;
     [rightBar release];
 
-    
+    //创建地图视图
     _mapView = [[MKMapView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
     _mapView.mapType = MKMapTypeStandard;
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
     [self.view addSubview:_mapView];
-}
+    
+    
+    }
 
 #pragma mark -- 
 #pragma mark -- MKMapViewDelegate 
@@ -67,11 +69,42 @@
 
     CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(_mapView.userLocation.coordinate.latitude,_mapView.userLocation.coordinate.longitude);
     
-    float zoomLevel = 0.008;
-    MKCoordinateRegion region = MKCoordinateRegionMake(coords,MKCoordinateSpanMake(zoomLevel, zoomLevel));
-    [_mapView setRegion:[_mapView regionThatFits:region] animated:YES];
-
+    [self setMapRegionWithCoordinate:coords];
 }
+
+
+//传入经纬度,将_mapView锁定到以当前经纬度为中心点的显示区域和合适的显示范围
+- (void)setMapRegionWithCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    MKCoordinateRegion region;
+    if (!_isSetMapSpan)//判断一下,只在第一次锁定显示区域时,设置一下显示范围 Map Region
+    {
+        region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.008, 0.008));//比例尺越小，显示地图越详细
+        _isSetMapSpan = YES;
+        [_mapView setRegion:[_mapView regionThatFits:region] animated:YES];
+    }
+    
+    _currentSelectCoordinate = coordinate;
+    
+//    //跳转到用户位置
+//    [_mapView setCenterCoordinate:coordinate animated:YES];
+    
+}
+
+//地图区域改变完成后会调用此接口
+//执行 setCenterCoordinate:coordinate 以后,开始移动,当移动完成后,会执此方法
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    [_mapView.annotations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        MKPointAnnotation *item = (MKPointAnnotation *)obj;
+        if (item.coordinate.latitude == _currentSelectCoordinate.latitude && item.coordinate.longitude == _currentSelectCoordinate.longitude)
+        {
+            [_mapView selectAnnotation:obj animated:YES];//执行之后,会让地图中的标注处于弹出气泡框状态
+            *stop = YES;
+        }
+    }];
+}
+
 
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error
 {

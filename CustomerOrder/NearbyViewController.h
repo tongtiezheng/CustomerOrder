@@ -8,26 +8,34 @@
 
 #import <UIKit/UIKit.h>
 #import "HTTPDownload.h"
-#import "BMKMapView.h"
-
-@interface NearbyViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate,HTTPDownloadDelegate,BMKMapViewDelegate>
+#import "PullingRefreshTableView.h"
+@interface NearbyViewController : UIViewController<UITableViewDataSource,
+                                                   UITableViewDelegate,
+                                                   UISearchBarDelegate,
+                                                   UISearchDisplayDelegate,
+                                                   HTTPDownloadDelegate,
+                                                   PullingRefreshTableViewDelegate>
 {
-    UITableView *_tableView;
+    PullingRefreshTableView *_tableView;
+    BOOL _refreshing;
+    int  _curpage;
+    
+    
     UISearchDisplayController *_searchDidplay;
     
     HTTPDownload *HD;
     
     NSMutableArray *_mArray;
     
-    BMKMapView *_mapView;
 }
 
-@property(retain,nonatomic)UITableView *tableView;
+@property(retain,nonatomic)PullingRefreshTableView *tableView;
+@property(nonatomic) BOOL refreshing;
+@property(assign,nonatomic)int curpage;
 
 @property(retain,nonatomic)UISearchDisplayController *searchDidplay;
-
 @property(retain,nonatomic)NSMutableArray *mArray;
-@property(retain,nonatomic)BMKMapView *mapView;
+
 
 
 @end

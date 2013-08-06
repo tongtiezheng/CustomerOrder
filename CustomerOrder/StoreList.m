@@ -28,6 +28,7 @@
 @synthesize city = _city;
 @synthesize tel = _tel;
 
+
 - (void)dealloc
 {
     [_storeid release];
@@ -36,6 +37,7 @@
     [_pic release];
     [_grade release];
     [_avmoney release];
+    
     [_lat release];
     [_lng release];
     
@@ -49,7 +51,6 @@
     [_tel release];
     
     [super dealloc];
-
 }
 
 @end

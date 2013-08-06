@@ -16,6 +16,7 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "UserInfo.h"
 
+
 @implementation NYHAppDelegate
 
 @synthesize hostReach = _hostReach;
@@ -101,20 +102,22 @@
         [main release];
     }
     
-    //启动地图管理器
+    
+    //启动位置管理器
     if ([CLLocationManager locationServicesEnabled]) {
         
-        _locManager = [[CLLocationManager alloc]init];
-        
-        _locManager.desiredAccuracy = kCLLocationAccuracyBest;
-        
-        [_locManager startUpdatingLocation];
+        CLLocationManager *locManager = [[CLLocationManager alloc]init];
+        locManager.desiredAccuracy = kCLLocationAccuracyBest;
+        [locManager startUpdatingLocation];
+        self.locManager = locManager;
+        [locManager release];
     }
-    
+
     
     //检查设备
     NSString* deviceType = [UIDevice currentDevice].model;
     NSLog(@"deviceType = %@", deviceType);
+    
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
@@ -148,6 +151,7 @@
     NSParameterAssert([curReach isKindOfClass: [Reachability class]]);
     [self updateInterfaceWithReachability: curReach];
 }
+
 
 //开始监听网络状态
 -(void)startNotificationNetwork

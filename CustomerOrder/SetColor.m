@@ -13,7 +13,6 @@
 static SetColor *instance = nil;
 
 
-
 //设置选中后cell的背景颜色
 + (SetColor *)shareInstance
 {

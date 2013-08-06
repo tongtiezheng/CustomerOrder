@@ -19,12 +19,14 @@
     AGViewDelegate *_viewDelegate;
     
     CLLocationManager *_locManager;
+    
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (retain, nonatomic) Reachability *hostReach;
 @property (readonly,nonatomic) AGViewDelegate *viewDelegate;
-@property (retain,nonatomic) CLLocationManager *locManager;
+
+@property (retain,nonatomic)CLLocationManager *locManager;
 
 
 @end

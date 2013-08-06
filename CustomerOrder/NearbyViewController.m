@@ -13,6 +13,7 @@
 #import "SetColor.h"
 #import "StoreList.h"
 #import "UIImageView+WebCache.h"
+#import "PersonLocationViewController.h"
 
 @interface NearbyViewController ()
 
@@ -20,11 +21,11 @@
 
 @implementation NearbyViewController
 @synthesize tableView = _tableView;
+@synthesize refreshing = _refreshing;
+@synthesize curpage = _curpage;
+
 @synthesize searchDidplay = _searchDidplay;
-
 @synthesize mArray = _mArray;
-@synthesize mapView = _mapView;
-
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,22 +41,23 @@
     [_tableView release];
     [_searchDidplay release];
     [_mArray release];
-    [_mapView release];
     
     [super dealloc];
 }
 
-- (void)viewDidLoad
+//自定义NavigatinBar 
+- (void)customNavigationBtn
 {
-    [super viewDidLoad];
-    self.title = @"附近商户";
-    //自定义导航栏背景颜色
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
+    //导航栏右边 地图确认当前位置
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightBtn setFrame:CGRectMake(0, 0, 30, 30)];
+    [rightBtn setImage:[UIImage imageNamed:@"定位.png"] forState:UIControlStateNormal];
+    [rightBtn addTarget:self action:@selector(searchSelfLocation:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
+    self.navigationItem.rightBarButtonItem = rightBar;
+    [rightBar release];
     
-    _mapView = [[BMKMapView alloc]initWithFrame:CGRectZero];
-    [self.view addSubview:_mapView];
-    
-    
+    //添加搜索栏
     UISearchBar *searchBar = [[UISearchBar alloc]init];
     [searchBar setFrame:CGRectMake(0, 0, 320, 44)];
     [[searchBar.subviews objectAtIndex:0] removeFromSuperview];
@@ -69,37 +71,48 @@
     self.searchDidplay = searchCon;//UISearchDisplayController 必须定义成属性
     [searchCon release];
     [searchBar release];
+
+}
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.title = @"附近商户";
+    //自定义导航栏背景颜色
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
     
+    [self customNavigationBtn];
+
     
     //自定义tableView
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, WIDTH, HEIGHT - 49 - 44 - 20 - 44) style:UITableViewStylePlain];
+    _tableView = [[PullingRefreshTableView alloc]initWithFrame:CGRectMake(0, 44, WIDTH, HEIGHT - 49 - 44 - 20 -44) pullingDelegate:self];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
     
+    
     _mArray = [[NSMutableArray alloc]init];
     
-//    [self startJSONParserWithCurpage:0 pro_id:0];
-    
+    //每次进入刷新数据
+    if (self.curpage == 0) {
+        
+        [self.tableView launchRefreshing];
+        
+    }
 }
 
 
-- (void)viewWillAppear:(BOOL)animated
+//地图定位
+- (void)searchSelfLocation:(id)sender
 {
-    _mapView.showsUserLocation = YES;
+    PersonLocationViewController *location = [[PersonLocationViewController alloc]init];
+    UINavigationController *na = [[UINavigationController alloc]initWithRootViewController:location];
+    na.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:na animated:YES completion:nil];
     
-    float lan = _mapView.userLocation.coordinate.latitude;
-    float lng = _mapView.userLocation.coordinate.longitude;
-    NSLog(@"%f ---- %f",lan,lng);
-
-    [self.mArray removeAllObjects];
-    [self startJSONParserWithCurpage:0 pro_id:0];
-    [self.tableView reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    _mapView.showsUserLocation = NO;
+    [na release];
+    [location release];
 }
 
 
@@ -119,12 +132,14 @@
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
 {
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
+    
     if (dic != nil&&[dic allKeys].count > 1) {
-//        NSString *curpageStr = [dic objectForKey:@"curpage"];
-//        curpage = [curpageStr integerValue];
-//        NSLog(@"下载完成 curpage ---- >> %d",curpage);
+        
         for (int i = 0; i <= [dic allKeys].count - 2; i++) {
             
+            NSString *curpageStr = [dic objectForKey:@"curpage"];
+            self.curpage = [curpageStr integerValue];
+    
             StoreList *storeList = [[[StoreList alloc]init]autorelease];
             NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
             storeList.pic = [subDic objectForKey:@"pic"];
@@ -133,11 +148,12 @@
             storeList.avmoney = [subDic objectForKey:@"avmoney"];
             storeList.address = [subDic objectForKey:@"address"];
             storeList.tel = [subDic objectForKey:@"tel"];
-            storeList.lat = [subDic objectForKey:@"lat"];//纬度
-            storeList.lng = [subDic objectForKey:@"lng"];//经度
+            storeList.lat = [subDic objectForKey:@"lat"];//百度纬度
+            storeList.lng = [subDic objectForKey:@"lng"];//百度经度
+            storeList.g_lat = [subDic objectForKey:@"g_lat"];//谷歌纬度
+            storeList.g_lng = [subDic objectForKey:@"g_lng"];//谷歌经度
             storeList.description = [subDic objectForKey:@"description"];
             storeList.storeid = [subDic objectForKey:@"id"];
-            
             
             [self.mArray addObject:storeList];
         }
@@ -158,7 +174,6 @@
     
 
 }
-
 
 
 #pragma mark -- tableView dataSouce
@@ -194,7 +209,6 @@
     
     
     float selectGrade = [nStoreInfo.grade floatValue];
-    
     if (selectGrade == 0) {
         cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
         
@@ -246,17 +260,85 @@
     [order release];
     
 }
-
+#pragma mark
 #pragma mark -- tableView delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DetailViewController *detail = [[DetailViewController alloc]init];
+    
+    StoreList *nStoreInfo = [self.mArray objectAtIndex:indexPath.row];
+    detail.storeInfo = nStoreInfo;
+    
+    [self.navigationController pushViewController:detail animated:YES];
+    [detail release];
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80.0f;
+}
 
+
+- (void)loadData
+{
+    if (self.refreshing) {
+        
+        self.curpage = 0;
+        self.refreshing = NO;
+        [self.mArray removeAllObjects];
+    }
+    
+    
+    if (self.curpage != -1) {
+        
+        [self startJSONParserWithCurpage:self.curpage pro_id:0];
+        [self.tableView reloadData];
+        
+    }
+    
+    
+    if (self.curpage == -1) {
+        
+        [self.tableView tableViewDidFinishedLoadingWithMessage:@"All Loaded!"];
+        self.tableView.reachedTheEnd  = YES;
+        
+    } else {
+        
+        [self.tableView tableViewDidFinishedLoading];
+        self.tableView.reachedTheEnd  = NO;
+        [self.tableView reloadData];
+    }
+
+
+}
+
+#pragma mark
+#pragma mark -- PullingRefreshTableViewDelegate 
+
+- (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView
+{
+    self.refreshing = YES;
+    
+    [self performSelector:@selector(loadData) withObject:nil afterDelay:1.0f];
+}
+
+
+- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView
+{
+    [self performSelector:@selector(loadData) withObject:nil afterDelay:1.0f];
+
+}
+#pragma mark
+#pragma mark -- scrollView delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.tableView tableViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.tableView tableViewDidEndDragging:scrollView];
 }
 
 
