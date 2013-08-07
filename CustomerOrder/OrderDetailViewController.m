@@ -43,6 +43,7 @@
     
     //时间选取器
     UIDatePicker *datePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
+    datePicker.locale = [NSLocale autoupdatingCurrentLocale];//设置ios中DatePicker的日期为中文格式
     [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
 
     datePicker.date = [NSDate date];
@@ -77,7 +78,7 @@
     
     
     NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    [formatter setDateFormat:@"YYYY年MM月dd日 hh:mm:ss"];
     NSString * date = [formatter stringFromDate:_date];
     [formatter release];
     
@@ -89,12 +90,10 @@
 //弹出确认预定时间提示框
 - (void)makeSure:(id)sender
 {
-    
-    
     if (showDate.length == 0)
     {
         NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+        [formatter setDateFormat:@"YYYY年MM月dd日 hh:mm:ss"];
         NSString *cDate = [formatter stringFromDate:[NSDate date]];
 
         UIAlertView *alert1 = [[UIAlertView alloc]initWithTitle:@"你预订的日期如下" message:cDate delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -105,15 +104,13 @@
         
         [alert1 release];
         
-    }
-    else
-    {
+    } else {
+        
         UIAlertView *alert2 = [[UIAlertView alloc]initWithTitle:@"你预订的日期如下" message:showDate delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alert2 show];
         [alert2 release];
            
     }
-    
 }
 
 #pragma mark -- UIAlertView Delegate

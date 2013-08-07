@@ -46,6 +46,7 @@
         //移除上次用户online_key
         [UserInfo removeOnline_keyValueWithKey:@"online_key"];
     }
+    
     return self;
 }
 
@@ -109,6 +110,7 @@
         CLLocationManager *locManager = [[CLLocationManager alloc]init];
         locManager.desiredAccuracy = kCLLocationAccuracyBest;
         [locManager startUpdatingLocation];
+        [locManager setDistanceFilter:10.0f];
         self.locManager = locManager;
         [locManager release];
     }
@@ -121,6 +123,7 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+
     return YES;
 }
 

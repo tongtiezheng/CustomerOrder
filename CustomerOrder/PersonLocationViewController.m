@@ -7,6 +7,7 @@
 //
 
 #import "PersonLocationViewController.h"
+#import "NYHAppDelegate.h"
 
 @interface PersonLocationViewController ()
 
@@ -57,8 +58,7 @@
     _mapView.showsUserLocation = YES;
     [self.view addSubview:_mapView];
     
-    
-    }
+}
 
 #pragma mark -- 
 #pragma mark -- MKMapViewDelegate 
@@ -68,7 +68,7 @@
     NSLog(@"用户位置：%f ---- %f",_mapView.userLocation.coordinate.latitude,_mapView.userLocation.coordinate.longitude);
 
     CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(_mapView.userLocation.coordinate.latitude,_mapView.userLocation.coordinate.longitude);
-    
+
     [self setMapRegionWithCoordinate:coords];
 }
 

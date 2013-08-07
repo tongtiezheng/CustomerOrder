@@ -245,6 +245,7 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(self.view.bounds.size.width - 44, 30, 40, 20)];
     [btn setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
+    btn.tag = indexPath.row;
     [btn addTarget:self action:@selector(orderStore:) forControlEvents:UIControlEventTouchUpInside];
     [cell.contentView addSubview:btn];
     
@@ -254,12 +255,13 @@
 //进入预订页面
 - (void)orderStore:(UIButton *)sender
 {
-    NSLog(@"预订");
     OrderViewController *order = [[OrderViewController alloc]init];
+    StoreList *tempInfo = [self.mArray objectAtIndex:sender.tag];
+    order.oStoreInfo = tempInfo;
     [self.navigationController pushViewController:order animated:YES];
     [order release];
-    
 }
+
 #pragma mark
 #pragma mark -- tableView delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
