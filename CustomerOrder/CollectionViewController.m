@@ -13,7 +13,7 @@
 #import "DataBase.h"
 #import "StoreList.h"
 #import "UIImageView+WebCache.h"
-
+#import "SetColor.h"
 
 @interface CollectionViewController ()
 
@@ -81,6 +81,9 @@
     if (cell == nil) {
         cell = [[[DetailDisplayCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
+    
+    [[SetColor shareInstance]setCellBackgroundColor:cell];
+    
     
     StoreList *info = [dataArray objectAtIndex:indexPath.row];
     cell.title.text = info.name;

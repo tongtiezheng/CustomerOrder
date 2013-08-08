@@ -175,7 +175,7 @@
                                                           friendsViewDelegate:_appDelegate.viewDelegate
                                                         picViewerViewDelegate:nil];
     //自定义分享列表
-    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeSinaWeibo,ShareTypeRenren,ShareTypeWeixiSession,ShareTypeSMS,ShareTypeQQ,ShareTypeQQSpace,ShareTypeTencentWeibo, nil];
+    NSArray *shareList = [ShareSDK getShareListWithType:ShareTypeSinaWeibo,ShareTypeWeixiSession,ShareTypeSMS,ShareTypeQQ,ShareTypeQQSpace,ShareTypeTencentWeibo, nil];
     
     //弹出分享菜单
     [ShareSDK showShareActionSheet:container
@@ -261,7 +261,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -345,7 +345,7 @@
         [instance setCellBackgroundColor:cell];
         return cell;
         
-    } else if (indexPath.row == 3) {
+    } else {
         
         static NSString *CellIdentifier = @"Cell3";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -358,38 +358,41 @@
             [cell.contentView addSubview:nameLabel];
             [nameLabel release];
 
-            
-            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 20, 290, 120)];
+            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 290, HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f - 20.f)];
             label.text = @"点击进入查看详细内容";
             label.numberOfLines = 0;
             label.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:label];
             [label release];
+            
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
        
         [instance setCellBackgroundColor:cell];
+        
         return cell;
-       
-    } else {
-        
-        static NSString *CellIdentifier = @"Cell4";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (cell == nil)
-        {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 290, 50)];
-//            label.text = @"评论（共49条）";
-            [cell.contentView addSubview:label];
-            [label release];
-        }
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [instance setCellBackgroundColor:cell];
-        return cell;
-        
     }
+    
+//    } else {
+//        
+//        static NSString *CellIdentifier = @"Cell4";
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//        
+//        if (cell == nil)
+//        {
+//            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+//            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 290, 50)];
+////            label.text = @"评论（共49条）";
+//            [cell.contentView addSubview:label];
+//            [label release];
+//        }
+//        
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        [instance setCellBackgroundColor:cell];
+//        return cell;
+//        
+//    }
+    
     
 }
 
@@ -419,7 +422,7 @@
     
     if (indexPath.row == 3)
     {
-        return 140;
+        return HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f;
     }
 
     return 48.0f;

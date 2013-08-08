@@ -39,7 +39,6 @@
 @synthesize mArray = _mArray;
 @synthesize refreshTableView = _refreshTableView;
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -67,7 +66,7 @@
     [leftBtn release];
     
     //导航栏中间 搜索栏
-    UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(60, 0, 220, 40)];
+    UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(60, 0, 250, 40)];
     [[searchBar.subviews objectAtIndex:0] removeFromSuperview];//去掉搜索栏背景颜色
     [searchBar setPlaceholder:@"输入商铺名称搜索"];
     searchBar.delegate = self;
@@ -106,6 +105,7 @@
     [self scrollViewMethod];
     [self customTableViewAndRefreshView];
     
+    
     //载入等待指示页面
     waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
     [self.view addSubview:waitView];
@@ -122,7 +122,7 @@
         [waitView startWaiting];
 
     }else {
-        
+    
         [waitView removeFromSuperview];
         [self readUserDefaultsCacheData];
     }
@@ -261,7 +261,6 @@
     return[NSDate date]; // should return date data source was last changed
 }
 
-
 // 开始加载数据
 - (void) loadDataBegin
 {
@@ -290,6 +289,7 @@
 	[self loadDataEnd];
 }
 
+
 // 加载数据完毕
 - (void) loadDataEnd
 {
@@ -308,6 +308,7 @@
     }
 }
 
+
 // 创建表格底部
 - (void) createTableFooterWithTitle:(NSString *)text
 {
@@ -323,6 +324,7 @@
     [tableFooterView release];
 }
 
+
 //选择城市
 - (void)selectCity:(id)sender
 {
@@ -332,6 +334,7 @@
     [selectCity release];
     [na release];
 }
+
 
 //JSON 解析
 - (void)startJSONParserWithCurpage:(int)cPage pro_id:(int)pro_id
@@ -658,6 +661,49 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80.0;
+}
+#pragma mark
+#pragma mark -- 搜索方法
+//自定义取消按钮方法
+- (void)searchBarCancelButtonClickedMethod
+{
+
+}
+
+//搜索栏移动动画
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    [UIView beginAnimations:@"annimations" context:nil];
+    [self.search setFrame:CGRectMake(0, 0, 250, 40)];
+    [UIView setAnimationDuration:1.f];
+    [UIView commitAnimations];
+    
+    [searchBar setShowsCancelButton:YES animated:YES];
+    
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [UIView beginAnimations:@"annimations" context:nil];
+    [self.search setFrame:CGRectMake(60, 0, 250, 40)];
+    [UIView setAnimationDuration:1.f];
+    [UIView commitAnimations];
+    
+    [searchBar setShowsCancelButton:NO animated:YES];
+    
+}
+//搜索栏移动后，出现取消按钮
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    NSLog(@"取消");
+    
+    [UIView beginAnimations:@"annimations" context:nil];
+    [self.search setFrame:CGRectMake(60, 0, 250, 40)];
+    [UIView setAnimationDuration:1.f];
+    [UIView commitAnimations];
+    
+    [searchBar setShowsCancelButton:NO animated:YES];
+
 }
 
 

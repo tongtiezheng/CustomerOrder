@@ -7,7 +7,6 @@
 //
 
 #import "PersonLocationViewController.h"
-#import "NYHAppDelegate.h"
 
 @interface PersonLocationViewController ()
 

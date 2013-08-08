@@ -25,7 +25,11 @@
 @synthesize curpage = _curpage;
 
 @synthesize searchDidplay = _searchDidplay;
+@synthesize searchBar = _searchBar;
+
 @synthesize mArray = _mArray;
+@synthesize resultArray = _resultArray;
+@synthesize testArray = _testArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,7 +44,11 @@
 {
     [_tableView release];
     [_searchDidplay release];
+    [_searchBar release];
+    
     [_mArray release];
+    [_resultArray release];
+    [_testArray release];
     
     [super dealloc];
 }
@@ -62,13 +70,15 @@
     [searchBar setFrame:CGRectMake(0, 0, 320, 44)];
     [[searchBar.subviews objectAtIndex:0] removeFromSuperview];
     searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.searchBar = searchBar;
     [self.view addSubview:searchBar];
     
     UISearchDisplayController *searchCon = [[UISearchDisplayController alloc]initWithSearchBar:searchBar contentsController:self];
     searchCon.delegate = self;
-    searchCon.searchResultsDelegate = self;
-    searchCon.searchResultsDataSource = self;
+    searchCon.searchResultsDelegate = self; //设置代理
+    searchCon.searchResultsDataSource = self;//设置搜索结果数据源
     self.searchDidplay = searchCon;//UISearchDisplayController 必须定义成属性
+    
     [searchCon release];
     [searchBar release];
 
@@ -93,6 +103,8 @@
     
     
     _mArray = [[NSMutableArray alloc]init];
+    _resultArray = [[NSMutableArray alloc]init];
+    _testArray = [[NSArray alloc]init];
     
     //每次进入刷新数据
     if (self.curpage == 0) {
@@ -156,25 +168,18 @@
             storeList.storeid = [subDic objectForKey:@"id"];
             
             [self.mArray addObject:storeList];
+            
+            [self.resultArray addObject:storeList.name];
         }
         
         [self.tableView reloadData];
     }
 }
 
-
 - (void)downloadDidFail:(HTTPDownload *)hd
 {
     NSLog(@"下载失败！");
 }
-
-#pragma mark -- UISearchDisplayDelegate
-- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView
-{
-    
-
-}
-
 
 #pragma mark -- tableView dataSouce
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -183,8 +188,20 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.mArray count];
+    NSInteger *rows;
+    
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        
+        rows = [self.testArray count];
+        
+    } else {
+    
+        rows = [self.mArray count];
+    }
+    
+    return rows;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -200,48 +217,92 @@
     SetColor *instance = [SetColor shareInstance];
     [instance setCellBackgroundColor:cell];
     
-    StoreList *nStoreInfo = [self.mArray objectAtIndex:indexPath.row];
     
-    [cell.leftImgView setImageWithURL:[NSURL URLWithString:nStoreInfo.pic] placeholderImage:[UIImage imageNamed:@"cellBg.png"]];
-    cell.title.text = nStoreInfo.name;
-    cell.address.text = nStoreInfo.address;
-    cell.average.text = nStoreInfo.avmoney;
+    int index = indexPath.row;//取出行标记
+        
+    if (tableView == self.searchDidplay.searchResultsTableView) {
     
-    
-    float selectGrade = [nStoreInfo.grade floatValue];
-    if (selectGrade == 0) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+        StoreList *nStoreInfo = [self.mArray objectAtIndex:index];
+        [cell.leftImgView setImageWithURL:[NSURL URLWithString:nStoreInfo.pic] placeholderImage:[UIImage imageNamed:@"cellBg.png"]];
+        cell.title.text = nStoreInfo.name;
+        cell.address.text = nStoreInfo.address;
+        cell.average.text = nStoreInfo.avmoney;
         
-    }else if (selectGrade == 1) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar10.png"];
-        
-    } else if (selectGrade == 2) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20.png"];
-        
-    }else if (selectGrade == 2.5) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar25.png"];
-        
-    }else if (selectGrade == 3) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar30.png"];
-        
-    }else if (selectGrade == 3.5) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar35.png"];
-        
-    }else if (selectGrade == 4) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar40.png"];
-        
-    }else if (selectGrade == 4.5) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar45.png"];
-        
-    }else if (selectGrade == 5) {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar50.png"];
+        float selectGrade = [nStoreInfo.grade floatValue];
+        if (selectGrade == 0) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+            
+        } else if (selectGrade == 1) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar10.png"];
+            
+        } else if (selectGrade == 2) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20.png"];
+            
+        } else if (selectGrade == 2.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar25.png"];
+            
+        } else if (selectGrade == 3) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar30.png"];
+            
+        } else if (selectGrade == 3.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar35.png"];
+            
+        } else if (selectGrade == 4) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar40.png"];
+            
+        } else if (selectGrade == 4.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar45.png"];
+            
+        } else if (selectGrade == 5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar50.png"];
+            
+        } else {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+        }
         
     } else {
-        cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
         
-    }
+        StoreList *nStoreInfo = [self.mArray objectAtIndex:index];
+        [cell.leftImgView setImageWithURL:[NSURL URLWithString:nStoreInfo.pic] placeholderImage:[UIImage imageNamed:@"cellBg.png"]];
+        cell.title.text = nStoreInfo.name;
+        cell.address.text = nStoreInfo.address;
+        cell.average.text = nStoreInfo.avmoney;
 
-    
+        float selectGrade = [nStoreInfo.grade floatValue];
+        if (selectGrade == 0) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+            
+        } else if (selectGrade == 1) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar10.png"];
+            
+        } else if (selectGrade == 2) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar20.png"];
+            
+        } else if (selectGrade == 2.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar25.png"];
+            
+        } else if (selectGrade == 3) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar30.png"];
+            
+        } else if (selectGrade == 3.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar35.png"];
+            
+        } else if (selectGrade == 4) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar40.png"];
+            
+        } else if (selectGrade == 4.5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar45.png"];
+            
+        } else if (selectGrade == 5) {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar50.png"];
+            
+        } else {
+            cell.gradeImgView.image = [UIImage imageNamed:@"ShopStar0.png"];
+        }
+
+    }
+        
+   
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(self.view.bounds.size.width - 44, 30, 40, 20)];
     [btn setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
@@ -249,8 +310,10 @@
     [btn addTarget:self action:@selector(orderStore:) forControlEvents:UIControlEventTouchUpInside];
     [cell.contentView addSubview:btn];
     
+    
     return cell;
 }
+
 
 //进入预订页面
 - (void)orderStore:(UIButton *)sender
@@ -281,7 +344,7 @@
     return 80.0f;
 }
 
-
+//表格数据加载
 - (void)loadData
 {
     if (self.refreshing) {
@@ -311,13 +374,10 @@
         self.tableView.reachedTheEnd  = NO;
         [self.tableView reloadData];
     }
-
-
 }
 
 #pragma mark
 #pragma mark -- PullingRefreshTableViewDelegate 
-
 - (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView
 {
     self.refreshing = YES;
@@ -331,6 +391,7 @@
     [self performSelector:@selector(loadData) withObject:nil afterDelay:1.0f];
 
 }
+
 #pragma mark
 #pragma mark -- scrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -342,6 +403,37 @@
 {
     [self.tableView tableViewDidEndDragging:scrollView];
 }
+
+
+
+//搜索过滤方法
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString *)scope
+{
+    if (searchText) {
+        
+        NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd]%@",searchText];
+        
+        self.testArray = [self.resultArray filteredArrayUsingPredicate:resultPredicate];
+    }
+}
+
+#pragma mark 
+#pragma mark -- UISearchDisplayDelegate  实现收索功能 
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    
+    [self filterContentForSearchText:searchString scope:[[self.searchDisplayController.searchBar scopeButtonTitles]                                       objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
+//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+//    
+//    [self filterContentForSearchText:[self.searchDisplayController.searchBar text]scope:[[self.searchDisplayController.searchBar scopeButtonTitles]objectAtIndex:searchOption]];
+//    
+//    return YES;
+//}
 
 
 - (void)didReceiveMemoryWarning
