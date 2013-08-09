@@ -12,13 +12,13 @@
 #import "EGORefreshTableHeaderView.h"
 @class WaitingView;
 
-@interface HomeViewController : UIViewController<UITableViewDataSource,
-UITableViewDelegate,
-UISearchBarDelegate,
-UIAlertViewDelegate,
-HTTPDownloadDelegate,
-MBProgressHUDDelegate,
-EGORefreshTableHeaderDelegate>
+@interface HomeViewController : UIViewController <UITableViewDataSource,
+                                                  UITableViewDelegate,
+                                                  UISearchBarDelegate,
+                                                  UIAlertViewDelegate,
+                                                  HTTPDownloadDelegate,
+                                                  MBProgressHUDDelegate,
+                                                  EGORefreshTableHeaderDelegate>
 
 {
     UITableView * _customTV;
@@ -29,10 +29,12 @@ EGORefreshTableHeaderDelegate>
     UIButton *cityBtn;
     NSMutableArray *_mArray;
     
-    HTTPDownload *HD;
-    WaitingView *waitView;//
+    HTTPDownload *_HD;
+    WaitingView *waitView;//等待视图
     
-   
+    NSTimer *timer;//循环滚动计时器
+
+    
 	BOOL _loadingMore;//加载状态
     int curpage;//当前页数
     
@@ -42,9 +44,7 @@ EGORefreshTableHeaderDelegate>
     MBProgressHUD *HUD;//进度指示轮
     int pro_ID; //省份ID
     
-    int cacheID;
-    
-    
+    int cacheID;//缓存类型ID
 }
 
 @property(retain,nonatomic)UITableView *customTV;
@@ -52,6 +52,7 @@ EGORefreshTableHeaderDelegate>
 @property(retain,nonatomic)NSString *currentCity;
 @property(retain,nonatomic)NSMutableArray *mArray;
 @property(retain,nonatomic)EGORefreshTableHeaderView *refreshTableView;
+@property(retain,nonatomic)HTTPDownload *HD;
 
 
 //开始重新加载时调用的方法

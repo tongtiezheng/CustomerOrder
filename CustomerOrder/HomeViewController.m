@@ -28,7 +28,7 @@
 
 #import "UserInfo.h"
 
-@interface HomeViewController ()
+@interface HomeViewController ()<CycleScrollViewDelegate>
 
 @end
 
@@ -38,6 +38,8 @@
 @synthesize currentCity = _currentCity;
 @synthesize mArray = _mArray;
 @synthesize refreshTableView = _refreshTableView;
+
+@synthesize HD = _HD;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -66,8 +68,9 @@
     [leftBtn release];
     
     //导航栏中间 搜索栏
-    UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(60, 0, 250, 40)];
-    [[searchBar.subviews objectAtIndex:0] removeFromSuperview];//去掉搜索栏背景颜色
+    UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(60, 0, 250, 44)];
+    //去掉搜索栏背景颜色
+    [[searchBar.subviews objectAtIndex:0] removeFromSuperview];
     [searchBar setPlaceholder:@"输入商铺名称搜索"];
     searchBar.delegate = self;
     self.search = searchBar;
@@ -84,14 +87,36 @@
     [picArray addObject:[UIImage imageNamed:@"2.jpg"]];
     [picArray addObject:[UIImage imageNamed:@"3.jpg"]];
     [picArray addObject:[UIImage imageNamed:@"4.jpg"]];
-    
     //    CFShow(picArray); //显示数组对象
     CycleScrollView *cycle = [[CycleScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 120)
                                                      cycleDirection:CycleDirectionLandscape
                                                            pictures:picArray];
+    cycle.delegate = self;
     [self.view addSubview:cycle];
     [cycle release];
     [picArray release];
+}
+#pragma mark
+#pragma mark -- CycleScrollView delegate
+- (void)cycleScrollViewDelegate:(CycleScrollView *)cycleScrollView didSelectImageView:(int)index
+{
+    switch (index) {
+        case 1:
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://www.cocoachina.com/"]];
+            break;
+        case 2:
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://www.baidu.com/"]];
+            break;
+        case 3:
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://bbs.maiyadi.com/"]];
+            break;
+        case 4:
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://blog.csdn.net/zhuzhihai1988/article/details/7701998"]];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 
@@ -99,17 +124,17 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"%@",NSHomeDirectory());
+    NSLog(@"-- NSHomeDirectory -- %@",NSHomeDirectory());
     
     [self customNavigationBtn];
     [self scrollViewMethod];
     [self customTableViewAndRefreshView];
     
-    
     //载入等待指示页面
     waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
     [self.view addSubview:waitView];
     [waitView release];
+    
     _mArray = [[NSMutableArray alloc]init];
     
     
@@ -121,9 +146,10 @@
         //启动等待指示页面
         [waitView startWaiting];
 
-    }else {
+    } else {
     
         [waitView removeFromSuperview];
+        //读取缓存数据
         [self readUserDefaultsCacheData];
     }
     
@@ -195,19 +221,14 @@
     } else {
         
         [_mArray removeAllObjects];
-    
         curpage = 0;
-    
+
         [self startJSONParserWithCurpage:curpage pro_id:pro_ID];
-    
     
         _reloading = YES;
    
-    
         [self.customTV.tableFooterView removeAllSubviews];
-    
         [self createTableFooterWithTitle:@"上拉加载更多"];
-        
     }
 }
 
@@ -222,7 +243,7 @@
 #pragma mark UIScrollViewDelegate Methods
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [_search resignFirstResponder];
+    
     [_refreshTableView egoRefreshScrollViewDidScroll:scrollView];
 }
 
@@ -231,14 +252,12 @@
     if (_refreshTableView)
     {
         [_refreshTableView egoRefreshScrollViewDidEndDragging:scrollView];
-
     }
     
     //上拉到最底部时显示更多数据
     if(!_loadingMore && (scrollView.contentOffset.y > (scrollView.contentSize.height - scrollView.frame.size.height)))
     {
         [self loadDataBegin];
-        
     }
 }
 
@@ -295,15 +314,12 @@
 {
     _loadingMore = NO;
     if (curpage == -1) {
+        
         [self hudWasHidden:HUD];
         [self createTableFooterWithTitle:@"加载完毕"];
-        
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"数据已全部加载完毕！" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alert show];
-        [alert release];
        
     } else {
-        
+
         [self createTableFooterWithTitle:@"上拉加载更多"];
     }
 }
@@ -339,12 +355,12 @@
 //JSON 解析
 - (void)startJSONParserWithCurpage:(int)cPage pro_id:(int)pro_id
 {
-    HD = [[[HTTPDownload alloc]init]autorelease];
-    HD.delegate = self;
+    self.HD = [[HTTPDownload alloc]init];
+    self.HD.delegate = self;
     NSString *urlStr = [NSString stringWithFormat:STORE_LIST_API];
     NSString *argument = [NSString stringWithFormat:STORE_LIST_ARGUMENT,cPage,pro_id];
     NSLog(@"JSON解析 argument ---- >%@",argument);
-    [HD downloadFromURL:urlStr withArgument:argument];
+    [self.HD downloadFromURL:urlStr withArgument:argument];
 }
 
 #pragma mark
@@ -371,8 +387,8 @@
                 storeList.avmoney = [subDic objectForKey:@"avmoney"];
                 storeList.address = [subDic objectForKey:@"address"];
                 storeList.tel = [subDic objectForKey:@"tel"];
-                storeList.lat = [subDic objectForKey:@"lat"];//纬度
-                storeList.lng = [subDic objectForKey:@"lng"];//经度
+                storeList.lat = [subDic objectForKey:@"lat"];//百度纬度
+                storeList.lng = [subDic objectForKey:@"lng"];//百度经度
                 storeList.description = [subDic objectForKey:@"description"];
                 storeList.storeid = [subDic objectForKey:@"id"];
                 
@@ -390,7 +406,7 @@
 //下载完成
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
 {
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:HD.mData options:NSJSONReadingMutableContainers error:nil];
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:self.HD.mData options:NSJSONReadingMutableContainers error:nil];
     NSLog(@"下载完成 dic **** >>%@",dic);
     if (dic != nil&&[dic allKeys].count > 1) {
         NSString *curpageStr = [dic objectForKey:@"curpage"];
@@ -436,8 +452,7 @@
     /*****************************/
 
     //缓存数据
-
-    [CacheData saveCache:0 andID:0 andData:HD.mData];
+    [CacheData saveCache:0 andID:0 andData:self.HD.mData];
     NSLog(@"判断缓存类型%d",pro_ID);
     /*****************************/
 }
@@ -484,25 +499,7 @@
     }];
 }
 
-#pragma mark 
-#pragma mark -- UISearchBar delegate 
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    switch (searchBar.tag)
-    {
-        case 0:
-            if (![self.search isExclusiveTouch])
-            {
-                [self.search resignFirstResponder];
-            }
-            
-            break;
-            
-        default:
-            break;
-    }
-}
-
+#pragma mark
 #pragma mark -- tableView data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -611,7 +608,7 @@
 
     }
 }
-
+#pragma mark
 #pragma mark -- UIAlertView delegate 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -634,17 +631,8 @@
     }
 }
 
-//搜索栏的隐藏与显示
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self.search setHidden:YES];
-}
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.search setHidden:NO];
-}
 
-
+#pragma mark
 #pragma mark -- tableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -662,48 +650,82 @@
 {
     return 80.0;
 }
+
 #pragma mark
-#pragma mark -- 搜索方法
+#pragma mark -- 搜索栏的隐藏与显示
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.search setHidden:YES];
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.search setHidden:NO];
+}
+
+#pragma mark
+#pragma mark -- UISearchBar delegate
+//点击搜索按钮搜索
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    switch (searchBar.tag)
+    {
+        case 0:
+            if (![self.search isExclusiveTouch])
+            {
+                [self.search resignFirstResponder];
+            }
+            NSLog(@"开始搜索");
+            break;
+            
+        default:
+            break;
+    }
+}
+
 //自定义取消按钮方法
 - (void)searchBarCancelButtonClickedMethod
 {
+    UIBarButtonItem *barItem = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonClicked)];
+    [barItem setTintColor:[UIColor orangeColor]];
+    [self.navigationItem setRightBarButtonItem:barItem animated:YES];
+    [barItem release];
+}
 
+//取消按钮响应方法
+- (void)cancelButtonClicked
+{
+    [self searchBarTextDidEndEditing:nil];
+    self.search.text = @"";
+    [self.search resignFirstResponder];
 }
 
 //搜索栏移动动画
+//编辑开始
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     [UIView beginAnimations:@"annimations" context:nil];
-    [self.search setFrame:CGRectMake(0, 0, 250, 40)];
+    [self.search setFrame:CGRectMake(0.f, 0.f, 250.f, 44.f)];
     [UIView setAnimationDuration:1.f];
     [UIView commitAnimations];
-    
-    [searchBar setShowsCancelButton:YES animated:YES];
+//    [searchBar setShowsCancelButton:YES animated:YES];
+
+    [self searchBarCancelButtonClickedMethod];
     
 }
-
+//编辑结束
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     [UIView beginAnimations:@"annimations" context:nil];
-    [self.search setFrame:CGRectMake(60, 0, 250, 40)];
+    [self.search setFrame:CGRectMake(60.f, 0.f, 250.f, 44.f)];
     [UIView setAnimationDuration:1.f];
     [UIView commitAnimations];
+//    [searchBar setShowsCancelButton:NO animated:YES];
     
-    [searchBar setShowsCancelButton:NO animated:YES];
+    //隐藏右边的按钮
+    self.navigationItem.rightBarButtonItem = nil;
     
-}
-//搜索栏移动后，出现取消按钮
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    NSLog(@"取消");
     
-    [UIView beginAnimations:@"annimations" context:nil];
-    [self.search setFrame:CGRectMake(60, 0, 250, 40)];
-    [UIView setAnimationDuration:1.f];
-    [UIView commitAnimations];
-    
-    [searchBar setShowsCancelButton:NO animated:YES];
-
 }
 
 
@@ -714,6 +736,7 @@
     [_currentCity release];
     [_mArray release];
     [_refreshTableView release];
+    [_HD release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectCityNotification" object:nil];
     [super dealloc];

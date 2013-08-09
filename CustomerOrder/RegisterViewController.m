@@ -159,7 +159,7 @@
 //注册方法
 -(void)commitRegister
 {
-    if (_username.text == nil || _userpwd == nil) {
+    if (_username.text == nil || _userpwd.text == nil) {
         
         _username.text = @"";
         _userpwd.text = @"";
@@ -209,7 +209,7 @@
 
 }
 
-#pragma mark -- 
+#pragma mark -- 异步下载
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     _mData = [[NSMutableData alloc]init];
@@ -222,7 +222,6 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:_mData options:nil error:nil];
-    NSLog(@"login -- dic %@",dic);
     NSString *msg = [dic objectForKey:@"msg"];
     
     [self alertView:msg];

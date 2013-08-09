@@ -29,13 +29,13 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>baidumap://map/</string>
-				<string>comgooglemaps://</string>
-				<string>QQ68a428a919496c0a2ba4acd367a45b8e</string>
+				<string>QQ05FD2B31</string>
 				<string>tencent100477745</string>
 				<string>wb801379084          </string>
 				<string>sinaweibosso.3364763460</string>
 				<string>wxa87e471073449fde</string>
+				<string>comgooglemaps://</string>
+				<string>baidumap://map/</string>
 			</array>
 		</dict>
 	</array>

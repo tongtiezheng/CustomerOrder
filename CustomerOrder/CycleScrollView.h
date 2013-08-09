@@ -6,15 +6,14 @@
 //  Copyright (c) 2013年 hxhd. All rights reserved.
 //
 
-
 #import <UIKit/UIKit.h>
 
-typedef enum
-{
+typedef enum {
+    
     CycleDirectionPortait,          // 垂直滚动
     CycleDirectionLandscape         // 水平滚动
-
-}   CycleDirection;
+    
+} CycleDirection;
 
 @protocol CycleScrollViewDelegate;
 
@@ -34,6 +33,9 @@ typedef enum
     
     UIPageControl *pc; //分页控制
     
+    int timerCount;//
+    int scrollDir;//
+    
     id <CycleScrollViewDelegate> delegate;
 }
 
@@ -43,6 +45,8 @@ typedef enum
 - (id)initWithFrame:(CGRect)frame cycleDirection:(CycleDirection)direction pictures:(NSArray *)pictureArray;
 - (NSArray *)getDisplayImagesWithCurpage:(int)page;
 - (void)refreshScrollView;
+
+- (void)scrollTimer;
 
 @end
 

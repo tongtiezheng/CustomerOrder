@@ -14,13 +14,13 @@
 
 - (void)downloadFromURL:(NSString *)url withArgument:(NSString *)argument
 {
-    if (_mData == nil) {
+    if (self.mData == nil) {
         
-        _mData = [[NSMutableData alloc]init];
+        self.mData= [[NSMutableData alloc]init];
         
     } else {
         
-        _mData.length = 0;
+        self.mData.length = 0;
     }
     
     mRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
@@ -34,7 +34,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [_mData appendData:data];
+    [self.mData appendData:data];
 }
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
@@ -48,9 +48,7 @@
 
 -(void)dealloc
 {
-    
     [_mData release];
     [super dealloc];
-    
 }
 @end

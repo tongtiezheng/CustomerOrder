@@ -55,9 +55,34 @@
         [self addSubview:pc];
         
         [self refreshScrollView];
+        
+        //加入计时器，使图片无缝隙循环滚动
+        timerCount = 0;
+        scrollDir = 1;//从左往右滚动
+        [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(scrollTimer) userInfo:nil repeats:YES];
     }
     
     return self;
+}
+
+//图片循环滚动响应方法
+-(void)scrollTimer
+{
+    timerCount++;
+    
+    if (timerCount == 3) {
+        timerCount = 0;
+        
+        if (scrollDirection == CycleDirectionLandscape) {
+            
+            [scrollView setContentOffset:CGPointMake(scrollFrame.size.width + scrollFrame.size.width * scrollDir, 0) animated:YES];
+        }
+        
+        if (scrollDirection == CycleDirectionPortait) {
+            
+            [scrollView setContentOffset:CGPointMake(0, scrollFrame.size.height + scrollFrame.size.height * scrollDir) animated:YES];
+        }
+    }
 }
 
 //
@@ -69,8 +94,6 @@
     CGSize viewSize = scrollView.frame.size;
     CGRect rect = CGRectMake(sender.currentPage * viewSize.width,0, viewSize.width, viewSize.height);
     [scrollView scrollRectToVisible:rect animated:YES];
-    
-    
 }
 
 //
@@ -102,7 +125,6 @@
         if(scrollDirection == CycleDirectionPortait) {
             imageView.frame = CGRectOffset(imageView.frame, 0, scrollFrame.size.height * i);
         }
-        
         
         [scrollView addSubview:imageView];
         [imageView release];
@@ -179,12 +201,7 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView {
-    
-//    int x = aScrollView.contentOffset.x;
-//    int y = aScrollView.contentOffset.y;
-    
-//    NSLog(@"--end  x=%d  y=%d", x, y);
-    
+        
     if (scrollDirection == CycleDirectionLandscape) {
             [scrollView setContentOffset:CGPointMake(scrollFrame.size.width, 0) animated:YES];
     }

@@ -110,9 +110,7 @@
 		677CDE35176B22E000BC10EE /* CollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 677CDE33176B22E000BC10EE /* CollectionViewController.xib */; };
 		67AC24F217812D2300426F91 /* SMSConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AC24F117812D2200426F91 /* SMSConnection.framework */; };
 		67AC24FB17813AFC00426F91 /* AGViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67AC24FA17813AFC00426F91 /* AGViewDelegate.m */; };
-		67BE67E2177D3BD7000F66CE /* MailConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67B1177D3BD7000F66CE /* MailConnection.framework */; };
 		67BE67E5177D3BD7000F66CE /* QQConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67B4177D3BD7000F66CE /* QQConnection.framework */; };
-		67BE67E7177D3BD7000F66CE /* RenRenConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67B6177D3BD7000F66CE /* RenRenConnection.framework */; };
 		67BE67E8177D3BD7000F66CE /* SinaWeiboConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67B7177D3BD7000F66CE /* SinaWeiboConnection.framework */; };
 		67BE67ED177D3BD7000F66CE /* TencentWeiboConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67BC177D3BD7000F66CE /* TencentWeiboConnection.framework */; };
 		67BE67EF177D3BD7000F66CE /* WeChatConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67BE177D3BD7000F66CE /* WeChatConnection.framework */; };
@@ -571,9 +569,7 @@
 		67AC24F117812D2200426F91 /* SMSConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMSConnection.framework; sourceTree = "<group>"; };
 		67AC24F917813AFC00426F91 /* AGViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGViewDelegate.h; sourceTree = "<group>"; };
 		67AC24FA17813AFC00426F91 /* AGViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGViewDelegate.m; sourceTree = "<group>"; };
-		67BE67B1177D3BD7000F66CE /* MailConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MailConnection.framework; sourceTree = "<group>"; };
 		67BE67B4177D3BD7000F66CE /* QQConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QQConnection.framework; sourceTree = "<group>"; };
-		67BE67B6177D3BD7000F66CE /* RenRenConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RenRenConnection.framework; sourceTree = "<group>"; };
 		67BE67B7177D3BD7000F66CE /* SinaWeiboConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SinaWeiboConnection.framework; sourceTree = "<group>"; };
 		67BE67BC177D3BD7000F66CE /* TencentWeiboConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentWeiboConnection.framework; sourceTree = "<group>"; };
 		67BE67BE177D3BD7000F66CE /* WeChatConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WeChatConnection.framework; sourceTree = "<group>"; };
@@ -906,9 +902,7 @@
 				67147E54175F2917001A14CE /* Foundation.framework in Frameworks */,
 				67147E56175F2917001A14CE /* CoreGraphics.framework in Frameworks */,
 				67341BB4177AE3E400DCD5EC /* libbaidumapapi.a in Frameworks */,
-				67BE67E2177D3BD7000F66CE /* MailConnection.framework in Frameworks */,
 				67BE67E5177D3BD7000F66CE /* QQConnection.framework in Frameworks */,
-				67BE67E7177D3BD7000F66CE /* RenRenConnection.framework in Frameworks */,
 				67BE67E8177D3BD7000F66CE /* SinaWeiboConnection.framework in Frameworks */,
 				67BE67ED177D3BD7000F66CE /* TencentWeiboConnection.framework in Frameworks */,
 				67BE67EF177D3BD7000F66CE /* WeChatConnection.framework in Frameworks */,
@@ -1289,9 +1283,7 @@
 				67BE67B4177D3BD7000F66CE /* QQConnection.framework */,
 				81ACDFD71783EFB90078EB9A /* QZoneConnection.framework */,
 				67AC24F117812D2200426F91 /* SMSConnection.framework */,
-				67BE67B1177D3BD7000F66CE /* MailConnection.framework */,
 				67BE67BE177D3BD7000F66CE /* WeChatConnection.framework */,
-				67BE67B6177D3BD7000F66CE /* RenRenConnection.framework */,
 				67BE67B7177D3BD7000F66CE /* SinaWeiboConnection.framework */,
 				67BE67BC177D3BD7000F66CE /* TencentWeiboConnection.framework */,
 			);
@@ -2239,7 +2231,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-w";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BB6D412A-A804-4CFC-93B0-5B1ECBE37604";
 				SDKROOT = iphoneos;
@@ -2261,7 +2253,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-w";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BB6D412A-A804-4CFC-93B0-5B1ECBE37604";
@@ -2286,7 +2278,7 @@
 				GCC_PREFIX_HEADER = "CustomerOrder/CustomerOrder-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
 				INFOPLIST_FILE = "CustomerOrder/CustomerOrder-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/CustomerOrder/Release-iphonesimulator\"",
@@ -2318,7 +2310,7 @@
 				GCC_PREFIX_HEADER = "CustomerOrder/CustomerOrder-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
 				INFOPLIST_FILE = "CustomerOrder/CustomerOrder-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/CustomerOrder/Release-iphonesimulator\"",
