@@ -30,7 +30,7 @@
     NSMutableArray *_mArray;
     
     HTTPDownload *_HD;
-    WaitingView *waitView;//等待视图
+    WaitingView *_waitView;//等待视图
     
     NSTimer *timer;//循环滚动计时器
 
@@ -53,6 +53,7 @@
 @property(retain,nonatomic)NSMutableArray *mArray;
 @property(retain,nonatomic)EGORefreshTableHeaderView *refreshTableView;
 @property(retain,nonatomic)HTTPDownload *HD;
+@property(retain,nonatomic)WaitingView *waitView;
 
 
 //开始重新加载时调用的方法

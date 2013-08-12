@@ -55,8 +55,8 @@
     _mapView.mapType = MKMapTypeStandard;
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
+    _mapView.userLocation.title = @"我的位置";
     [self.view addSubview:_mapView];
-    
 }
 
 #pragma mark -- 

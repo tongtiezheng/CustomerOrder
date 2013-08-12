@@ -7,6 +7,7 @@
 //
 
 #import "SetColor.h"
+#import "CustomHomeCell.h"
 
 @implementation SetColor
 
@@ -29,14 +30,13 @@ static SetColor *instance = nil;
 }
 
 
-- (void)setCellBackgroundColor:(UITableViewCell *)cell
+- (void)setCellBackgroundColor:(CustomHomeCell *)cell
 {
     cell.contentView.backgroundColor = [UIColor clearColor];
     UIView *aView = [[UIView alloc] initWithFrame:cell.contentView.frame];
     aView.backgroundColor = [UIColor orangeColor];
     cell.selectedBackgroundView = aView;
     [aView release];
-    
 }
 
 
@@ -59,7 +59,6 @@ static SetColor *instance = nil;
 {
     return instance;
     //    return self;
-    
 }
 
 

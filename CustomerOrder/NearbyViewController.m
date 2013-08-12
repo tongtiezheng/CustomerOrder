@@ -405,7 +405,6 @@
 }
 
 
-
 //搜索过滤方法
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString *)scope
 {

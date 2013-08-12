@@ -52,8 +52,18 @@
 {
     [super setSelected:selected animated:animated];
 
+    if (selected == YES) {
+        
+        _title.textColor = [UIColor blueColor];
+        
+    } else {
+        
+        _title.textColor = [UIColor blackColor];
+    
+    }
     // Configure the view for the selected state
 }
+
 
 - (void)dealloc
 {

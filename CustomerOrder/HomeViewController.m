@@ -40,6 +40,7 @@
 @synthesize refreshTableView = _refreshTableView;
 
 @synthesize HD = _HD;
+@synthesize waitView = _waitView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -131,9 +132,9 @@
     [self customTableViewAndRefreshView];
     
     //载入等待指示页面
-    waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
-    [self.view addSubview:waitView];
-    [waitView release];
+    self.waitView = [[WaitingView alloc]initWithFrame:CGRectMake(0, 120, 320, HEIGHT- 44 - 49 - 20 - 120)];
+    [self.view addSubview:self.waitView];
+    [self.waitView release];
     
     _mArray = [[NSMutableArray alloc]init];
     
@@ -144,11 +145,11 @@
         curpage = 0;
         [self startJSONParserWithCurpage:curpage pro_id:0];
         //启动等待指示页面
-        [waitView startWaiting];
+        [self.waitView startWaiting];
 
     } else {
     
-        [waitView removeFromSuperview];
+        [self.waitView removeFromSuperview];
         //读取缓存数据
         [self readUserDefaultsCacheData];
     }
@@ -436,7 +437,7 @@
         
         [self.customTV reloadData];
         NSLog(@"下载完成 数组个数---- >>%d",self.mArray.count);
-        [waitView stopWaiting];
+        [self.waitView stopWaiting];
         [self hudWasHidden:HUD];
         
     } else if ([dic allKeys].count == 1){
@@ -450,7 +451,6 @@
     }
     
     /*****************************/
-
     //缓存数据
     [CacheData saveCache:0 andID:0 andData:self.HD.mData];
     NSLog(@"判断缓存类型%d",pro_ID);
@@ -528,6 +528,7 @@
     //设置选中cell时的颜色
     SetColor *instance = [SetColor shareInstance];
     [instance setCellBackgroundColor:cell];
+
     
     if (_mArray.count != 0) {
         
@@ -637,6 +638,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CustomHomeCell *cell = (CustomHomeCell *)[self.customTV cellForRowAtIndexPath:indexPath];
+    [cell setSelected:YES animated:YES];
+
+    
     DetailViewController *detail = [[DetailViewController alloc]init];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];//cell返回时取消选中状态
     StoreList *storeListInfo = [self.mArray objectAtIndex:indexPath.row];
@@ -645,6 +650,9 @@
     [detail release];
     
 }
+
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -737,6 +745,7 @@
     [_mArray release];
     [_refreshTableView release];
     [_HD release];
+    [_waitView release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectCityNotification" object:nil];
     [super dealloc];
