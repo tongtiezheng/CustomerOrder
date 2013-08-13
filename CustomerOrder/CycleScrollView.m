@@ -112,8 +112,7 @@
         imageView.userInteractionEnabled = YES;
         imageView.image = [curImages objectAtIndex:i];
         
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                    action:@selector(handleTap:)];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [imageView addGestureRecognizer:singleTap];
         [singleTap release];
         

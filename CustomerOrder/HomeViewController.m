@@ -637,18 +637,13 @@
 #pragma mark -- tableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CustomHomeCell *cell = (CustomHomeCell *)[self.customTV cellForRowAtIndexPath:indexPath];
-    [cell setSelected:YES animated:YES];
-
-    
+{    
     DetailViewController *detail = [[DetailViewController alloc]init];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];//cell返回时取消选中状态
     StoreList *storeListInfo = [self.mArray objectAtIndex:indexPath.row];
     detail.storeInfo = storeListInfo;
     [self.navigationController pushViewController:detail animated:YES];
     [detail release];
-    
 }
 
 

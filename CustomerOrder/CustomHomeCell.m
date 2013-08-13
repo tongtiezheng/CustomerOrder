@@ -48,19 +48,18 @@
     return self;
 }
 
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    if (selected == YES) {
-        
-        _title.textColor = [UIColor blueColor];
-        
-    } else {
-        
-        _title.textColor = [UIColor blackColor];
     
-    }
+    //点击cell时，让字体颜色高亮显示
+    
+    _title.highlightedTextColor = [UIColor whiteColor];
+    _address.highlightedTextColor = [UIColor whiteColor];
+    _average.highlightedTextColor = [UIColor whiteColor];
+    _person.highlightedTextColor = [UIColor whiteColor];
+
     // Configure the view for the selected state
 }
 

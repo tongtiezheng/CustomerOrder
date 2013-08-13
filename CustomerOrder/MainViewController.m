@@ -53,9 +53,7 @@
 //    [[NSNotificationCenter defaultCenter]
 //     addObserver:self selector:@selector(update3) name:@"update3" object:nil];
     
-    
 }
-
 
 ///*隐藏tabBar图像*/
 //- (void)update1
@@ -118,7 +116,7 @@
     [more release];
     moreNa.tabBarItem.title=@"更多";
        
-    _tab=[[UITabBarController alloc]init];
+    _tab = [[UITabBarController alloc]init];
     _tab.viewControllers=[NSArray arrayWithObjects:homeNa,nearbyNa,myOrderNa,moreNa,nil];
     [homeNa release];
     [nearbyNa release];
@@ -150,7 +148,6 @@
     _item4=[[UIImageView alloc]initWithFrame:CGRectMake(264,BOUNDS_HEIGHT,32, 32)];
     _item4.image=[UIImage imageNamed:@"TabMore@2x.png"];
     [_tab.view addSubview:_item4];
-    
     
 }
 

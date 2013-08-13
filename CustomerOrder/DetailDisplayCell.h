@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol DetailDisplayCellDelegate;
+
 @interface DetailDisplayCell : UITableViewCell
 {
     UILabel *_title;
@@ -16,6 +19,8 @@
     UILabel *_person;
     UILabel *_average;
     UITextView *_description;
+    
+    id <DetailDisplayCellDelegate> _delegate;
 }
 
 @property(retain,nonatomic)UILabel *title;
@@ -25,5 +30,16 @@
 @property(retain,nonatomic)UILabel *average;
 @property(retain,nonatomic)UITextView *description;
 
+@property(assign,nonatomic)id<DetailDisplayCellDelegate> delegate;
+
+
+@end
+
+
+@protocol DetailDisplayCellDelegate <NSObject>
+
+@optional
+
+- (void)selectLeftImgView:(DetailDisplayCell *)leftImgView;
 
 @end

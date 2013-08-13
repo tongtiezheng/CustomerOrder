@@ -16,6 +16,8 @@
 @synthesize average = _average;
 @synthesize description = _description;
 
+@synthesize delegate = _delegate;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -26,6 +28,14 @@
         
         _leftImgView = [[UIImageView alloc]initWithFrame:CGRectMake(5, 35, 100, 120)];
         [self addSubview:_leftImgView];
+        
+        UIView *tapView = [[UIView alloc]initWithFrame:CGRectMake(5, 35, 100, 120)];
+        [tapView setBackgroundColor:[UIColor clearColor]];
+        [self addSubview:tapView];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
+        [tapView addGestureRecognizer:tap];
+        [tapView release];
+        [tap release];
         
         _gradeImgView = [[UIImageView alloc]initWithFrame:CGRectMake(110, 35, 100, 20)];
         [self addSubview:_gradeImgView];
@@ -48,6 +58,15 @@
     }
     return self;
 }
+
+
+- (void)handleTap:(UITapGestureRecognizer *)tap {
+    
+    if ([_delegate respondsToSelector:@selector(selectLeftImgView:)]) {
+        [_delegate selectLeftImgView:self];
+    }
+}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

@@ -12,6 +12,9 @@
 #import "StoreLocationViewController.h"
 #import "OrderViewController.h"
 #import "NYHAppDelegate.h"
+#import "ImgDetailViewController.h"
+
+#import "MainViewController.h"
 
 #import "SetColor.h"
 #import "StoreList.h"
@@ -19,7 +22,7 @@
 #import "DataBase.h"
 
 
-@interface DetailViewController ()
+@interface DetailViewController ()<DetailDisplayCellDelegate>
 
 @end
 
@@ -220,7 +223,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [rigntShareBtn setHidden:NO];    
+    [rigntShareBtn setHidden:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -275,11 +278,11 @@
         if (cell == nil)
         {
             cell = [[[DetailDisplayCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
+            cell.delegate = self;
         }
         
         cell.title.text = self.storeInfo.name;
         [cell.leftImgView setImageWithURL:[NSURL URLWithString:self.storeInfo.pic] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-        
         cell.average.text = self.storeInfo.avmoney;
         cell.description.text = self.storeInfo.description;
         
@@ -343,6 +346,8 @@
             
         //设置选中cell时的背景颜色
         [instance setCellBackgroundColor:cell];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         return cell;
         
     } else {
@@ -396,6 +401,20 @@
     
 }
 
+#pragma mark 
+#pragma mark -- DetailDisplayCellDelegate 
+
+- (void)selectLeftImgView:(DetailDisplayCell *)leftImgView
+{
+    ImgDetailViewController *imgDetail = [[ImgDetailViewController alloc]init];
+    imgDetail.storeList = self.storeInfo;
+    
+//    self.hidesBottomBarWhenPushed = YES;
+    
+    [self.navigationController pushViewController:imgDetail animated:YES];
+    [imgDetail release];
+
+}
 
 - (void)orderSeat:(UIButton *)sender
 {
@@ -430,6 +449,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.row == 1) {
         
         StoreLocationViewController *storeLocation = [[StoreLocationViewController alloc]init];
@@ -451,7 +472,7 @@
         
         [self.navigationController pushViewController:comment animated:YES];
         [comment release];
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+//        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 

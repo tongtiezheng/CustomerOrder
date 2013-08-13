@@ -217,7 +217,6 @@
     SetColor *instance = [SetColor shareInstance];
     [instance setCellBackgroundColor:cell];
     
-    
     int index = indexPath.row;//取出行标记
         
     if (tableView == self.searchDidplay.searchResultsTableView) {
@@ -330,14 +329,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DetailViewController *detail = [[DetailViewController alloc]init];
-    
     StoreList *nStoreInfo = [self.mArray objectAtIndex:indexPath.row];
     detail.storeInfo = nStoreInfo;
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [self.navigationController pushViewController:detail animated:YES];
     [detail release];
 
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
