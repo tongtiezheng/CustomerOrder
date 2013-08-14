@@ -223,7 +223,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [rigntShareBtn setHidden:NO];
+    [rigntShareBtn setHidden:NO];   
 }
 
 - (void)viewWillDisappear:(BOOL)animated

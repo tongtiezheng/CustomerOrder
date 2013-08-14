@@ -63,16 +63,18 @@
 }
 
 
-
 - (void)viewWillAppear:(BOOL)animated
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiddenTabBar" object:nil];
     [self makeTabBarHidden:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"displayTabBar" object:nil];
     [self makeTabBarHidden:NO];
 }
+
 //隐藏自定义tabBar
 - (void)makeTabBarHidden:(BOOL)hide
 {
@@ -91,7 +93,8 @@
         contentView = [self.tabBarController.view.subviews objectAtIndex:0];
     }
     
-    //    [UIView beginAnimations:@"TabbarHide" context:nil];
+    
+//    [UIView beginAnimations:@"TabbarHide" context:nil];
     
     if ( hide )
     {

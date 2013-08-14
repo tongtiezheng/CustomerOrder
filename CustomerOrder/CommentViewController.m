@@ -21,6 +21,7 @@
 @synthesize tableView = _tableView;
 @synthesize mArray = _mArray;
 @synthesize storeInfo = _storeInfo;
+@synthesize HD = _HD;
 
 @synthesize refreshing = _refreshing;
 @synthesize curpage = _curpage;
@@ -29,6 +30,7 @@
 {
     [_tableView release];
     [_mArray release];
+    [_HD release];
     
     [super dealloc];
 
@@ -101,12 +103,12 @@
 //JSON 解析
 - (void)startJSONParserWithCurpage:(int)cPage shop_id:(int)shop_id
 {
-    HD = [[[HTTPDownload alloc]init]autorelease];
-    HD.delegate = self;
+    self.HD = [[HTTPDownload alloc]init];
+    self.HD.delegate = self;
     NSString *urlStr = [NSString stringWithFormat:GET_COMMENT_LIST_API];
     NSString *argument = [NSString stringWithFormat:GET_COMMENT_LIST_ARGUMENT,cPage,shop_id];
     
-    [HD downloadFromURL:urlStr withArgument:argument];
+    [self.HD downloadFromURL:urlStr withArgument:argument];
     
 }
 
@@ -114,7 +116,7 @@
 #pragma mark -- HTTPDownload delegate
 - (void)downloadDidFinishLoading:(HTTPDownload *)hd
 {
-    NSDictionary *dic =  [NSJSONSerialization JSONObjectWithData:HD.mData options:nil error:nil];
+    NSDictionary *dic =  [NSJSONSerialization JSONObjectWithData:self.HD.mData options:nil error:nil];
     NSLog(@"--评论内容--%@",dic);
     
     if (dic != nil && [dic allKeys].count > 1) {

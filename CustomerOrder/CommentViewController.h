@@ -19,7 +19,7 @@
     NSMutableArray *_mArray;
     StoreList *_storeInfo;
     
-    HTTPDownload *HD;
+    HTTPDownload *_HD;
     int _curpage;
     
     BOOL _refreshing;
@@ -29,6 +29,7 @@
 @property (retain,nonatomic)NSMutableArray *mArray;
 
 @property (retain,nonatomic)StoreList *storeInfo;
+@property (retain,nonatomic)HTTPDownload *HD;
 
 @property (nonatomic) BOOL refreshing;
 

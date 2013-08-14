@@ -19,7 +19,6 @@
                                                   HTTPDownloadDelegate,
                                                   MBProgressHUDDelegate,
                                                   EGORefreshTableHeaderDelegate>
-
 {
     UITableView * _customTV;
     UISearchBar * _search;
