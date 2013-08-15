@@ -63,11 +63,11 @@
     [cityBtn setTitle:@"默认" forState:UIControlStateNormal];
     [cityBtn setShowsTouchWhenHighlighted:YES];
     [cityBtn addTarget:self action:@selector(selectCity:) forControlEvents:UIControlEventTouchUpInside];
-    
     UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithCustomView:cityBtn];
     self.navigationItem.leftBarButtonItem = leftBtn;
     [leftBtn release];
     
+   
     //导航栏中间 搜索栏
     UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(60, 0, 250, 44)];
     //去掉搜索栏背景颜色
@@ -506,9 +506,11 @@
 {
     return 1;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([_mArray count] == 0) {
+        
         return nil;
     }
     
@@ -648,16 +650,13 @@
 }
 
 
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80.0;
+    return 80.0f;
 }
 
 #pragma mark
 #pragma mark -- 搜索栏的隐藏与显示
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.search setHidden:YES];

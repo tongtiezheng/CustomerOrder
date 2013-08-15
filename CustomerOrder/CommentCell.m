@@ -15,6 +15,7 @@
 @synthesize person = _person;
 @synthesize content = _content;
 @synthesize date = _date;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

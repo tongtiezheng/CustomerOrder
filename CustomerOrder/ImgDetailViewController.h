@@ -12,9 +12,13 @@
 @interface ImgDetailViewController : UIViewController
 {
     StoreList *_storeList;
+    
+    UIImageView *_imgView;
 
 }
 
 @property(retain,nonatomic)StoreList *storeList;
+
+@property(retain,nonatomic)UIImageView *imgView;
 
 @end

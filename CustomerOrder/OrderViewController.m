@@ -49,15 +49,12 @@
     self.navigationItem.leftBarButtonItem = leftBar;
     [leftBar release];
 
-    //自定义导航栏右边刷新按钮
-    UIButton *rigntCollectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rigntCollectBtn setFrame:CGRectMake(0, 0, 44, 44)];
-//    [rigntCollectBtn setImage:[UIImage imageNamed:@"common_titlebar_icon_favorite_off_rest@2x.png"] forState:UIControlStateNormal];
-    [rigntCollectBtn setTitle:@"刷新" forState:UIControlStateNormal];
-    [rigntCollectBtn addTarget:self action:@selector(collectData:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rigntCollectBar = [[UIBarButtonItem alloc]initWithCustomView:rigntCollectBtn];
-    self.navigationItem.rightBarButtonItem = rigntCollectBar;
-    [rigntCollectBar release];
+    
+    //导航栏右边刷新按钮
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"刷新" style:UIBarButtonSystemItemSave target:self action:@selector(collectData:)];
+    rightBtn.tintColor = [UIColor orangeColor];
+    self.navigationItem.rightBarButtonItem = rightBtn;
+    [rightBtn release];
     
 }
 

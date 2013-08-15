@@ -63,16 +63,12 @@
     //自定义导航栏背景颜色
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NaviBg.png"] forBarMetrics:UIBarMetricsDefault];
     
-    //重写右边返回按钮
-    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setFrame:CGRectMake(0, 0, 60, 30)];
-    [rightBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [rightBtn setShowsTouchWhenHighlighted:YES];
-    [rightBtn addTarget:self action:@selector(backRight) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
-    self.navigationItem.rightBarButtonItem = rightBar;
-    [rightBar release];
-
+    //右边按钮    
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonSystemItemSave target:self action:@selector(backRight)];
+    rightBtn.tintColor = [UIColor orangeColor];
+    self.navigationItem.rightBarButtonItem = rightBtn;
+    [rightBtn release];
+    
     
     // 添加搜索栏
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 44)];

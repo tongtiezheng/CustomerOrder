@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <ShareSDK/ShareSDK.h>
+#import "HTTPDownload.h"
 
-@class NYHAppDelegate;
-@class StoreList;
+@class NYHAppDelegate,StoreList;
 
-@interface DetailViewController : UITableViewController<UIActionSheetDelegate,UIAlertViewDelegate>
+@interface DetailViewController : UITableViewController<UIActionSheetDelegate,UIAlertViewDelegate,HTTPDownloadDelegate>
 {
     UIButton *rigntShareBtn;
     NSArray * _imgArray;
@@ -23,6 +23,10 @@
     
     NSString *_lat;
     NSString *_lng;
+    
+    HTTPDownload *_HD;
+    int _curpage;
+    NSMutableArray *_mArray;
 
     
 }
@@ -32,6 +36,9 @@
 
 @property(retain,nonatomic)NYHAppDelegate *appDelegate;
 @property(retain,nonatomic)StoreList *storeInfo;
+@property(retain,nonatomic)HTTPDownload *HD;
+@property(assign,nonatomic)int curpage;
+@property(retain,nonatomic)NSMutableArray *mArray;
 
 @property(copy,nonatomic)NSString *lat;
 @property(copy,nonatomic)NSString *lng;

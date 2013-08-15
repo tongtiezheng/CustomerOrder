@@ -14,7 +14,9 @@
 #import "NYHAppDelegate.h"
 #import "ImgDetailViewController.h"
 
-#import "MainViewController.h"
+
+#import "CommentCell.h"
+#import "CommentList.h"
 
 #import "SetColor.h"
 #import "StoreList.h"
@@ -36,6 +38,9 @@
 @synthesize lat = _lat;
 @synthesize lng = _lng;
 @synthesize storeInfo = _storeInfo;
+@synthesize HD = _HD;
+@synthesize curpage = _curpage;
+@synthesize mArray = _mArray;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -238,10 +243,18 @@
 
     [self customNavigationBtn];
     
+    NSMutableArray *muArray = [[NSMutableArray alloc]init];
+    self.mArray = muArray;
+    [muArray release];
+    
+    //开始解析
+    self.curpage = 0;
+    [self startJSONParserWithCurpage:self.curpage shop_id:[self.storeInfo.storeid integerValue]];
+
+    
     UIImage *addressImg = [UIImage imageNamed:@"Detail_AddressIcon.png"];
     UIImage *telImg = [UIImage imageNamed:@"Detail_PhoneIcon.png"];
     _imgArray = [[NSArray alloc]initWithObjects:addressImg,telImg, nil];
-    
     _othersArray = [[NSArray alloc]initWithObjects:self.storeInfo.address,self.storeInfo.tel, nil];
     
     
@@ -249,6 +262,59 @@
 //    [self.tableView setBounces:NO];
     
 }
+
+
+//JSON 解析
+- (void)startJSONParserWithCurpage:(int)cPage shop_id:(int)shop_id
+{
+    HTTPDownload *httpDownload = [[HTTPDownload alloc]init];
+    httpDownload.delegate = self;
+    self.HD = httpDownload;
+    [httpDownload release];
+    
+    NSString *urlStr = [NSString stringWithFormat:GET_COMMENT_LIST_API];
+    NSString *argument = [NSString stringWithFormat:GET_COMMENT_LIST_ARGUMENT,cPage,shop_id];
+    
+    [self.HD downloadFromURL:urlStr withArgument:argument];
+    
+}
+
+#pragma mark
+#pragma mark -- HTTPDownload delegate
+- (void)downloadDidFinishLoading:(HTTPDownload *)hd
+{  
+    NSDictionary *dic =  [NSJSONSerialization JSONObjectWithData:self.HD.mData options:nil error:nil];
+    NSLog(@"--评论内容--%@",dic);
+    
+    if (dic != nil && [dic allKeys].count > 1) {
+        
+        NSLog(@"Detail 下载完成 curpage ---- >> %d",self.curpage);
+        NSLog(@"Detail 下载完成 [dic allKeys].count ---- >> %d",[dic allKeys].count);
+        
+        for (int i = 0; i <= [dic allKeys].count - 2; i++) {
+            
+            CommentList *cList = [[[CommentList alloc]init]autorelease];
+            NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
+            
+            cList.avmoney = [subDic objectForKey:@"avmoney"];
+            cList.c_id = [subDic objectForKey:@"c_id"];
+            cList.content = [subDic objectForKey:@"content"];
+            cList.grade = [subDic objectForKey:@"grade"];
+            cList.publish = [subDic objectForKey:@"publish"];
+            
+            [self.mArray addObject:cList];
+        }
+    
+     [self.tableView reloadData];
+    
+    }
+}
+
+- (void)downloadDidFail:(HTTPDownload *)hd
+{
+    NSLog(@"下载失败！");
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -319,7 +385,6 @@
         }
 
         
-        
         UIButton *order = [UIButton buttonWithType:UIButtonTypeCustom];
         [order setFrame:CGRectMake(245, 35, 80, 30)];
         [order setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
@@ -338,12 +403,13 @@
         if (cell == nil) {
             
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-            cell.imageView.image = [_imgArray objectAtIndex:indexPath.row - 1];
-            cell.textLabel.text = [_othersArray objectAtIndex:indexPath.row - 1];
-            cell.textLabel.numberOfLines = 0;
-            cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
         }
-            
+        
+        cell.imageView.image = [_imgArray objectAtIndex:indexPath.row - 1];
+        cell.textLabel.text = [_othersArray objectAtIndex:indexPath.row - 1];
+        cell.textLabel.numberOfLines = 0;
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
+
         //设置选中cell时的背景颜色
         [instance setCellBackgroundColor:cell];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -352,51 +418,81 @@
         
     } else {
         
-        static NSString *CellIdentifier = @"Cell3";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        static NSString *CellIdentifier = @"CommentCell";
+        CommentCell *cell = (CommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
         if (cell == nil)
         {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            cell = [[[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        }
+        
+        if ([self.mArray count] > 0) {
+                
+            CommentList *storeList = [self.mArray objectAtIndex:0];
+                
+            cell.average.text = storeList.avmoney;
+            cell.content.text = storeList.content;
+            cell.date.text = storeList.publish;
+                
+                
+            float selectGrade = [storeList.grade floatValue];
+            if (selectGrade == 0) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar0.png"];
+                    
+            }else if (selectGrade == 1) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar10.png"];
+                    
+            } else if (selectGrade == 2) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar20.png"];
+                    
+            }else if (selectGrade == 2.5) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar25.png"];
+                    
+            }else if (selectGrade == 3) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar30.png"];
+                
+            }else if (selectGrade == 3.5) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar35.png"];
+                    
+            }else if (selectGrade == 4) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar40.png"];
+                    
+            }else if (selectGrade == 4.5) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar45.png"];
+                    
+            }else if (selectGrade == 5) {
+                cell.sGrade.image = [UIImage imageNamed:@"ShopStar50.png"];
+                    
+            } else {
+                cell.sGrade.image = [UIImage imageNamed:nil];
+            }
+            
             UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 290, 20)];
             nameLabel.text = @"网友评论";
             nameLabel.textColor = [UIColor grayColor];
+            nameLabel.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:nameLabel];
             [nameLabel release];
 
-            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 290, HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f - 20.f)];
-            label.text = @"点击进入查看详细内容";
-            label.numberOfLines = 0;
-            label.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:label];
-            [label release];
             
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else {
+            
+                [cell.person setHidden:YES];
+                UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 290, HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f - 20.f)];
+                label.text = @"暂无评论内容";
+                label.numberOfLines = 0;
+                label.backgroundColor = [UIColor clearColor];
+                [cell.contentView addSubview:label];
+                [label release];
+            
         }
-       
+
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        //设置点击cell时颜色
         [instance setCellBackgroundColor:cell];
         
         return cell;
     }
-    
-//    } else {
-//        
-//        static NSString *CellIdentifier = @"Cell4";
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//        
-//        if (cell == nil)
-//        {
-//            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-//            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 290, 50)];
-////            label.text = @"评论（共49条）";
-//            [cell.contentView addSubview:label];
-//            [label release];
-//        }
-//        
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        [instance setCellBackgroundColor:cell];
-//        return cell;
-//        
-//    }
     
     
 }
@@ -441,7 +537,11 @@
     
     if (indexPath.row == 3)
     {
+        if (self.mArray != 0) {
+            return 100.0f;
+        } else {
         return HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f;
+        }
     }
 
     return 48.0f;
@@ -503,6 +603,8 @@
     [_imgArray release];
     [_othersArray release];
     [_storeInfo release];
+    [_HD release];
+    [_mArray release];
     
     [super dealloc];
 }

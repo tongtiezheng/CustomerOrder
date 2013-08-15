@@ -67,7 +67,6 @@
 - (void)backLeft
 {
     [self.navigationController popViewControllerAnimated:YES];
-
 }
 
 //日期选择
@@ -118,22 +117,21 @@
 {
     switch (buttonIndex) {
         case 0:
-            
             break;
             
         case 1:
-            
         {
-            view = [[[UIView alloc]initWithFrame:CGRectMake(0, 100, 320, 200)]autorelease];;
-            [view setBackgroundColor:[UIColor whiteColor]];
+            view = [[[UIView alloc]initWithFrame:CGRectMake(20, 100, 280, 180)]autorelease];;
+            [view setBackgroundColor:[UIColor blackColor]];
             [view setAlpha:0.8];
             [view.layer setCornerRadius:20.0f];
             [self.view addSubview:view];
             
             
             UILabel *label1 = [[UILabel alloc]init];
-            [label1 setFrame:CGRectMake(100, -60, 220, 200)];
+            [label1 setFrame:CGRectMake(view.center.x/2, -75, 220, 200)];
             label1.text = @"预定成功";
+            label1.textColor = [UIColor orangeColor];
             label1.font = [UIFont systemFontOfSize:28.0f];
             label1.backgroundColor = [UIColor clearColor];
             [view addSubview:label1];
@@ -141,27 +139,30 @@
 
             
             UILabel *label2 = [[UILabel alloc]init];
-            [label2 setFrame:CGRectMake(50, 5, 220, 200)];
+            [label2 setFrame:CGRectMake(40, -15, 220, 200)];
             label2.text = @"您的预订将会在您选择的预订时间之后15分钟自动取消！";
+            label2.textColor = [UIColor orangeColor];
             label2.font = [UIFont systemFontOfSize:20.0f];
             label2.numberOfLines = 0;
             label2.backgroundColor = [UIColor clearColor];
             [view addSubview:label2];
             [label2 release];
 
+    
             UIButton *ensureBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [ensureBtn setFrame:CGRectMake(60, 150, 80, 40)];
+            [ensureBtn setFrame:CGRectMake(40, 130, 80, 40)];
             [ensureBtn setTitle:@"继续预订" forState:UIControlStateNormal];
             [ensureBtn addTarget:self action:@selector(continueOrder) forControlEvents:UIControlEventTouchUpInside];
             [view addSubview:ensureBtn];
             
+            
             UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [cancelBtn setFrame:CGRectMake(180, 150, 80, 40)];
-            [cancelBtn setTitle:@"返      回" forState:UIControlStateNormal];
-            [cancelBtn addTarget:self action:@selector(backOrder) forControlEvents:UIControlEventTouchUpInside];
+            [cancelBtn setFrame:CGRectMake(170, 130, 80, 40)];
+            [cancelBtn setTitle:@"取消预订" forState:UIControlStateNormal];
+            [cancelBtn addTarget:self action:@selector(cancelOrder) forControlEvents:UIControlEventTouchUpInside];
             [view addSubview:cancelBtn];
-
         }
+            
             break;
             
         default:
@@ -170,16 +171,14 @@
 
 }
 
-
+//继续预定方法
 - (void)continueOrder
 {
-    NSLog(@"继续预订");
-    OrderViewController *order = [[OrderViewController alloc]init];
-    [self.navigationController pushViewController:order animated:YES];
-    [order release];
+     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)backOrder
+//取消预定
+- (void)cancelOrder
 {
     [view removeFromSuperview];
 }

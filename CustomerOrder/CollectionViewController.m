@@ -7,7 +7,7 @@
 //
 
 #import "CollectionViewController.h"
-#import "DetailDisplayCell.h"
+#import "CollectionCell.h"
 #import "DetailViewController.h"
 #import "MoreViewController.h"
 #import "DataBase.h"
@@ -51,16 +51,18 @@
 
 - (void)backLeft
 {
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark 
+#pragma mark -- Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -77,11 +79,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    DetailDisplayCell *cell = (DetailDisplayCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    CollectionCell *cell = (CollectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[DetailDisplayCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[CollectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
+    //选中cell时的颜色
     [[SetColor shareInstance]setCellBackgroundColor:cell];
     
     
@@ -90,6 +93,7 @@
     cell.average.text = info.avmoney;
     cell.description.text = info.description;
     [cell.leftImgView setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:[UIImage imageNamed:@"cellBg.png"]];
+    cell.address.text = info.address;
     
 //    NSString *strURL = [NSString stringWithFormat:@"%@",info.pic];
 //    NSURL *url = [NSURL URLWithString:strURL];
@@ -145,8 +149,8 @@
     [self.tableView reloadData];
 }
 
-
-#pragma mark - Table view delegate
+#pragma mark  
+#pragma mark -- Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -157,10 +161,9 @@
     [detail release];
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 160.5f;
+    return 205.5f;
 }
 
 

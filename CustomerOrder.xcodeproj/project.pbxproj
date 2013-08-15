@@ -123,7 +123,6 @@
 		67BE67F7177D3BD7000F66CE /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 67BE67CC177D3BD7000F66CE /* TencentOpenApi_IOS_Bundle.bundle */; };
 		67BE67F8177D3BD7000F66CE /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67CE177D3BD7000F66CE /* libWeiboSDK.a */; };
 		67BE67F9177D3BD8000F66CE /* ShareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67D1177D3BD7000F66CE /* ShareSDK.framework */; };
-		67BE67FE177D3BD8000F66CE /* ShareSDKiPhoneAppRecommendShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67D7177D3BD7000F66CE /* ShareSDKiPhoneAppRecommendShareViewUI.framework */; };
 		67BE67FF177D3BD8000F66CE /* ShareSDKiPhoneDefaultShareViewUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 67BE67D8177D3BD7000F66CE /* ShareSDKiPhoneDefaultShareViewUI.bundle */; };
 		67BE6800177D3BD8000F66CE /* ShareSDKiPhoneDefaultShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE67D9177D3BD7000F66CE /* ShareSDKiPhoneDefaultShareViewUI.framework */; };
 		67BE6804177D3E55000F66CE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE6803177D3E55000F66CE /* MessageUI.framework */; };
@@ -352,6 +351,7 @@
 		811CFD1D1798EB4F00249142 /* CheckNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 811CFD1C1798EB4F00249142 /* CheckNetwork.m */; };
 		811CFD1F1799121200249142 /* cellBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 811CFD1E1799121200249142 /* cellBg.png */; };
 		811D28F217AFA1F90046CD92 /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 811D28F117AFA1F90046CD92 /* CustomAnnotation.m */; };
+		8121401D17BCC626002C5533 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8121401C17BCC626002C5533 /* CollectionCell.m */; };
 		81260867178D296500FD25E9 /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260866178D296500FD25E9 /* ChineseToPinyin.m */; };
 		8126086A178D466900FD25E9 /* WaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81260869178D466900FD25E9 /* WaitingView.m */; };
 		8126086D178D5EA800FD25E9 /* StoreList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8126086C178D5EA800FD25E9 /* StoreList.m */; };
@@ -588,7 +588,6 @@
 		67BE67CF177D3BD7000F66CE /* WBApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApi.h; sourceTree = "<group>"; };
 		67BE67D0177D3BD7000F66CE /* WBApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApiObject.h; sourceTree = "<group>"; };
 		67BE67D1177D3BD7000F66CE /* ShareSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDK.framework; sourceTree = "<group>"; };
-		67BE67D7177D3BD7000F66CE /* ShareSDKiPhoneAppRecommendShareViewUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKiPhoneAppRecommendShareViewUI.framework; sourceTree = "<group>"; };
 		67BE67D8177D3BD7000F66CE /* ShareSDKiPhoneDefaultShareViewUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKiPhoneDefaultShareViewUI.bundle; sourceTree = "<group>"; };
 		67BE67D9177D3BD7000F66CE /* ShareSDKiPhoneDefaultShareViewUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKiPhoneDefaultShareViewUI.framework; sourceTree = "<group>"; };
 		67BE6803177D3E55000F66CE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -840,6 +839,8 @@
 		811CFD1E1799121200249142 /* cellBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellBg.png; sourceTree = "<group>"; };
 		811D28F017AFA1F90046CD92 /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
 		811D28F117AFA1F90046CD92 /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
+		8121401B17BCC626002C5533 /* CollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionCell.h; sourceTree = "<group>"; };
+		8121401C17BCC626002C5533 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionCell.m; sourceTree = "<group>"; };
 		81260865178D296500FD25E9 /* ChineseToPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyin.h; sourceTree = "<group>"; };
 		81260866178D296500FD25E9 /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		81260868178D466900FD25E9 /* WaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingView.h; sourceTree = "<group>"; };
@@ -917,7 +918,6 @@
 				67BE67F6177D3BD7000F66CE /* TencentOpenAPI.framework in Frameworks */,
 				67BE67F8177D3BD7000F66CE /* libWeiboSDK.a in Frameworks */,
 				67BE67F9177D3BD8000F66CE /* ShareSDK.framework in Frameworks */,
-				67BE67FE177D3BD8000F66CE /* ShareSDKiPhoneAppRecommendShareViewUI.framework in Frameworks */,
 				67BE6800177D3BD8000F66CE /* ShareSDKiPhoneDefaultShareViewUI.framework in Frameworks */,
 				67AC24F217812D2300426F91 /* SMSConnection.framework in Frameworks */,
 				81ACDFD81783EFB90078EB9A /* QZoneConnection.framework in Frameworks */,
@@ -1340,7 +1340,6 @@
 		67BE67D2177D3BD7000F66CE /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				67BE67D7177D3BD7000F66CE /* ShareSDKiPhoneAppRecommendShareViewUI.framework */,
 				67BE67D8177D3BD7000F66CE /* ShareSDKiPhoneDefaultShareViewUI.bundle */,
 				67BE67D9177D3BD7000F66CE /* ShareSDKiPhoneDefaultShareViewUI.framework */,
 			);
@@ -1526,6 +1525,8 @@
 				67C0AE2917604477000C044F /* CustomHomeCell.m */,
 				6710491A17617BA8001AFDD3 /* DetailDisplayCell.h */,
 				6710491B17617BA8001AFDD3 /* DetailDisplayCell.m */,
+				8121401B17BCC626002C5533 /* CollectionCell.h */,
+				8121401C17BCC626002C5533 /* CollectionCell.m */,
 				671049291761C2FB001AFDD3 /* CommentCell.h */,
 				6710492A1761C2FC001AFDD3 /* CommentCell.m */,
 				67EDF9BE17644F7500AB2897 /* OrderCell.h */,
@@ -2195,6 +2196,7 @@
 				812D9D6217AA53CB000BEF9E /* sha1.c in Sources */,
 				811D28F217AFA1F90046CD92 /* CustomAnnotation.m in Sources */,
 				811274C217BA294C004AC8F6 /* ImgDetailViewController.m in Sources */,
+				8121401D17BCC626002C5533 /* CollectionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

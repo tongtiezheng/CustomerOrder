@@ -15,6 +15,7 @@
 
 @implementation ImgDetailViewController
 @synthesize storeList = _storeList;
+@synthesize imgView = _imgView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,7 +26,13 @@
     return self;
 }
 
-- (void)leftBackBtn
+- (void)dealloc
+{
+    [_imgView release];
+    [super dealloc];
+}
+
+- (void)customNavigationBtn
 {
     //重写左边返回按钮
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -35,11 +42,45 @@
     UIBarButtonItem *leftBar = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftBar;
     [leftBar release];
+    
+    //右边按钮
+    UIBarButtonItem *rightBtnItem = [[UIBarButtonItem alloc]initWithTitle:@"保存" style:UIBarButtonSystemItemEdit target:self action:@selector(saveImageToPhotos)];
+    rightBtnItem.tintColor = [UIColor orangeColor];
+    self.navigationItem.rightBarButtonItem = rightBtnItem;
+    [rightBtnItem release];
 }
+
 //自定义返回按钮
 - (void)backLeft
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+//保存图片
+- (void)saveImageToPhotos
+{
+    UIImageWriteToSavedPhotosAlbum(self.imgView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+}
+
+// 指定回调方法
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    NSString *msg = nil;
+    if(error != NULL) {
+        
+        msg = @"保存图片失败";
+            
+    } else {
+        
+        msg = @"保存图片成功";
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示"
+                                                        message:msg
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+    [alert show];
 }
 
 
@@ -47,7 +88,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self leftBackBtn];
+    [self customNavigationBtn];
     
     //自定义导航栏标题
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 20)];
@@ -56,11 +97,20 @@
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = titleLabel;
+    [titleLabel release];
     
-    UIImageView *imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
+    UIImageView *imgView = [[UIImageView alloc]init];
+    self.imgView = imgView;
     [self.view addSubview:imgView];
+    
     [imgView setImageWithURL:[NSURL URLWithString:self.storeList.pic] placeholderImage:nil];
+    [imgView setFrame:CGRectMake((WIDTH - imgView.image.size.width)/2, (WIDTH - imgView.image.size.width)/2,imgView.image.size.width,imgView.image.size.height)];
+    [imgView release];
 }
+
+//实现手势操作
+//
+
 
 
 - (void)viewWillAppear:(BOOL)animated
