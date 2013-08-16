@@ -583,7 +583,8 @@
     [btn setImage:[UIImage imageNamed:@"order.png"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(orderStore:) forControlEvents:UIControlEventTouchUpInside];
     [cell.contentView addSubview:btn];
-
+    
+    
     return cell;
     
 }

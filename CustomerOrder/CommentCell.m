@@ -44,6 +44,7 @@
         [self addSubview:_average];
         
         _content = [[UILabel alloc]initWithFrame:CGRectMake(5, 45, 310, 30)];
+        _content.backgroundColor = [UIColor clearColor];
         _content.numberOfLines = 0;
         [_content setFont:[UIFont systemFontOfSize:12.0]];
         [self addSubview:_content];

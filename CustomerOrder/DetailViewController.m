@@ -139,7 +139,7 @@
                                 title:@"Hello QQ!"
                                   url:INHERIT_VALUE
                                 image:fileName];
-    //定制QQ空间分享
+    //定制QQ空间分享信息
     [publishContent addQQSpaceUnitWithTitle:@"Hello QQ空间"
                                         url:INHERIT_VALUE
                                        site:nil
@@ -250,7 +250,7 @@
     //开始解析
     self.curpage = 0;
     [self startJSONParserWithCurpage:self.curpage shop_id:[self.storeInfo.storeid integerValue]];
-
+    
     
     UIImage *addressImg = [UIImage imageNamed:@"Detail_AddressIcon.png"];
     UIImage *telImg = [UIImage imageNamed:@"Detail_PhoneIcon.png"];
@@ -266,7 +266,7 @@
 
 //JSON 解析
 - (void)startJSONParserWithCurpage:(int)cPage shop_id:(int)shop_id
-{
+{  
     HTTPDownload *httpDownload = [[HTTPDownload alloc]init];
     httpDownload.delegate = self;
     self.HD = httpDownload;
@@ -288,9 +288,6 @@
     
     if (dic != nil && [dic allKeys].count > 1) {
         
-        NSLog(@"Detail 下载完成 curpage ---- >> %d",self.curpage);
-        NSLog(@"Detail 下载完成 [dic allKeys].count ---- >> %d",[dic allKeys].count);
-        
         for (int i = 0; i <= [dic allKeys].count - 2; i++) {
             
             CommentList *cList = [[[CommentList alloc]init]autorelease];
@@ -305,9 +302,10 @@
             [self.mArray addObject:cList];
         }
     
-     [self.tableView reloadData];
-    
+        [self.tableView reloadData];
     }
+    
+    [_activeView stopAnimating];
 }
 
 - (void)downloadDidFail:(HTTPDownload *)hd
@@ -417,26 +415,31 @@
         return cell;
         
     } else {
-        
+    
         static NSString *CellIdentifier = @"CommentCell";
-        CommentCell *cell = (CommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        if (cell == nil)
-        {
-            cell = [[[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        }
+//        //重用cell导致cell内容覆盖
+//        CommentCell *cell = (CommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+        CommentCell *cell = [[[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         
+        UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, 290, 20)];
+        nameLabel.text = @"网友评论";
+        nameLabel.textColor = [UIColor grayColor];
+        nameLabel.backgroundColor = [UIColor clearColor];
+        [cell.contentView.superview addSubview:nameLabel];
+        [nameLabel release];
+
         if ([self.mArray count] > 0) {
-                
+            
             CommentList *storeList = [self.mArray objectAtIndex:0];
-                
+            
             cell.average.text = storeList.avmoney;
             cell.content.text = storeList.content;
             cell.date.text = storeList.publish;
-                
-                
+            
             float selectGrade = [storeList.grade floatValue];
-            if (selectGrade == 0) {
+            if (selectGrade == 0) {  
                 cell.sGrade.image = [UIImage imageNamed:@"ShopStar0.png"];
                     
             }else if (selectGrade == 1) {
@@ -467,38 +470,47 @@
                 cell.sGrade.image = [UIImage imageNamed:nil];
             }
             
-            UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 290, 20)];
-            nameLabel.text = @"网友评论";
-            nameLabel.textColor = [UIColor grayColor];
-            nameLabel.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:nameLabel];
-            [nameLabel release];
 
-            
         } else {
             
-                [cell.person setHidden:YES];
-                UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 290, HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f - 20.f)];
-                label.text = @"暂无评论内容";
-                label.numberOfLines = 0;
-                label.backgroundColor = [UIColor clearColor];
-                [cell.contentView addSubview:label];
-                [label release];
+            [cell.person setHidden:YES];
+            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 290, HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f - 20.f)];
+            label.text = @"暂无评论内容";
+            label.numberOfLines = 0;
+            label.backgroundColor = [UIColor clearColor];
+            [cell.contentView addSubview:label];
+            [label release];
+            
+            [self commentIndicator:cell];
             
         }
-
+        
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         //设置点击cell时颜色
         [instance setCellBackgroundColor:cell];
         
         return cell;
     }
-    
-    
 }
 
-#pragma mark 
-#pragma mark -- DetailDisplayCellDelegate 
+//评论指示视图
+- (void)commentIndicator:(UITableViewCell *)cell
+{
+    _activeView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]autorelease];
+//    _activeView.center = CGPointMake(80, 44/2);
+    [_activeView setFrame:CGRectMake(0, 0, 320, HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f)];
+
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 25, 320, HEIGHT - 44.f - 50.f - 160.f - 48.f - 60.f)];
+    view.backgroundColor = [UIColor whiteColor];
+    [view addSubview:_activeView];
+    [cell addSubview:view];
+    [view release];
+    
+    [_activeView startAnimating];
+}
+
+#pragma mark
+#pragma mark -- DetailDisplayCellDelegate
 
 - (void)selectLeftImgView:(DetailDisplayCell *)leftImgView
 {
@@ -537,11 +549,7 @@
     
     if (indexPath.row == 3)
     {
-        if (self.mArray != 0) {
-            return 100.0f;
-        } else {
         return HEIGHT - 44.f - 20.f - 50.f - 160.f - 48.f - 60.f;
-        }
     }
 
     return 48.0f;

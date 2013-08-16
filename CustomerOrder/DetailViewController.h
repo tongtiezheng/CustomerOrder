@@ -27,8 +27,8 @@
     HTTPDownload *_HD;
     int _curpage;
     NSMutableArray *_mArray;
-
     
+    UIActivityIndicatorView *_activeView;//评论指示视图
 }
 
 @property(retain,nonatomic)NSArray * imgArray;

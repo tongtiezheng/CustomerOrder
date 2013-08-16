@@ -103,8 +103,11 @@
 //JSON 解析
 - (void)startJSONParserWithCurpage:(int)cPage shop_id:(int)shop_id
 {
-    self.HD = [[HTTPDownload alloc]init];
-    self.HD.delegate = self;
+    HTTPDownload *httpDownload = [[HTTPDownload alloc]init];
+    httpDownload.delegate = self;
+    self.HD = httpDownload;
+    [httpDownload release];
+    
     NSString *urlStr = [NSString stringWithFormat:GET_COMMENT_LIST_API];
     NSString *argument = [NSString stringWithFormat:GET_COMMENT_LIST_ARGUMENT,cPage,shop_id];
     
@@ -123,12 +126,12 @@
         
         NSString *curpageStr = [dic objectForKey:@"curpage"];
         self.curpage = [curpageStr integerValue];
-        NSLog(@"下载完成 curpage ---- >> %d",self.curpage);
-        NSLog(@"下载完成 [dic allKeys].count ---- >> %d",[dic allKeys].count);
+        NSLog(@"CommentViewController 下载完成 curpage ---- >> %d",self.curpage);
+        NSLog(@"CommentViewController 下载完成 [dic allKeys].count ---- >> %d",[dic allKeys].count);
         
         for (int i = 0; i <= [dic allKeys].count - 2; i++) {
             
-            CommentList *cList = [[[CommentList alloc]init]autorelease];
+            CommentList *cList = [[CommentList alloc]init];
             NSDictionary *subDic = [dic objectForKey:[NSString stringWithFormat:@"%d",i]];
             
             cList.avmoney = [subDic objectForKey:@"avmoney"];
@@ -139,6 +142,7 @@
             
             
             [self.mArray addObject:cList];
+            [cList release];
         }
         
          [self.tableView reloadData];
