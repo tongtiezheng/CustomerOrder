@@ -31,7 +31,7 @@
     [_tableView release];
     [_mArray release];
     [_HD release];
-    
+
     [super dealloc];
 
 }
@@ -142,7 +142,7 @@
             
             
             [self.mArray addObject:cList];
-            [cList release];
+//            [cList release];
         }
         
          [self.tableView reloadData];
@@ -220,7 +220,7 @@
     CommentCell *cell = (CommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         
-        cell = [[[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     CommentList *cListInfo = [self.mArray objectAtIndex:indexPath.row];
