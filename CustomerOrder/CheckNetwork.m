@@ -12,7 +12,7 @@
 
 + (BOOL)isNetworkRunning
 {
-    Reachability *r = [Reachability reachabilityWithHostName:@"http://www.baidu.com"];
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
 
     switch ([r currentReachabilityStatus]) {
         case NotReachable:

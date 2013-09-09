@@ -160,7 +160,7 @@
 -(void)startNotificationNetwork
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    _hostReach = [[Reachability reachabilityWithHostName:@"http://www.baidu.com"] retain];
+    self.hostReach = [Reachability reachabilityWithHostName:@"www.apple.com"];
     
     switch ([_hostReach currentReachabilityStatus])
     {
@@ -177,7 +177,7 @@
             break;
     }
     
-    [_hostReach startNotifier];
+    [self.hostReach startNotifier];
 }
 
 //用于SSO客户端登录
